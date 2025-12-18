@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hazari_bagh_market/screen/categories/payment_method_screen.dart';
-import 'package:hazari_bagh_market/widgets/top_header.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'package:hazari_bagh_market/widgets/top_header.dart';
+import 'package:hazari_bagh_market/screen/categories/payment_method_screen.dart';
+
 import '../../provider/cart_provider.dart';
 import '../../colors/AppColors.dart';
 
@@ -20,9 +23,10 @@ class CartScreen extends StatelessWidget {
             return Center(
               child: Text(
                 "Your cart is empty",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: mq.width * 0.05,
                   color: AppColors.textGrey,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             );
@@ -39,6 +43,33 @@ class CartScreen extends StatelessWidget {
           return Column(
             children: [
               const TopHeader(),
+
+              /// 🔙 BACK
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: mq.width * 0.04),
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_back,
+                        color: AppColors.darkOverlay,
+                        size: mq.width * 0.055,
+                      ),
+                      SizedBox(width: mq.width * 0.02),
+                      Text(
+                        "Back",
+                        style: GoogleFonts.inter(
+                          color: AppColors.darkOverlay,
+                          fontSize: mq.width * 0.045,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
               /// 🏪 STORE WISE CART
               Expanded(
@@ -62,7 +93,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  /// 🏪 STORE CARD WITH IMAGE + BILLING
+  /// 🏪 STORE CARD
   Widget _storeCard({
     required BuildContext context,
     required Size mq,
@@ -92,9 +123,9 @@ class CartScreen extends StatelessWidget {
               SizedBox(width: mq.width * 0.02),
               Text(
                 storeName,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: mq.width * 0.045,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -102,16 +133,15 @@ class CartScreen extends StatelessWidget {
 
           Divider(height: mq.height * 0.025),
 
-          /// 🧾 ITEMS LIST
+          /// 🧾 ITEMS
           ...items.map((item) {
             final index = cart.cartItems.indexOf(item);
 
             return Padding(
               padding: EdgeInsets.only(bottom: mq.height * 0.015),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  /// 🖼 PRODUCT IMAGE
+                  /// IMAGE
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
@@ -124,52 +154,46 @@ class CartScreen extends StatelessWidget {
 
                   SizedBox(width: mq.width * 0.03),
 
-                  /// 📝 NAME
+                  /// NAME
                   Expanded(
                     child: Text(
                       item["name"],
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: mq.width * 0.038,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
 
-                  /// ➖➕ QTY
+                  /// QTY
                   Row(
                     children: [
-                      _qtyBtn(
-                        mq,
-                        Icons.remove,
-                            () => cart.decreaseQty(index),
-                      ),
+                      _qtyBtn(mq, Icons.remove,
+                              () => cart.decreaseQty(index)),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: mq.width * 0.02),
                         child: Text(
                           "${item["qty"]}",
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: mq.width * 0.04,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                       _qtyBtn(
-                        mq,
-                        Icons.add,
-                            () => cart.increaseQty(index),
-                      ),
+                          mq, Icons.add, () => cart.increaseQty(index)),
                     ],
                   ),
 
                   SizedBox(width: mq.width * 0.03),
 
-                  /// 💰 PRICE
+                  /// PRICE
                   Text(
                     "₹${item["price"] * item["qty"]}",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: mq.width * 0.038,
                       fontWeight: FontWeight.w600,
                     ),
@@ -177,10 +201,11 @@ class CartScreen extends StatelessWidget {
 
                   SizedBox(width: mq.width * 0.02),
 
-                  /// 🗑 REMOVE
+                  /// REMOVE
                   GestureDetector(
                     onTap: () => cart.removeItem(index),
-                    child: const Icon(Icons.delete, color: AppColors.error),
+                    child:
+                    const Icon(Icons.delete, color: AppColors.error),
                   ),
                 ],
               ),
@@ -189,12 +214,9 @@ class CartScreen extends StatelessWidget {
 
           Divider(height: mq.height * 0.03),
 
-          /// 💳 STORE BILLING
           _billRow(mq, "Subtotal", "₹${storeSubtotal.toStringAsFixed(0)}"),
           _billRow(mq, "Delivery Fee", "₹40"),
-
-          Divider(),
-
+          const Divider(),
           _billRow(
             mq,
             "Payable Amount",
@@ -205,7 +227,7 @@ class CartScreen extends StatelessWidget {
 
           SizedBox(height: mq.height * 0.015),
 
-          /// ✅ STORE CHECKOUT BUTTON
+          /// PAYMENT
           SizedBox(
             width: double.infinity,
             height: mq.height * 0.055,
@@ -217,14 +239,19 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-
-                Navigator.push(context, MaterialPageRoute(builder: (_)=> PaymentMethodScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const PaymentMethodScreen(),
+                  ),
+                );
               },
               child: Text(
                 "Payment",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: mq.width * 0.04,
                   fontWeight: FontWeight.w600,
+                  color: AppColors.white,
                 ),
               ),
             ),
@@ -264,17 +291,17 @@ class CartScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: mq.width * 0.038,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
+              fontWeight: isBold ? FontWeight.w600 : FontWeight.w500,
             ),
           ),
           Text(
             value,
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: mq.width * 0.038,
               color: color,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              fontWeight: isBold ? FontWeight.w600 : FontWeight.normal,
             ),
           ),
         ],
@@ -282,7 +309,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  /// 🎨 CARD DECORATION
+  /// 🎨 CARD BOX
   BoxDecoration _box() => BoxDecoration(
     color: AppColors.white,
     borderRadius: BorderRadius.circular(14),
@@ -291,7 +318,7 @@ class CartScreen extends StatelessWidget {
         color: AppColors.shadow,
         blurRadius: 5,
         offset: const Offset(0, 2),
-      )
+      ),
     ],
   );
 }

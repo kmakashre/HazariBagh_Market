@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../colors/AppColors.dart';
 
 class RaiseComplaintScreen extends StatelessWidget {
@@ -6,7 +7,6 @@ class RaiseComplaintScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
     final w = size.width;
     final h = size.height;
@@ -17,8 +17,8 @@ class RaiseComplaintScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            width: w * 0.90,                       // Responsive width
-            padding: EdgeInsets.all(w * 0.04),    // Responsive padding
+            width: w * 0.90,
+            padding: EdgeInsets.all(w * 0.04),
             margin: EdgeInsets.only(top: h * 0.02),
             decoration: BoxDecoration(
               color: AppColors.white,
@@ -36,36 +36,42 @@ class RaiseComplaintScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
+                /// 🔴 TITLE
                 Text(
-                  "Raise a Complaint/ Request Refund",
-                  style: TextStyle(
-                      fontSize: w * 0.045,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textDark),
+                  "Raise a Complaint / Request Refund",
+                  style: GoogleFonts.inter(
+                    fontSize: w * 0.045,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textDark,
+                  ),
                 ),
                 SizedBox(height: h * 0.015),
 
-                // SUBJECT
+                /// SUBJECT
                 Text(
                   "Subject",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: w * 0.040,
-                      color: AppColors.textDark),
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w500,
+                    fontSize: w * 0.040,
+                    color: AppColors.textDark,
+                  ),
                 ),
                 SizedBox(height: h * 0.008),
 
                 TextField(
+                  style: GoogleFonts.inter(fontSize: w * 0.038),
                   decoration: InputDecoration(
                     hintText: "Brief subject of your complaint",
-                    hintStyle: TextStyle(
+                    hintStyle: GoogleFonts.inter(
                       color: AppColors.textGrey,
                       fontSize: w * 0.035,
                     ),
                     filled: true,
                     fillColor: AppColors.white,
                     contentPadding: EdgeInsets.symmetric(
-                        horizontal: w * 0.03, vertical: h * 0.012),
+                      horizontal: w * 0.03,
+                      vertical: h * 0.012,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(w * 0.02),
                       borderSide: const BorderSide(color: AppColors.border),
@@ -75,27 +81,31 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 SizedBox(height: h * 0.015),
 
-                // ORDER NUMBER
+                /// ORDER NUMBER
                 Text(
                   "Order Number (Optional)",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: w * 0.040,
-                      color: AppColors.textDark),
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w500,
+                    fontSize: w * 0.040,
+                    color: AppColors.textDark,
+                  ),
                 ),
                 SizedBox(height: h * 0.008),
 
                 TextField(
+                  style: GoogleFonts.inter(fontSize: w * 0.038),
                   decoration: InputDecoration(
                     hintText: "Enter order number if applicable",
-                    hintStyle: TextStyle(
+                    hintStyle: GoogleFonts.inter(
                       color: AppColors.textGrey,
                       fontSize: w * 0.035,
                     ),
                     filled: true,
                     fillColor: AppColors.white,
                     contentPadding: EdgeInsets.symmetric(
-                        horizontal: w * 0.03, vertical: h * 0.012),
+                      horizontal: w * 0.03,
+                      vertical: h * 0.012,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(w * 0.02),
                       borderSide: const BorderSide(color: AppColors.border),
@@ -105,21 +115,23 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 SizedBox(height: h * 0.015),
 
-                // DESCRIPTION
+                /// DESCRIPTION
                 Text(
                   "Description",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: w * 0.040,
-                      color: AppColors.textDark),
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w500,
+                    fontSize: w * 0.040,
+                    color: AppColors.textDark,
+                  ),
                 ),
                 SizedBox(height: h * 0.008),
 
                 TextField(
                   maxLines: 5,
+                  style: GoogleFonts.inter(fontSize: w * 0.038),
                   decoration: InputDecoration(
-                    hintText: "Describe your issue in details...............",
-                    hintStyle: TextStyle(
+                    hintText: "Describe your issue in detail...",
+                    hintStyle: GoogleFonts.inter(
                       color: AppColors.textGrey,
                       fontSize: w * 0.035,
                     ),
@@ -135,10 +147,10 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 SizedBox(height: h * 0.02),
 
-                // SUBMIT BUTTON
+                /// SUBMIT BUTTON
                 SizedBox(
                   width: double.infinity,
-                  height: h * 0.055,            // Responsive button height
+                  height: h * 0.055,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -149,8 +161,9 @@ class RaiseComplaintScreen extends StatelessWidget {
                     ),
                     child: Text(
                       "Submit Complaint",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: w * 0.040,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.white,
                       ),
                     ),
@@ -162,7 +175,7 @@ class RaiseComplaintScreen extends StatelessWidget {
                 Center(
                   child: Text(
                     "Our team will respond within 24 hours.",
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       color: AppColors.textGrey,
                       fontSize: w * 0.035,
                     ),

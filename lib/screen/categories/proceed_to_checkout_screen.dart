@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hazari_bagh_market/screen/categories/payment_method_screen.dart';
 import '../../widgets/top_header.dart';
 
@@ -36,12 +37,15 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
                 onTap: () => Navigator.pop(context),
                 child: Row(
                   children: [
-                    Icon(Icons.arrow_back,
-                        color: const Color(0xFF3670A3), size: mq.width * 0.06),
+                    Icon(
+                      Icons.arrow_back,
+                      color: const Color(0xFF3670A3),
+                      size: mq.width * 0.06,
+                    ),
                     SizedBox(width: mq.width * 0.02),
                     Text(
                       "Delivery Details",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: mq.width * 0.045,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF3670A3),
@@ -87,7 +91,7 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
             // 📍 DELIVERY ADDRESS
             Text(
               "Delivery Address",
-              style: TextStyle(
+              style: GoogleFonts.inter(
                 fontWeight: FontWeight.bold,
                 fontSize: mq.width * 0.045,
                 color: const Color(0xFF3670A3),
@@ -100,7 +104,9 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
               padding: EdgeInsets.all(mq.width * 0.03),
               child: Container(
                 padding: EdgeInsets.symmetric(
-                    horizontal: mq.width * 0.03, vertical: mq.height * 0.01),
+                  horizontal: mq.width * 0.03,
+                  vertical: mq.height * 0.01,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(mq.width * 0.02),
@@ -108,9 +114,15 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
                 ),
                 child: TextField(
                   maxLines: 3,
-                  style: TextStyle(fontSize: mq.width * 0.04),
-                  decoration: const InputDecoration(
+                  style: GoogleFonts.inter(
+                    fontSize: mq.width * 0.04,
+                  ),
+                  decoration: InputDecoration(
                     hintText: "Enter Your Complete Delivery Address...",
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: mq.width * 0.038,
+                      color: Colors.grey,
+                    ),
                     border: InputBorder.none,
                   ),
                 ),
@@ -134,14 +146,16 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
                         onPressed: () => Navigator.pop(context),
                         child: Text(
                           "Back To Cart",
-                          style: TextStyle(fontSize: mq.width * 0.04,color: Colors.black),
+                          style: GoogleFonts.inter(
+                            fontSize: mq.width * 0.04,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
                   ),
-
                   SizedBox(width: mq.width * 0.03),
-
                   Expanded(
                     child: SizedBox(
                       height: mq.height * 0.055,
@@ -153,14 +167,17 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PaymentMethodScreen()),
+                              builder: (_) =>
+                              const PaymentMethodScreen(),
+                            ),
                           );
                         },
                         child: Text(
                           "Continue",
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
                             fontSize: mq.width * 0.04,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -177,7 +194,7 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
     );
   }
 
-  // 🔶 DELIVERY OPTION TILE (responsive)
+  // 🔶 DELIVERY OPTION TILE
   Widget deliveryOption({
     required Size mq,
     required String title,
@@ -197,7 +214,9 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
       child: Row(
         children: [
           Icon(
-            isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
+            isSelected
+                ? Icons.check_circle
+                : Icons.radio_button_unchecked,
             color: isSelected ? Colors.green : Colors.grey,
             size: mq.width * 0.065,
           ),
@@ -208,15 +227,15 @@ class _ProceedToCheckoutScreenState extends State<ProceedToCheckoutScreen> {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
                     fontSize: mq.width * 0.04,
                   ),
                 ),
                 SizedBox(height: mq.height * 0.005),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: mq.width * 0.032,
                     color: Colors.black54,
                   ),

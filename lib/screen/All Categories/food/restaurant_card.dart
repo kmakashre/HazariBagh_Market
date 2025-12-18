@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'RestaurantDetailsScreen.dart';
 
 class RestaurantCard extends StatelessWidget {
@@ -23,10 +24,11 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = size.width;
-    final height = size.height;
+    final w = size.width;
+    final h = size.height;
 
     return InkWell(
+      borderRadius: BorderRadius.circular(w * 0.035),
       onTap: () {
         Navigator.push(
           context,
@@ -43,88 +45,118 @@ class RestaurantCard extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.all(width * 0.035),
+        padding: EdgeInsets.all(w * 0.035),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(width * 0.035),
-          boxShadow: [
+          borderRadius: BorderRadius.circular(w * 0.035),
+          boxShadow: const [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
+              blurRadius: 8,
+              offset: Offset(0, 4),
             )
           ],
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            /// 🖼 IMAGE
             ClipRRect(
-              borderRadius: BorderRadius.circular(width * 0.03),
+              borderRadius: BorderRadius.circular(w * 0.03),
               child: Image.asset(
                 img,
-                width: width * 0.22,
-                height: width * 0.22,
+                width: w * 0.23,
+                height: w * 0.23,
                 fit: BoxFit.cover,
               ),
             ),
 
-            SizedBox(width: width * 0.035),
+            SizedBox(width: w * 0.035),
 
+            /// 📄 DETAILS
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  /// 🍴 NAME
                   Text(
                     name,
-                    style: TextStyle(
-                      fontSize: width * 0.048,
-                      fontWeight: FontWeight.bold,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      fontSize: w * 0.048,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: height * 0.005),
 
+                  SizedBox(height: h * 0.004),
+
+                  /// 🏷 TYPE
                   Text(
                     type,
-                    style: TextStyle(
-                      fontSize: width * 0.035,
-                      color: Colors.grey,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      fontSize: w * 0.035,
+                      color: Colors.grey.shade600,
                     ),
                   ),
-                  SizedBox(height: height * 0.01),
 
+                  SizedBox(height: h * 0.01),
+
+                  /// ⭐ RATING & ⏱ TIME
                   Row(
                     children: [
                       Icon(Icons.star,
-                          color: Colors.amber, size: width * 0.045),
+                          color: Colors.amber, size: w * 0.045),
                       SizedBox(width: 4),
                       Text(
                         rating,
-                        style: TextStyle(fontSize: width * 0.035),
+                        style: GoogleFonts.inter(
+                          fontSize: w * 0.035,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      SizedBox(width: width * 0.03),
 
-                      Icon(Icons.timer_outlined, size: width * 0.045),
+                      SizedBox(width: w * 0.04),
+
+                      Icon(Icons.timer_outlined,
+                          size: w * 0.045,
+                          color: Colors.grey.shade700),
                       SizedBox(width: 4),
                       Text(
                         time,
-                        style: TextStyle(fontSize: width * 0.035),
+                        style: GoogleFonts.inter(
+                          fontSize: w * 0.035,
+                        ),
                       ),
                     ],
                   ),
 
+                  SizedBox(height: h * 0.006),
+
+                  /// 📍 DISTANCE
                   Row(
                     children: [
                       Icon(Icons.location_on,
-                          color: Colors.red, size: width * 0.045),
+                          color: Colors.redAccent,
+                          size: w * 0.045),
                       SizedBox(width: 4),
                       Text(
                         distance,
-                        style: TextStyle(fontSize: width * 0.035),
+                        style: GoogleFonts.inter(
+                          fontSize: w * 0.035,
+                          color: Colors.grey.shade700,
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

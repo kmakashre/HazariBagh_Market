@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hazari_bagh_market/colors/AppColors.dart';
+
 import '../../Model/home_model.dart';
 import '../../widgets/top_header.dart';
 
@@ -7,7 +10,9 @@ class AllCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -16,37 +21,35 @@ class AllCategoriesScreen extends StatelessWidget {
           /// 🔵 TOP HEADER
           const TopHeader(),
 
-          /// 🔙 BACK + TITLE BAR
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(
-              horizontal: w * 0.04,
-              vertical: 12,
-            ),
+          SizedBox(height: h * 0.01),
 
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+          /// 🔙 BACK + TITLE BAR
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: w * 0.04),
+            child: InkWell(
+              onTap: () => Navigator.pop(context),
+              borderRadius: BorderRadius.circular(12),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.arrow_back,
+                    color: AppColors.darkOverlay,
+                    size: w * 0.055,
+                  ),
+                  SizedBox(width: w * 0.02),
+                  Text(
+                    "Back",
+                    style: GoogleFonts.inter(
+                      color: AppColors.darkOverlay,
+                      fontSize: w * 0.045,
+                      fontWeight: FontWeight.w600,
                     ),
-                    child: const Icon(Icons.arrow_back, size: 18),
                   ),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  "Back",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+
 
           /// 🔲 GRID VIEW
           Expanded(
@@ -73,9 +76,10 @@ class AllCategoriesScreen extends StatelessWidget {
                     onTap: () => Navigator.push(
                       context,
                       PageRouteBuilder(
-                        transitionDuration: const Duration(milliseconds: 300),
-                        pageBuilder: (_, a, __) => FadeTransition(
-                          opacity: a,
+                        transitionDuration:
+                        const Duration(milliseconds: 300),
+                        pageBuilder: (_, animation, __) => FadeTransition(
+                          opacity: animation,
                           child: item.screen,
                         ),
                       ),
@@ -100,16 +104,19 @@ class AllCategoriesScreen extends StatelessWidget {
                             height: w * 0.13,
                             fit: BoxFit.contain,
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: h * 0.012),
                           Padding(
                             padding:
                             const EdgeInsets.symmetric(horizontal: 6),
                             child: Text(
                               item.title,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 13,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.inter(
+                                fontSize: w * 0.032,
                                 fontWeight: FontWeight.w500,
+                                color: Colors.black87,
                               ),
                             ),
                           ),

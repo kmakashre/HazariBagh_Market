@@ -19,20 +19,20 @@ class GroceryProvider extends ChangeNotifier {
 
   ///  GROCERY CATEGORY DATA
   final List<GroceryItem> _initialData = [
-    GroceryItem(title: "Vegetables", image: "assets/images/clothe.jpg"),
-    GroceryItem(title: "Fruits", image: "assets/images/delivery-man.png"),
-    GroceryItem(title: "Rice", image: "assets/images/electronics.jpg"),
+    GroceryItem(title: "Vegetables", image: "assets/images/grocery.jpg"),
+    GroceryItem(title: "Fruits", image: "assets/images/Fruits.jpg"),
+    GroceryItem(title: "Rice", image: "assets/images/rice.jpg"),
     // 🔑 Note: Corrected case/spelling for exact matching
-    GroceryItem(title: "Wheat", image: "assets/images/flashImg.jpg"),
-    GroceryItem(title: "Oil", image: "assets/images/girl.png"),
+    GroceryItem(title: "Wheat", image: "assets/images/whete.jpg"),
+    GroceryItem(title: "Oil", image: "assets/images/oil.jpg"),
     // 🔑 Note: Corrected case/spelling for exact matching
     GroceryItem(title: "Milk", image: "assets/images/grocery.jpg"),
-    GroceryItem(title: "Snacks", image: "assets/images/job-seeker.png"),
+    GroceryItem(title: "Snacks", image: "assets/images/snacks.jpg"),
     // 🔑 Note: Corrected case/spelling for exact matching
-    GroceryItem(title: "Beverages", image: "assets/images/rental.png"),
-    GroceryItem(title: "Spices", image: "assets/images/shopping.png"),
+    GroceryItem(title: "Beverages", image: "assets/images/Beverages.jpg"),
+    GroceryItem(title: "Spices", image: "assets/images/spices.jpg"),
     // 🔑 Note: Corrected case/spelling for exact matching
-    GroceryItem(title: "Pulses", image: "assets/images/clothe.jpg"),
+    GroceryItem(title: "Pulses", image: "assets/images/pules.jpg"),
   ];
 
   /// 🥦 DUMMY PRODUCT DATA (Simulating API fetch for actual items)
@@ -44,14 +44,14 @@ class GroceryProvider extends ChangeNotifier {
       image: "assets/images/avin-cp-OlXUUQedQyM-unsplash.jpg",
       price: "₹40/kg",
       category: "Vegetables",
-      storeName: "Sharma Grocery Store",
+      storeName: "Gupta Grocery Store",
     ),
     ProductModel(
       name: "Onions (Local)",
       image: "assets/images/vivek-sharma-rDDICrot22U-unsplash.jpg",
       price: "₹25/kg",
       category: "Vegetables",
-      storeName: "Sharma Grocery Store",
+      storeName: "Gupta Grocery Store",
     ),
 
     // --------------------- FRUITS ---------------------
@@ -96,7 +96,7 @@ class GroceryProvider extends ChangeNotifier {
       image: "assets/images/spices.jpg",
       price: "₹120/100g",
       category: "Spices",
-      storeName: "Sharma Grocery Store",
+      storeName: "Misra Grocery Store",
     ),
 
     // --------------------- PULSES ---------------------
@@ -105,7 +105,7 @@ class GroceryProvider extends ChangeNotifier {
       image: "assets/images/pules.jpg",
       price: "₹110/kg",
       category: "Pulses",
-      storeName: "Sharma Grocery Store",
+      storeName: "Misra Grocery Store",
     ),
   ];
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hazari_bagh_market/widgets/top_header.dart';
+
 import 'contact_us_screen.dart';
 import 'faq_screen.dart';
 import 'live_chat_screen.dart';
@@ -19,55 +20,61 @@ class _SupportPageState extends State<SupportPage> {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
-    final h = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const TopHeader(),
 
-          SizedBox(height: h * 0.015),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          /// 🔵 SUPPORT TABS
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: w * 0.03),
-            child: Row(
-              children: [
-                _tabButton("Contact Us", 0, w, h),
-                SizedBox(width: w * 0.025),
-                _tabButton("Live Chat", 1, w, h),
-                SizedBox(width: w * 0.025),
-                _tabButton("FAQs", 2, w, h),
-                SizedBox(width: w * 0.025),
-                _tabButton("Raise Complaint", 3, w, h),
-              ],
+            /// 🔷 TOP HEADER
+            const TopHeader(),
+
+            SizedBox(height: h * 0.015),
+
+            /// 🔵 SUPPORT TABS
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: w * 0.03),
+              child: Row(
+                children: [
+                  _tabButton("Contact Us", 0, w, h),
+                  SizedBox(width: w * 0.025),
+                  _tabButton("Live Chat", 1, w, h),
+                  SizedBox(width: w * 0.025),
+                  _tabButton("FAQs", 2, w, h),
+                  SizedBox(width: w * 0.025),
+                  _tabButton("Raise Complaint", 3, w, h),
+                ],
+              ),
             ),
-          ),
 
-          SizedBox(height: h * 0.02),
+            SizedBox(height: h * 0.02),
 
-          /// 🔽 TAB CONTENT
-          Expanded(
-            child: IndexedStack(
-              index: selectedIndex,
-              children: [
-                const ContactUsScreen(),
-                LiveChatScreen(),
-                FaqScreenUpdated(),
-                const RaiseComplaintScreen(),
-              ],
+            /// 🔽 TAB CONTENT AREA
+            Expanded(
+              child: IndexedStack(
+                index: selectedIndex,
+                children: [
+                  const ContactUsScreen(),
+                  LiveChatScreen(),
+                  FaqScreenUpdated(),
+                  const RaiseComplaintScreen(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  /// 🟦 TAB BUTTON
+  /// 🟦 TAB BUTTON WIDGET
   Widget _tabButton(String title, int index, double w, double h) {
     final bool isSelected = selectedIndex == index;
 

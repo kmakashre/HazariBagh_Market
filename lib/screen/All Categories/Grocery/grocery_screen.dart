@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../Model/grocery_model.dart';
 import '../../../provider/grocery_provider.dart';
@@ -31,11 +32,13 @@ class GroceryScreen extends StatelessWidget {
             BoxShadow(
               color: Colors.black12,
               blurRadius: 5,
+              offset: Offset(0, 3),
             ),
           ],
         ),
         child: Column(
           children: [
+
             /// 🖼 IMAGE
             Expanded(
               flex: 7,
@@ -62,7 +65,7 @@ class GroceryScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: w * 0.032,
                       fontWeight: FontWeight.w600,
                       color: Colors.black87,
@@ -91,16 +94,17 @@ class GroceryScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: Column(
         children: [
+
           /// 🔝 TOP HEADER
           const TopHeader(),
 
           SizedBox(height: h * 0.02),
 
-          /// 🔙 BACK BUTTON (Arrow + Text both clickable)
+          /// 🔙 BACK BUTTON
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.03),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start, // 👈 LEFT SIDE
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
                   onTap: () => Navigator.pop(context),
@@ -111,10 +115,10 @@ class GroceryScreen extends StatelessWidget {
                       SizedBox(width: w * 0.02),
                       Text(
                         "Back",
-                        style: TextStyle(
-                          color: Colors.black,
+                        style: GoogleFonts.inter(
                           fontSize: w * 0.045,
                           fontWeight: FontWeight.w600,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -123,7 +127,6 @@ class GroceryScreen extends StatelessWidget {
               ],
             ),
           ),
-          // SizedBox(height: h * 0.004),
 
           /// 🧺 GROCERY GRID
           Expanded(

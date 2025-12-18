@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../categories/payment_method_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -35,10 +36,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   Text(
                     "Proceed To Checkout",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: w * 0.05,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const Spacer(),
@@ -67,9 +68,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       SizedBox(width: w * 0.02),
                       Text(
                         "Delivery Details",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: w * 0.045,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -106,21 +107,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   /// 📍 ADDRESS
                   Text(
                     "Delivery Address",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: w * 0.04,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: h * 0.012),
 
                   TextField(
                     maxLines: 3,
-                    style: TextStyle(fontSize: w * 0.038),
+                    style: GoogleFonts.poppins(
+                      fontSize: w * 0.038,
+                    ),
                     decoration: InputDecoration(
                       hintText:
                       "Enter Your Complete Delivery Address...",
-                      hintStyle:
-                      TextStyle(fontSize: w * 0.035),
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: w * 0.035,
+                        color: Colors.grey,
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -151,7 +156,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             onPressed: () => Navigator.pop(context),
                             child: Text(
                               "Back To Cart",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: w * 0.04,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -184,7 +189,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             },
                             child: Text(
                               "Continue",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: w * 0.04,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -238,15 +243,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: w * 0.04,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: h * 0.004),
                   Text(
                     subtitle,
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: w * 0.033,
                       color: Colors.grey,
                     ),

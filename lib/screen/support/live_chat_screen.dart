@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../colors/AppColors.dart';
 import '../../provider/chat_Provider.dart';
 
 class LiveChatScreen extends StatelessWidget {
+  LiveChatScreen({super.key});
+
   final TextEditingController msgController = TextEditingController();
 
   @override
@@ -29,21 +32,23 @@ class LiveChatScreen extends StatelessWidget {
               BoxShadow(
                 color: AppColors.shadow,
                 blurRadius: 8,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
           child: Column(
             children: [
 
-              /// 🔵 TOP BLUE HEADER
+              /// 🔵 TOP HEADER
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
-                    vertical: h * 0.02, horizontal: w * 0.05),
+                  vertical: h * 0.02,
+                  horizontal: w * 0.05,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(18),
                     topRight: Radius.circular(18),
                   ),
@@ -53,17 +58,17 @@ class LiveChatScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Live Chat Support",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: AppColors.white,
                         fontSize: w * 0.05,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       "Typically replies within minutes.",
-                      style: TextStyle(
-                        color: AppColors.white.withOpacity(0.8),
+                      style: GoogleFonts.inter(
+                        color: AppColors.white.withOpacity(0.85),
                         fontSize: w * 0.035,
                       ),
                     ),
@@ -71,7 +76,7 @@ class LiveChatScreen extends StatelessWidget {
                 ),
               ),
 
-              /// 🟦 CHAT MESSAGES AREA
+              /// 🟦 CHAT AREA
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.all(w * 0.04),
@@ -97,15 +102,15 @@ class LiveChatScreen extends StatelessWidget {
                           children: [
                             Text(
                               msg["msg"],
-                              style: TextStyle(
+                              style: GoogleFonts.inter(
                                 fontSize: w * 0.040,
                                 color: AppColors.textDark,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               msg["time"],
-                              style: TextStyle(
+                              style: GoogleFonts.inter(
                                 fontSize: w * 0.030,
                                 color: AppColors.textGrey,
                               ),
@@ -118,10 +123,10 @@ class LiveChatScreen extends StatelessWidget {
                 ),
               ),
 
-              /// 📝 MESSAGE INPUT BOX
+              /// 📝 INPUT BOX
               Container(
                 padding: EdgeInsets.all(w * 0.04),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(18),
@@ -130,11 +135,13 @@ class LiveChatScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    /// INPUT FIELD BORDER
+                    /// TEXT FIELD
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: w * 0.03, vertical: h * 0.014),
+                          horizontal: w * 0.03,
+                          vertical: h * 0.014,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: AppColors.border),
@@ -142,12 +149,15 @@ class LiveChatScreen extends StatelessWidget {
                         ),
                         child: TextField(
                           controller: msgController,
+                          style: GoogleFonts.inter(
+                            fontSize: w * 0.038,
+                          ),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText:
-                            "Type your messages............................",
-                            hintStyle: TextStyle(
+                            hintText: "Type your message...",
+                            hintStyle: GoogleFonts.inter(
                               color: AppColors.textGrey,
+                              fontSize: w * 0.036,
                             ),
                           ),
                         ),
@@ -173,7 +183,7 @@ class LiveChatScreen extends StatelessWidget {
                           size: w * 0.06,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

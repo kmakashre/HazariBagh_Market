@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../colors/AppColors.dart';
 import '../../../provider/property_provider.dart';
 import '../../../Model/property_model.dart';
@@ -9,8 +10,8 @@ import 'property_view_details_screen.dart';
 class PropertyListingScreen extends StatelessWidget {
   const PropertyListingScreen({super.key});
 
-  // --- Breakpoints and Ratios Defined ---
-  static const double mobileBreakpoint = 600.0;
+  /// 📱 BREAKPOINTS
+  static const double mobileBreakpoint = 600;
   static const double mobileAspectRatio = 0.62;
   static const double desktopAspectRatio = 0.55;
 
@@ -19,33 +20,31 @@ class PropertyListingScreen extends StatelessWidget {
     final provider = context.watch<PropertyProvider>();
     final size = MediaQuery.of(context).size;
     final w = size.width;
-    final height = size.height;
 
-    // 🔑 RESPONSIVE LOGIC
     final bool isMobile = w < mobileBreakpoint;
     final int crossAxisCount = isMobile ? 2 : 3;
-    final double childRatio = isMobile ? mobileAspectRatio : desktopAspectRatio;
+    final double childRatio =
+    isMobile ? mobileAspectRatio : desktopAspectRatio;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100, // Kept this specific shade of grey
+      backgroundColor: Colors.grey.shade100,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          /// 🔝 TOP HEADER
           const TopHeader(),
 
           /// 🔙 BACK BUTTON
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: 10),
             child: InkWell(
-              borderRadius: BorderRadius.circular(8),
               onTap: () => Navigator.pop(context),
+              borderRadius: BorderRadius.circular(8),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.arrow_back,
-                    color: AppColors.propertyAccent,
-                  ),
+                  const Icon(Icons.arrow_back,
+                      color: AppColors.propertyAccent),
                   SizedBox(width: w * 0.02),
                   const Text(
                     "Back",
@@ -60,20 +59,19 @@ class PropertyListingScreen extends StatelessWidget {
             ),
           ),
 
-
+          /// 🔽 SCROLLABLE CONTENT
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(w * 0.035),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-                  /// HEADER
+                  /// 🏠 HEADER CARD
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      // 🎨 USING AppColors.propertyAccent
                       color: AppColors.propertyAccent,
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -83,15 +81,16 @@ class PropertyListingScreen extends StatelessWidget {
                         Text(
                           "Property Listing",
                           style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                            color: AppColors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Find your perfect home, flat, PG or land in Hazaribagh",
-                          style: TextStyle(
-                              color: Colors.white70, fontSize: 12),
+                          "Find flats, homes, PGs and land in Hazaribagh",
+                          style:
+                          TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
                     ),
@@ -99,7 +98,7 @@ class PropertyListingScreen extends StatelessWidget {
 
                   const SizedBox(height: 14),
 
-                  /// ================= FILTER BOX =================
+                  /// 🔍 FILTER BOX
                   Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
@@ -112,8 +111,8 @@ class PropertyListingScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: const [
+                        const Row(
+                          children: [
                             Icon(Icons.tune, size: 18),
                             SizedBox(width: 6),
                             Text(
@@ -122,14 +121,15 @@ class PropertyListingScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 12),
 
                         const Text(
                           "Property Type",
-                          style: TextStyle(fontSize: 12, color: AppColors.textGrey),
+                          style: TextStyle(
+                              fontSize: 12, color: AppColors.textGrey),
                         ),
                         const SizedBox(height: 6),
+
                         Wrap(
                           spacing: 10,
                           children: ["All", "For Rent", "For Sale"].map((type) {
@@ -137,8 +137,6 @@ class PropertyListingScreen extends StatelessWidget {
                               title: type,
                               selected: provider.selectedType == type,
                               onTap: () => provider.setType(type),
-                              // Passing propertyAccent
-                              selectedColor: AppColors.propertyAccent,
                             );
                           }).toList(),
                         ),
@@ -147,9 +145,11 @@ class PropertyListingScreen extends StatelessWidget {
 
                         const Text(
                           "Category",
-                          style: TextStyle(fontSize: 12, color: AppColors.textGrey),
+                          style: TextStyle(
+                              fontSize: 12, color: AppColors.textGrey),
                         ),
                         const SizedBox(height: 6),
+
                         Wrap(
                           spacing: 10,
                           runSpacing: 8,
@@ -159,8 +159,6 @@ class PropertyListingScreen extends StatelessWidget {
                               title: cat,
                               selected: provider.selectedCategory == cat,
                               onTap: () => provider.setCategory(cat),
-                              // Passing propertyAccent
-                              selectedColor: AppColors.propertyAccent,
                             );
                           }).toList(),
                         ),
@@ -170,40 +168,37 @@ class PropertyListingScreen extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  /// IMPORTANT INFO
+                  /// ⚠ IMPORTANT NOTE
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      // 🎨 USING AppColors.yellowNote
                       color: AppColors.yellowNote,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Text(
-                      "Important: Please verify property details and owner credentials before making any payment. Visit the property in person and check all documents carefully.",
+                      "Important: Always verify property details and documents before making any payment.",
                       style: TextStyle(fontSize: 11),
                     ),
                   ),
 
                   const SizedBox(height: 16),
 
-                  /// ================= PROPERTY GRID (Responsive) =================
+                  /// 🏘 PROPERTY GRID
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: provider.filteredProperties.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 14,
                       mainAxisSpacing: 14,
                       childAspectRatio: childRatio,
                     ),
-
                     itemBuilder: (context, index) {
                       return _propertyCard(
                         context,
                         provider.filteredProperties[index],
-                        // Passing propertyAccent
-                        buttonColor: AppColors.propertyAccent,
                       );
                     },
                   ),
@@ -216,19 +211,14 @@ class PropertyListingScreen extends StatelessWidget {
     );
   }
 
-  /// ================= PROPERTY CARD =================
-  Widget _propertyCard(
-      BuildContext context,
-      PropertyModel property, {
-        required Color buttonColor,
-      }) {
+  /// 🏠 PROPERTY CARD
+  Widget _propertyCard(BuildContext context, PropertyModel property) {
     return InkWell(
       borderRadius: BorderRadius.circular(14),
       onTap: () {
-        // ✅ SET SELECTED PROPERTY
-        context.read<PropertyProvider>().setSelectedProperty(property);
-
-        // ✅ NAVIGATE TO DETAILS
+        context
+            .read<PropertyProvider>()
+            .setSelectedProperty(property);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -259,7 +249,6 @@ class PropertyListingScreen extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-
                 Positioned(
                   top: 8,
                   left: 6,
@@ -270,7 +259,6 @@ class PropertyListingScreen extends StatelessWidget {
                         : AppColors.success,
                   ),
                 ),
-
                 Positioned(
                   top: 8,
                   right: 8,
@@ -284,7 +272,6 @@ class PropertyListingScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(14, 8, 14, 10),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -303,11 +290,9 @@ class PropertyListingScreen extends StatelessWidget {
                         _infoRow(Icons.location_on, property.location),
                         _infoRow(Icons.square_foot, property.area),
                         _infoRow(Icons.bed, property.bedInfo),
-                        const SizedBox(height: 6),
                       ],
                     ),
 
-                    /// PRICE + OWNER + BUTTON
                     Column(
                       children: [
                         Row(
@@ -315,8 +300,6 @@ class PropertyListingScreen extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 property.price,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   color: AppColors.success,
                                   fontWeight: FontWeight.bold,
@@ -324,18 +307,17 @@ class PropertyListingScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            _ownerTag("Owner"),
+                            _ownerTag(),
                           ],
                         ),
                         const SizedBox(height: 8),
-
-                        /// BUTTON (OPTIONAL – same navigation)
                         SizedBox(
                           width: double.infinity,
                           height: 32,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: buttonColor,
+                              backgroundColor:
+                              AppColors.propertyAccent,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
@@ -344,7 +326,6 @@ class PropertyListingScreen extends StatelessWidget {
                               context
                                   .read<PropertyProvider>()
                                   .setSelectedProperty(property);
-
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -374,12 +355,11 @@ class PropertyListingScreen extends StatelessWidget {
     );
   }
 
-  /// ================= SMALL WIDGETS =================
+  /// 🔹 SMALL WIDGETS
   Widget _filterChip({
     required String title,
     required bool selected,
     required VoidCallback onTap,
-    required Color selectedColor, // Added parameter
   }) {
     return InkWell(
       onTap: onTap,
@@ -387,15 +367,17 @@ class PropertyListingScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          // 🎨 USING selectedColor parameter
-          color: selected ? selectedColor : Colors.grey.shade300,
+          color: selected
+              ? AppColors.propertyAccent
+              : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(18),
         ),
         child: Text(
           title,
           style: TextStyle(
             fontSize: 12,
-            color: selected ? AppColors.white : AppColors.black,
+            color:
+            selected ? AppColors.white : AppColors.black,
           ),
         ),
       ),
@@ -412,7 +394,10 @@ class PropertyListingScreen extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-            fontSize: 10, color: color, fontWeight: FontWeight.w600),
+          fontSize: 10,
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -437,21 +422,20 @@ class PropertyListingScreen extends StatelessWidget {
     );
   }
 
-  Widget _ownerTag(String text) {
+  Widget _ownerTag() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
       decoration: BoxDecoration(
-        // 🎨 USING AppColors.success
         color: AppColors.success.withOpacity(0.15),
         borderRadius: BorderRadius.circular(6),
       ),
       child: const Text(
         "Owner",
         style: TextStyle(
-            fontSize: 10,
-            // 🎨 USING AppColors.success
-            color: AppColors.success,
-            fontWeight: FontWeight.w600),
+          fontSize: 10,
+          color: AppColors.success,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

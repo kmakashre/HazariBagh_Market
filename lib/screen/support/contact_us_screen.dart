@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../colors/AppColors.dart';
 
 class ContactUsScreen extends StatelessWidget {
@@ -24,8 +25,9 @@ class ContactUsScreen extends StatelessWidget {
               title: "Call Us",
               subtitle: "Mon - Sun (9:00 AM - 9:00 PM)",
               actionText: "+91 98889 99999",
-              onTap: () =>
-                  launchUrl(Uri.parse("tel:+919888999999")),
+              onTap: () => launchUrl(
+                Uri.parse("tel:+919888999999"),
+              ),
             ),
 
             SizedBox(height: h * 0.02),
@@ -39,7 +41,8 @@ class ContactUsScreen extends StatelessWidget {
               actionText: "Chat Now",
               onTap: () => launchUrl(
                 Uri.parse(
-                    "https://wa.me/919888999999?text=Hello"),
+                  "https://wa.me/919888999999?text=Hello",
+                ),
               ),
             ),
 
@@ -54,7 +57,8 @@ class ContactUsScreen extends StatelessWidget {
               actionText: "support@hazaribagh.market",
               onTap: () => launchUrl(
                 Uri.parse(
-                    "mailto:support@hazaribagh.market"),
+                  "mailto:support@hazaribagh.market",
+                ),
               ),
             ),
           ],
@@ -104,7 +108,11 @@ class ContactUsScreen extends StatelessWidget {
                 color: color.withOpacity(0.12),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: w * 0.07),
+              child: Icon(
+                icon,
+                color: color,
+                size: w * 0.07,
+              ),
             ),
 
             SizedBox(width: w * 0.04),
@@ -116,7 +124,7 @@ class ContactUsScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: w * 0.045,
                       fontWeight: FontWeight.w600,
                       color: AppColors.textDark,
@@ -127,7 +135,7 @@ class ContactUsScreen extends StatelessWidget {
 
                   Text(
                     subtitle,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: w * 0.035,
                       color: AppColors.textGrey,
                     ),
@@ -137,7 +145,7 @@ class ContactUsScreen extends StatelessWidget {
 
                   Text(
                     actionText,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: w * 0.038,
                       fontWeight: FontWeight.w600,
                       color: color,
@@ -145,7 +153,7 @@ class ContactUsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

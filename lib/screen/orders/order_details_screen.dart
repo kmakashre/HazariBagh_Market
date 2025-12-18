@@ -36,8 +36,8 @@ class OrderDetailsScreen extends StatelessWidget {
 
       /// 🔝 APP BAR
       appBar: AppBar(
-        centerTitle: true,
         backgroundColor: primaryColor,
+        centerTitle: true,
         elevation: 0,
         title: Text(
           "Order Details",
@@ -63,7 +63,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.08),
                       blurRadius: w * 0.02,
-                      offset: Offset(0, h * 0.005),
+                      offset: Offset(0, h * 0.006),
                     ),
                   ],
                 ),
@@ -200,11 +200,14 @@ class OrderDetailsScreen extends StatelessWidget {
               color: Colors.grey.shade600,
             ),
           ),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: w * 0.04,
-              fontWeight: FontWeight.w600,
+          Flexible(
+            child: Text(
+              value,
+              textAlign: TextAlign.right,
+              style: GoogleFonts.inter(
+                fontSize: w * 0.04,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

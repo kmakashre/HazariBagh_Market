@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hazari_bagh_market/screen/orders/order_details_screen.dart';
 
 class OrderCard extends StatelessWidget {
@@ -42,24 +43,24 @@ class OrderCard extends StatelessWidget {
           ),
         ],
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
+          /// 🧾 ORDER HEADER
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Order $orderId",
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                   fontSize: w * 0.035,
                 ),
               ),
               Text(
                 status,
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   color: statusColor,
                   fontWeight: FontWeight.w600,
                   fontSize: w * 0.032,
@@ -72,14 +73,19 @@ class OrderCard extends StatelessWidget {
 
           Text(
             date,
-            style: TextStyle(fontSize: w * 0.03, color: Colors.grey),
+            style: GoogleFonts.inter(
+              fontSize: w * 0.03,
+              color: Colors.grey,
+            ),
           ),
 
           Divider(),
 
+          /// 🛍 PRODUCT ROW
           Row(
             children: [
 
+              /// PRODUCT IMAGE
               ClipRRect(
                 borderRadius: BorderRadius.circular(w * 0.02),
                 child: Image.asset(
@@ -92,13 +98,16 @@ class OrderCard extends StatelessWidget {
 
               SizedBox(width: w * 0.03),
 
+              /// PRODUCT INFO
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       productName,
-                      style: TextStyle(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
                         fontSize: w * 0.035,
                       ),
@@ -106,7 +115,7 @@ class OrderCard extends StatelessWidget {
                     SizedBox(height: h * 0.004),
                     Text(
                       qty,
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: w * 0.03,
                         color: Colors.grey,
                       ),
@@ -115,7 +124,7 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
 
-              /// CLICKABLE VIEW DETAILS
+              /// 👉 VIEW DETAILS
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -138,7 +147,7 @@ class OrderCard extends StatelessWidget {
                   children: [
                     Text(
                       "View Details",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: w * 0.03,
                         color: Colors.blue,
                         fontWeight: FontWeight.w600,

@@ -15,15 +15,15 @@ class FlashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
 
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight,
-              ),
-              child: IntrinsicHeight(
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -32,9 +32,9 @@ class FlashScreen extends StatelessWidget {
                     Column(
                       children: [
 
-                        /// IMAGE
+                        /// 🖼 IMAGE
                         SizedBox(
-                          height: h * 0.50, // ⬅️ reduced slightly
+                          height: h * 0.50,
                           width: w,
                           child: Image.asset(
                             'assets/images/flashImg.jpg',
@@ -42,7 +42,7 @@ class FlashScreen extends StatelessWidget {
                           ),
                         ),
 
-                        /// LOGO
+                        /// 🔵 LOGO OVER IMAGE
                         Transform.translate(
                           offset: Offset(0, -h * 0.07),
                           child: Container(
@@ -79,7 +79,7 @@ class FlashScreen extends StatelessWidget {
 
                         SizedBox(height: h * 0.005),
 
-                        /// TITLE
+                        /// 🏷 TITLE
                         Text(
                           "One App",
                           style: TextStyle(
@@ -91,7 +91,7 @@ class FlashScreen extends StatelessWidget {
 
                         SizedBox(height: h * 0.01),
 
-                        /// SUBTITLE
+                        /// 📝 SUBTITLE
                         Text(
                           "\"Your trusted marketplace for every\ncategory\"",
                           textAlign: TextAlign.center,
@@ -104,11 +104,13 @@ class FlashScreen extends StatelessWidget {
 
                         SizedBox(height: h * 0.025),
 
-                        /// BUTTONS
+                        /// 🔘 BUTTONS
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: w * 0.07),
                           child: Row(
                             children: [
+
+                              /// CUSTOMER BUTTON
                               Expanded(
                                 child: SizedBox(
                                   height: h * 0.05,
@@ -143,6 +145,7 @@ class FlashScreen extends StatelessWidget {
 
                               SizedBox(width: w * 0.03),
 
+                              /// VENDOR BUTTON
                               Expanded(
                                 child: SizedBox(
                                   height: h * 0.05,
@@ -162,7 +165,7 @@ class FlashScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              RegistrationScreen(),
+                                          const RegistrationScreen(),
                                         ),
                                       );
                                     },
@@ -220,9 +223,9 @@ class FlashScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

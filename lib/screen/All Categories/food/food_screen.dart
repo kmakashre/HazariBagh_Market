@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hazari_bagh_market/screen/All%20Categories/food/restaurant_card.dart';
 import '../../../widgets/top_header.dart';
 
 class FoodHomeScreen extends StatelessWidget {
   const FoodHomeScreen({super.key});
 
-  static const Color foodGreen = Color(0xFFd0b5b5);
+  static const Color foodGreen = Color(0xFFD0B5B5);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class FoodHomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+
           /// 🔝 FIXED HEADER
           const TopHeader(),
 
@@ -26,9 +28,10 @@ class FoodHomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   SizedBox(height: h * 0.02),
 
-                  /// 🔙 BACK BUTTON (LEFT)
+                  /// 🔙 BACK BUTTON
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: w * 0.04,
@@ -48,7 +51,7 @@ class FoodHomeScreen extends StatelessWidget {
                           SizedBox(width: w * 0.02),
                           Text(
                             "Back",
-                            style: TextStyle(
+                            style: GoogleFonts.inter(
                               fontSize: w * 0.045,
                               fontWeight: FontWeight.w600,
                               color: foodGreen,
@@ -79,7 +82,7 @@ class FoodHomeScreen extends StatelessWidget {
                         children: [
                           Text(
                             "Food Delivery",
-                            style: TextStyle(
+                            style: GoogleFonts.inter(
                               color: Colors.white,
                               fontSize: w * 0.055,
                               fontWeight: FontWeight.bold,
@@ -88,8 +91,8 @@ class FoodHomeScreen extends StatelessWidget {
                           SizedBox(height: h * 0.008),
                           Text(
                             "Order delicious food from top restaurants",
-                            style: TextStyle(
-                              color: Colors.white,
+                            style: GoogleFonts.inter(
+                              color: Colors.white70,
                               fontSize: w * 0.035,
                             ),
                           ),
@@ -105,16 +108,17 @@ class FoodHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                     child: Text(
                       "Restaurants Near You",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: w * 0.05,
                         fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                   ),
 
                   SizedBox(height: h * 0.015),
 
-                  /// 🍽 RESTAURANTS
+                  /// 🍽 RESTAURANTS LIST
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                     child: Column(
@@ -154,7 +158,7 @@ class FoodHomeScreen extends StatelessWidget {
 
                   SizedBox(height: h * 0.02),
 
-                  /// 📸 BANNER IMAGE
+                  /// 📸 PROMO BANNER
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                     child: ClipRRect(

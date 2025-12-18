@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/cart_provider.dart';
@@ -30,15 +31,15 @@ class AddToCartScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           "Add To Cart",
-          style: TextStyle(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: w * 0.05,
             fontWeight: FontWeight.w600,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
       ),
 
       body: Padding(
@@ -63,7 +64,7 @@ class AddToCartScreen extends StatelessWidget {
             /// 📛 PRODUCT NAME
             Text(
               itemName,
-              style: TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: w * 0.055,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -75,7 +76,7 @@ class AddToCartScreen extends StatelessWidget {
             /// 💰 PRICE
             Text(
               "₹$itemPrice",
-              style: TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: w * 0.05,
                 color: themeColor,
                 fontWeight: FontWeight.w600,
@@ -108,13 +109,14 @@ class AddToCartScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, h * 0.065),
                 backgroundColor: themeColor,
+                elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(w * 0.04),
                 ),
               ),
               child: Text(
                 "Add to Cart",
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: w * 0.045,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,

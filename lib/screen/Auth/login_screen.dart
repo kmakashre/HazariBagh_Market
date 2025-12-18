@@ -13,19 +13,18 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
+    final auth = context.watch<AuthProvider>();
     final mq = MediaQuery.of(context).size;
     final height = mq.height;
     final width = mq.width;
 
     return WillPopScope(
       onWillPop: () async {
-        /// ✅ BACK PRESS → FLASH SCREEN
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const FlashScreen()),
         );
-        return false; // ❌ default back ko block
+        return false;
       },
       child: Scaffold(
         body: Stack(
@@ -58,43 +57,28 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: height * 0.12),
 
                     /// 🔵 LOGO
-                    Transform.translate(
-                      offset: Offset(0, -height * 0.02),
+                    Container(
+                      padding: EdgeInsets.all(width * 0.03),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primary,
+                      ),
                       child: Container(
-                        padding: EdgeInsets.all(width * 0.030),
-                        decoration: BoxDecoration(
+                        padding: EdgeInsets.all(width * 0.03),
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primary,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                          color: AppColors.white,
                         ),
-                        child: Container(
-                          padding: EdgeInsets.all(width * 0.03),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.white,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              "assets/images/logo.png",
-                              height: width * 0.22,
-                              width: width * 0.22,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          height: width * 0.22,
+                          width: width * 0.22,
                         ),
                       ),
                     ),
 
-                    SizedBox(height: height * 0.015),
+                    SizedBox(height: height * 0.02),
 
-                    /// 🔵 SUB TITLE
                     Text(
                       "Sign in with your mobile number or Google",
                       textAlign: TextAlign.center,
@@ -105,21 +89,6 @@ class LoginScreen extends StatelessWidget {
                     ),
 
                     SizedBox(height: height * 0.03),
-
-                    /// 🔵 MOBILE LABEL
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Mobile number",
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: width * 0.04,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: height * 0.01),
 
                     /// 🔵 MOBILE INPUT
                     Container(
@@ -134,25 +103,11 @@ class LoginScreen extends StatelessWidget {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: auth.setMobile,
-                        style: TextStyle(fontSize: width * 0.04),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           counterText: "",
                           prefixText: "+91 ",
-                          prefixStyle: TextStyle(
-                            fontSize: width * 0.04,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.black,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: height * 0.015,
-                          ),
                           border: InputBorder.none,
                           hintText: "Enter mobile number",
-                          hintStyle: TextStyle(
-                            color: AppColors.greyText,
-                            fontSize: width * 0.04,
-                          ),
                         ),
                       ),
                     ),
@@ -166,35 +121,40 @@ class LoginScreen extends StatelessWidget {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          elevation: 0,
-                          side: const BorderSide(
-                            color: AppColors.otpBorder,
-                            width: 2,
-                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: auth.loading
+                            ? null
+                            : () async {
                           if (auth.mobile.length == 10) {
-                            auth.sendOtp();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                const OtpVerificationScreen(),
-                              ),
-                            );
+                            final success =
+                            await auth.sendOtp();
+
+                            if (success && context.mounted) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const OtpVerificationScreen(),
+                                ),
+                              );
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text(
-                                    "Please enter valid mobile number"),
+                                content: Text("Please enter valid mobile number"),
                               ),
                             );
                           }
                         },
-                        child: Text(
+
+                        child: auth.loading
+                            ? const CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        )
+                            : Text(
                           "Send OTP",
                           style: TextStyle(
                             fontSize: width * 0.045,
@@ -205,22 +165,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: height * 0.060),
-
-                    /// ───── OR ─────
-                    Row(
-                      children: const [
-                        Expanded(child: Divider(color: Colors.white)),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text("or",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                        Expanded(child: Divider(color: Colors.white)),
-                      ],
-                    ),
-
-                    SizedBox(height: height * 0.03),
+                    SizedBox(height: height * 0.05),
 
                     /// 🔵 GOOGLE LOGIN
                     SizedBox(
@@ -229,114 +174,54 @@ class LoginScreen extends StatelessWidget {
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
                         ),
                         icon: Image.asset(
                           "assets/Icons/google.png",
                           height: 20,
                         ),
-                        label: Text(
+                        label: const Text(
                           "Sign in with Google",
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: width * 0.04,
-                          ),
+                          style: TextStyle(color: AppColors.black),
                         ),
-                        onPressed: auth.googleSignIn,
+                        onPressed: () {
+                          auth.googleSignIn();
+                        },
                       ),
                     ),
+
+
 
                     SizedBox(height: height * 0.03),
 
                     /// 🔵 REGISTER
-                    /// 🔵 REGISTER
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "New Users? ",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: width * 0.038,
-                            fontWeight: FontWeight.w700,
-                          ),
+                          style: TextStyle(color: Colors.white),
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => RegistrationScreen()),
+                              MaterialPageRoute(
+                                builder: (_) => RegistrationScreen(),
+                              ),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             "Register Here",
                             style: TextStyle(
-                              color: AppColors.linkBlue, // 🔵 BLUE like image
-                              fontSize: width * 0.042,
-                              fontWeight: FontWeight.w700,
+                              color: AppColors.linkBlue,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ],
                     ),
 
-                    SizedBox(height: height * 0.015),
-
-                    /// 🔵 PRIVACY POLICY + TERMS
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        text: "By signing in you agree to our ",
-                        style: TextStyle(
-                          fontSize: width * 0.032,
-                          color: AppColors.white.withOpacity(0.8),
-                          height: 1.4,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Privacy\nPolicy",
-                            style: TextStyle(
-                              color: AppColors.linkBlue,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            // recognizer: TapGestureRecognizer()
-                            //   ..onTap = () {
-                            //     // 🔵 OPEN PRIVACY POLICY
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (_) => const PrivacyPolicyScreen(),
-                            //       ),
-                            //     );
-                            //   },
-                          ),
-                          const TextSpan(text: " and "),
-                          TextSpan(
-                            text: "Terms.",
-                            style: TextStyle(
-                              color: AppColors.linkBlue,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            // recognizer: TapGestureRecognizer()
-                            //   ..onTap = () {
-                                // 🔵 OPEN TERMS SCREEN
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (_) => const TermsScreen(),
-                                //   ),
-                                // );
-                              // },
-                          ),
-                        ],
-                      ),
-                    ),
-
-
                     SizedBox(height: height * 0.04),
-
                   ],
                 ),
               ),

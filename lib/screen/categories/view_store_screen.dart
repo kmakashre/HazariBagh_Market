@@ -21,7 +21,7 @@ class ViewStoreScreen extends StatelessWidget {
 
     if (store == null) {
       return const Scaffold(
-        body: Center(child: Text("No Store Selected")),
+        body: Center(child: Text("No Store found")),
       );
     }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
 import 'package:hazari_bagh_market/provider/store_provider.dart';
 import 'package:hazari_bagh_market/screen/all_store_screen.dart';
 import 'package:hazari_bagh_market/screen/categories/view_store_screen.dart';
-import 'package:provider/provider.dart';
+
 import '../../Model/home_model.dart';
 import '../../Model/store_model.dart';
 import '../../all_categories_screen.dart';
@@ -12,15 +14,20 @@ import '../../widgets/top_header.dart';
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 
-  /// 🔥 COMMON METHOD (Card + Button dono ke liye)
+  static const Color primaryColor = Color(0xFF3670A3);
+
+  /// 🔥 OPEN STORE
   void _openStore(BuildContext context, StoreModel store) {
-    Provider.of<StoreProvider>(context, listen: false).setStore(store);
+    context.read<StoreProvider>().selectStore(store);
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const ViewStoreScreen()),
+      MaterialPageRoute(
+        builder: (_) => const ViewStoreScreen(),
+      ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +41,11 @@ class CategoryScreen extends StatelessWidget {
         children: [
           const TopHeader(),
 
+          /// 🔽 BODY
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(w * 0.03),
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.all(w * 0.035),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,46 +54,52 @@ class CategoryScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         "Categories",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.inter(
+                          fontSize: w * 0.045,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const AllCategoriesScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => const AllCategoriesScreen(),
+                          ),
                         ),
-                        child: const Text(
+                        child: Text(
                           "View All",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF3670A3),
-                            fontWeight: FontWeight.bold,
+                          style: GoogleFonts.inter(
+                            fontSize: w * 0.035,
+                            fontWeight: FontWeight.w600,
+                            color: primaryColor,
                           ),
                         ),
                       ),
                     ],
                   ),
 
-                  SizedBox(height: h * 0.01),
+                  SizedBox(height: h * 0.015),
 
                   /// 🔹 CATEGORY GRID
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: homeCategories.length > 6
-                        ? 6
-                        : homeCategories.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    itemCount:
+                    homeCategories.length > 8 ? 8 : homeCategories.length,
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
-                      crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
                       childAspectRatio: 0.75,
                     ),
                     itemBuilder: (context, index) {
                       final item = homeCategories[index];
 
-                      return GestureDetector(
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(16),
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (_) => item.screen),
@@ -96,7 +111,7 @@ class CategoryScreen extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.06),
-                                blurRadius: 12,
+                                blurRadius: 10,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -104,18 +119,15 @@ class CategoryScreen extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              /// 🔹 IMAGE
                               Image.asset(
                                 item.image,
                                 height: w * 0.12,
                                 fit: BoxFit.contain,
                               ),
-
                               SizedBox(height: w * 0.02),
-
-                              /// 🔹 TITLE (GOOGLE FONT)
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 6),
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 6),
                                 child: Text(
                                   item.title,
                                   maxLines: 2,
@@ -123,8 +135,7 @@ class CategoryScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.inter(
                                     fontSize: w * 0.032,
-                                    fontWeight: FontWeight.w600, // SemiBold look
-                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
@@ -135,28 +146,22 @@ class CategoryScreen extends StatelessWidget {
                     },
                   ),
 
-
-                  SizedBox(height: h * 0.02),
+                  SizedBox(height: h * 0.03),
 
                   /// 🔹 EXPLORE STORES TITLE
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      /// 🔹 TITLE
                       Expanded(
                         child: Text(
-                          "Explore Stores By Category &\nDistance",
+                          "Explore Stores By Category & Distance",
                           style: GoogleFonts.inter(
                             fontSize: w * 0.045,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black87,
                             height: 1.3,
                           ),
                         ),
                       ),
-
-                      /// 🔹 VIEW ALL BUTTON
-                      GestureDetector(
+                      InkWell(
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -166,23 +171,23 @@ class CategoryScreen extends StatelessWidget {
                         child: Text(
                           "View All",
                           style: GoogleFonts.inter(
-                            fontSize: w * 0.034,
+                            fontSize: w * 0.035,
                             fontWeight: FontWeight.w600,
-                            color: Colors.blue,
+                            color: primaryColor,
                           ),
                         ),
                       ),
                     ],
                   ),
 
-
                   SizedBox(height: h * 0.015),
 
-                  /// 🔥 STORE CARD LIST (FULL CARD CLICKABLE)
+                  /// 🔥 STORE CARD LIST
                   SizedBox(
-                    height: h * 0.25, // ⬅️ flexible but safe height
+                    height: h * 0.27,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
                       itemCount: nearbyStores.length,
                       itemBuilder: (context, index) {
                         final store = nearbyStores[index];
@@ -191,7 +196,7 @@ class CategoryScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14),
                           onTap: () => _openStore(context, store),
                           child: Container(
-                            width: w * 0.40, // ⬅️ responsive width
+                            width: w * 0.42,
                             margin: const EdgeInsets.only(right: 12),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -207,12 +212,11 @@ class CategoryScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
-                                /// 🖼 IMAGE (ASPECT RATIO BASED)
                                 AspectRatio(
                                   aspectRatio: 16 / 9,
                                   child: ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(
+                                    borderRadius:
+                                    const BorderRadius.vertical(
                                       top: Radius.circular(14),
                                     ),
                                     child: Image.asset(
@@ -221,66 +225,63 @@ class CategoryScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
-                                /// 📄 CONTENT
                                 Expanded(
                                   child: Padding(
                                     padding: EdgeInsets.all(w * 0.03),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           store.name,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
+                                          style: GoogleFonts.inter(
                                             fontSize: w * 0.04,
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
-
                                         const SizedBox(height: 6),
-
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               store.distance,
-                                              style: TextStyle(
-                                                color: Colors.blue,
+                                              style: GoogleFonts.inter(
                                                 fontSize: w * 0.032,
+                                                color: Colors.blue,
                                               ),
                                             ),
                                             Text(
                                               "${store.rating} ⭐",
-                                              style: TextStyle(
-                                                color: Colors.orange,
+                                              style: GoogleFonts.inter(
                                                 fontSize: w * 0.032,
+                                                color: Colors.orange,
                                               ),
                                             ),
                                           ],
                                         ),
-
                                         const Spacer(),
-
-                                        /// 🔘 BUTTON
                                         SizedBox(
                                           width: double.infinity,
-                                          height: 40, // ⬅️ minimum touch size
+                                          height: 40,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color(0xFF3670A3),
+                                              backgroundColor: primaryColor,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8),
+                                                borderRadius:
+                                                BorderRadius.circular(8),
                                               ),
                                             ),
-                                            onPressed: () => _openStore(context, store),
-                                            child: const Text(
+                                            onPressed: () =>
+                                                _openStore(context, store),
+                                            child: Text(
                                               "Visit Store",
-                                              style: TextStyle(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 14,
-                                                color: Colors.white,
                                                 fontWeight: FontWeight.w600,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
@@ -297,74 +298,16 @@ class CategoryScreen extends StatelessWidget {
                     ),
                   ),
 
-
                   SizedBox(height: h * 0.03),
 
-                  /// 🔹 BANNER
+                  /// 🔹 OFFER BANNER
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: SizedBox(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      "assets/images/specOffer20%Off.jpg",
                       height: h * 0.20,
                       width: double.infinity,
-                      child: Image.asset(
-                        "assets/images/specOffer20%Off.jpg",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: h * 0.03),
-
-                  /// 🔹 OFFER
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 28,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFFF9800), // orange
-                          Color(0xFFFFB300), // yellow-orange
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.orange.withOpacity(0.4),
-                          blurRadius: 14,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Special Weekend\nOffer!",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            height: 1.3,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          "Get flat 30% off on all orders\nabove ₹999",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white70,
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
+                      fit: BoxFit.cover,
                     ),
                   ),
 

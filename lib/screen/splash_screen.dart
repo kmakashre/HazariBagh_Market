@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hazari_bagh_market/screen/flash_screen.dart';
+import 'package:hazari_bagh_market/widgets/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,13 +17,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    _checkLogin();
+  }
 
-    /// 5 sec delay
-    Timer(const Duration(seconds: 5), () {
+  Future<void> _checkLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
+
+    Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const FlashScreen(),
+          builder: (_) =>
+          isLoggedIn ? const HomePage() : const FlashScreen(),
         ),
       );
     });
@@ -32,8 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Stack(
         children: [
-
-          /// FULL-SCREEN BACKGROUND IMAGE
+          /// BACKGROUND IMAGE
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -43,23 +52,22 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
 
-          /// BLUR EFFECT
+          /// BLUR + OVERLAY
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
             child: Container(
-              color: Colors.black.withOpacity(0.3), // slight dark overlay
+              color: Colors.black.withOpacity(0.35),
             ),
           ),
 
-          /// CENTER LOGO
+          /// LOGO
           Center(
             child: Image.asset(
               "assets/images/logo.png",
-              height: 120,
-              width: 120,
+              height: 130,
+              width: 130,
             ),
           ),
-
         ],
       ),
     );

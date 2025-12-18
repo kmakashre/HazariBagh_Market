@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hazari_bagh_market/Vendor/vendor Screens/vendor_dashboard_home_screen.dart';
 import 'package:hazari_bagh_market/screen/Auth/login_screen.dart';
 import 'package:hazari_bagh_market/screen/flash_screen.dart';
@@ -69,7 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       offset: Offset(0, -height * 0.01),
                       child: Container(
                         padding: EdgeInsets.all(width * 0.030),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColors.primary,
                         ),
@@ -95,10 +96,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     Text(
                       "Create Profile",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: width * 0.055,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
 
@@ -107,7 +108,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Text(
                       "Please provide the details below to\ncreate your account",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Colors.white70,
                         fontSize: width * 0.032,
                       ),
@@ -132,9 +133,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         label: Text(
                           "Sign in with Google",
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: AppColors.black,
                             fontSize: width * 0.04,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         onPressed: () {},
@@ -151,7 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             "OR",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               color: Colors.white70,
                               fontSize: width * 0.035,
                             ),
@@ -178,12 +180,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             decoration: _boxDecoration(),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
-                                hint: const Text("Gender"),
+                                hint: Text(
+                                  "Gender",
+                                  style: GoogleFonts.poppins(),
+                                ),
                                 value: selectedGender,
                                 items: ["Male", "Female", "Other"]
                                     .map((e) => DropdownMenuItem(
                                   value: e,
-                                  child: Text(e),
+                                  child: Text(
+                                    e,
+                                    style: GoogleFonts.poppins(),
+                                  ),
                                 ))
                                     .toList(),
                                 onChanged: (val) {
@@ -200,7 +208,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                             decoration: _boxDecoration(),
-                            child: const Text("DOB"),
+                            child: Text(
+                              "DOB",
+                              style: GoogleFonts.poppins(),
+                            ),
                           ),
                         ),
                       ],
@@ -220,8 +231,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         Text(
                           "I agree with Terms and Conditions",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: width * 0.03),
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: width * 0.03,
+                          ),
                         ),
                       ],
                     ),
@@ -236,19 +249,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF3670A3),
                         ),
-                        onPressed: () {
-
-                        },
-                        child: const Text(
+                        onPressed: () {},
+                        child: Text(
                           "Register & Continue",
-                          style: TextStyle(color: Colors.white),
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: width * 0.04,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
 
                     SizedBox(height: height * 0.018),
 
-                    /// 🔙 BACK TO FLASH
+                    /// BACK
                     GestureDetector(
                       onTap: () {
                         Navigator.pushAndRemoveUntil(
@@ -260,7 +275,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: Text(
                         "Back To Log-in",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Colors.blueAccent,
                           fontSize: width * 0.03,
                         ),
@@ -279,17 +294,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   /// INPUT FIELD
-  Widget _inputField(String hint, IconData icon,
-      TextEditingController controller, double height, double width) {
+  Widget _inputField(
+      String hint,
+      IconData icon,
+      TextEditingController controller,
+      double height,
+      double width,
+      ) {
     return Container(
       height: height * 0.055,
       margin: const EdgeInsets.only(bottom: 12),
       decoration: _boxDecoration(),
       child: TextField(
         controller: controller,
+        style: GoogleFonts.poppins(fontSize: width * 0.038),
         decoration: InputDecoration(
           prefixIcon: Icon(icon, size: width * 0.05),
           hintText: hint,
+          hintStyle: GoogleFonts.poppins(),
           border: InputBorder.none,
         ),
       ),

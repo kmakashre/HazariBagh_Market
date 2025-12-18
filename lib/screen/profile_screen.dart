@@ -17,230 +17,225 @@ class ProfileScreen extends StatelessWidget {
           /// 🔵 TOP HEADER
           const TopHeader(),
 
-          /// 🔙 BACK BUTTON
-          Padding(
-            padding: EdgeInsets.only(
-              left: w * 0.04,
-              top: h * 0.015,
-              bottom: h * 0.01,
-            ),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        size: w * 0.055,
-                        color: Colors.black87,
-                      ),
-                      SizedBox(width: w * 0.015),
-                      Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: w * 0.04,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          /// 🔽 MAIN BODY
+          /// 🔽 BODY
           Expanded(
             child: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: w * 0.05,
-                  vertical: h * 0.025,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    /// 👤 PROFILE IMAGE
-                    CircleAvatar(
-                      radius: w * 0.12,
-                      backgroundImage:
-                      const AssetImage("assets/images/girl.png"),
-                    ),
-
-                    SizedBox(height: h * 0.015),
-
-                    /// 👤 NAME
-                    Text(
-                      "Jonathan Patterson",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: w * 0.05,
-                      ),
-                    ),
-
-                    SizedBox(height: h * 0.005),
-
-                    /// ✉ EMAIL
-                    Text(
-                      "hello@reallygreatsite.com",
-                      style: TextStyle(
-                        fontSize: w * 0.035,
-                        color: Colors.black54,
-                      ),
-                    ),
-
-                    SizedBox(height: h * 0.035),
-
-                    /// ✏ EDIT PROFILE
-                    profileTile(
-                      w: w,
-                      icon: Icons.edit,
-                      title: "Edit Profile",
-                      iconColor: Colors.green,
-                      onTap: () {},
-                    ),
-
-                    SizedBox(height: h * 0.02),
-
-                    /// ⚙ GENERAL SETTINGS
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "General Settings",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: w * 0.045,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: h * 0.015),
-
-                    /// 🌗 MODE SWITCH
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: h * 0.015),
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.05,
+                vertical: h * 0.02,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// 🔙 BACK
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          CircleAvatar(
-                            radius: w * 0.04,
-                            backgroundColor: Colors.black87,
-                            child: Icon(
-                              Icons.dark_mode,
-                              color: Colors.white,
-                              size: w * 0.04,
+                          Icon(Icons.arrow_back,
+                              size: w * 0.055,
+                              color: Colors.black87),
+                          SizedBox(width: w * 0.015),
+                          Text(
+                            "Back",
+                            style: TextStyle(
+                              fontSize: w * 0.04,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(width: w * 0.03),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Mode",
-                                style: TextStyle(fontSize: w * 0.038),
-                              ),
-                              Text(
-                                "Dark & Light",
-                                style: TextStyle(
-                                  fontSize: w * 0.03,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          Switch(value: true, onChanged: (v) {}),
                         ],
                       ),
                     ),
+                  ),
 
-                    profileTile(
-                        w: w,
-                        icon: Icons.language,
-                        title: "Language",
-                        iconColor: Colors.amber,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.settings,
-                        title: "Settings",
-                        iconColor: Colors.grey,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.info_outline,
-                        title: "About",
-                        iconColor: Colors.purple,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.description,
-                        title: "Terms & Conditions",
-                        iconColor: Colors.blue,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.privacy_tip,
-                        title: "Privacy Policy",
-                        iconColor: Colors.red,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.star_rate,
-                        title: "Rate This App",
-                        iconColor: Colors.deepPurple,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.share,
-                        title: "Share This App",
-                        iconColor: Colors.pink,
-                        onTap: () {}),
+                  SizedBox(height: h * 0.025),
 
-                    SizedBox(height: h * 0.03),
+                  /// 👤 PROFILE IMAGE
+                  CircleAvatar(
+                    radius: w * 0.13,
+                    backgroundImage:
+                    const AssetImage("assets/images/girl.png"),
+                  ),
 
-                    /// 🚪 LOGOUT BUTTON
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const LoginScreen()),
-                              (route) => false,
-                        );
-                      },
-                      child: Container(
-                        width: w * 0.8,
-                        padding:
-                        EdgeInsets.symmetric(vertical: h * 0.015),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(w * 0.08),
-                          color: Colors.grey.shade100,
+                  SizedBox(height: h * 0.015),
+
+                  /// 👤 NAME
+                  Text(
+                    "Jonathan Patterson",
+                    style: TextStyle(
+                      fontSize: w * 0.05,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+
+                  SizedBox(height: h * 0.005),
+
+                  /// ✉ EMAIL
+                  Text(
+                    "hello@reallygreatsite.com",
+                    style: TextStyle(
+                      fontSize: w * 0.035,
+                      color: Colors.black54,
+                    ),
+                  ),
+
+                  SizedBox(height: h * 0.03),
+
+                  /// ✏ EDIT PROFILE
+                  profileTile(
+                    w: w,
+                    icon: Icons.edit,
+                    title: "Edit Profile",
+                    iconColor: Colors.green,
+                    onTap: () {},
+                  ),
+
+                  SizedBox(height: h * 0.025),
+
+                  /// ⚙ GENERAL SETTINGS
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "General Settings",
+                      style: TextStyle(
+                        fontSize: w * 0.045,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: h * 0.015),
+
+                  /// 🌗 MODE SWITCH
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: h * 0.012),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: w * 0.04,
+                          backgroundColor: Colors.black87,
+                          child: Icon(Icons.dark_mode,
+                              size: w * 0.04,
+                              color: Colors.white),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        SizedBox(width: w * 0.03),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.logout,
-                                color: Colors.red, size: w * 0.05),
-                            SizedBox(width: w * 0.02),
+                            Text("Mode",
+                                style:
+                                TextStyle(fontSize: w * 0.038)),
                             Text(
-                              "Logout",
+                              "Dark & Light",
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: w * 0.04,
-                                color: Colors.red,
+                                fontSize: w * 0.03,
+                                color: Colors.grey,
                               ),
                             ),
                           ],
                         ),
+                        const Spacer(),
+                        Switch(value: true, onChanged: (v) {}),
+                      ],
+                    ),
+                  ),
+
+                  profileTile(
+                    w: w,
+                    icon: Icons.language,
+                    title: "Language",
+                    iconColor: Colors.amber,
+                    onTap: () {},
+                  ),
+                  profileTile(
+                    w: w,
+                    icon: Icons.settings,
+                    title: "Settings",
+                    iconColor: Colors.grey,
+                    onTap: () {},
+                  ),
+                  profileTile(
+                    w: w,
+                    icon: Icons.info_outline,
+                    title: "About",
+                    iconColor: Colors.purple,
+                    onTap: () {},
+                  ),
+                  profileTile(
+                    w: w,
+                    icon: Icons.description,
+                    title: "Terms & Conditions",
+                    iconColor: Colors.blue,
+                    onTap: () {},
+                  ),
+                  profileTile(
+                    w: w,
+                    icon: Icons.privacy_tip,
+                    title: "Privacy Policy",
+                    iconColor: Colors.red,
+                    onTap: () {},
+                  ),
+                  profileTile(
+                    w: w,
+                    icon: Icons.star_rate,
+                    title: "Rate This App",
+                    iconColor: Colors.deepPurple,
+                    onTap: () {},
+                  ),
+                  profileTile(
+                    w: w,
+                    icon: Icons.share,
+                    title: "Share This App",
+                    iconColor: Colors.pink,
+                    onTap: () {},
+                  ),
+
+                  SizedBox(height: h * 0.03),
+
+                  /// 🚪 LOGOUT
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
+                            (route) => false,
+                      );
+                    },
+                    child: Container(
+                      width: w * 0.8,
+                      padding: EdgeInsets.symmetric(
+                          vertical: h * 0.015),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius:
+                        BorderRadius.circular(w * 0.08),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.logout,
+                              color: Colors.red,
+                              size: w * 0.05),
+                          SizedBox(width: w * 0.02),
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                              fontSize: w * 0.04,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: h * 0.05),
-                  ],
-                ),
+                  SizedBox(height: h * 0.04),
+                ],
               ),
             ),
           ),
@@ -249,7 +244,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// ♻ REUSABLE PROFILE TILE
+  /// ♻ PROFILE TILE
   Widget profileTile({
     required double w,
     required IconData icon,
@@ -268,7 +263,8 @@ class ProfileScreen extends StatelessWidget {
         title,
         style: TextStyle(fontSize: w * 0.038),
       ),
-      trailing: Icon(Icons.chevron_right, size: w * 0.05),
+      trailing:
+      Icon(Icons.chevron_right, size: w * 0.05),
       onTap: onTap,
     );
   }

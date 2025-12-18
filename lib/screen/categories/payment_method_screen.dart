@@ -12,231 +12,226 @@ class PaymentMethodScreen extends StatefulWidget {
 }
 
 class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
-  int selectedPayment = 0; // 0=COD, 1=UPI, 2=CARD
+  int selectedPayment = 0; // 0 = COD, 1 = UPI, 2 = CARD
 
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
     final cart = Provider.of<CartProvider>(context);
 
-    // Delivery Fee Already Updated During Checkout Screen
-    double deliveryFee = cart.deliveryFee;
-    double subtotal = cart.subtotal;
-    double totalAmount = subtotal + deliveryFee;
+    final double subtotal = cart.subtotal;
+    final double deliveryFee = cart.deliveryFee;
+    final double totalAmount = subtotal + deliveryFee;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const TopHeader(),
+      body: Column(
+        children: [
+          const TopHeader(),
 
-            // BACK + TITLE
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: mq.width * 0.04,
-                vertical: mq.height * 0.01,
-              ),
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: const Color(0xFF3670A3),
-                      size: mq.width * 0.06,
-                    ),
-                    SizedBox(width: mq.width * 0.02),
-                    Text(
-                      "Payment Method",
-                      style: TextStyle(
-                        fontSize: mq.width * 0.045,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF3670A3),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: mq.height * 0.02),
-
-            // CASH ON DELIVERY
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: mq.width * 0.03),
-              child: paymentTile(
-                mq: mq,
-                title: "Cash On Delivery",
-                subtitle: "Pay When You Receive",
-                icon: Icons.payments,
-                isSelected: selectedPayment == 0,
-                onTap: () => setState(() => selectedPayment = 0),
-              ),
-            ),
-
-            SizedBox(height: mq.height * 0.015),
-
-            // UPI PAYMENT
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: mq.width * 0.03),
-              child: paymentTile(
-                mq: mq,
-                title: "UPI Payment",
-                subtitle: "Pay Via Google Pay, PhonePe, Paytm",
-                icon: Icons.qr_code,
-                isSelected: selectedPayment == 1,
-                onTap: () => setState(() => selectedPayment = 1),
-              ),
-            ),
-
-            SizedBox(height: mq.height * 0.015),
-
-            // CARD PAYMENT
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: mq.width * 0.03),
-              child: paymentTile(
-                mq: mq,
-                title: "Debit / Credit Card",
-                subtitle: "Visa, Mastercard, Rupay",
-                icon: Icons.credit_card,
-                isSelected: selectedPayment == 2,
-                onTap: () => setState(() => selectedPayment = 2),
-              ),
-            ),
-
-            SizedBox(height: mq.height * 0.025),
-
-            // ORDER SUMMARY BOX
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: mq.width * 0.03),
-              child: Container(
-                padding: EdgeInsets.all(mq.width * 0.03),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(mq.width * 0.03),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    summaryRow(
-                      mq: mq,
-                      title: "Subtotal (${cart.cartCount} Items)",
-                      value: "₹$subtotal",
-                    ),
-                    SizedBox(height: mq.height * 0.008),
-                    summaryRow(mq: mq, title: "Delivery Fees", value: "₹$deliveryFee"),
-                    Divider(),
-                    summaryRow(
-                      mq: mq,
-                      title: "Total",
-                      value: "₹$totalAmount",
-                      isBold: true,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: mq.height * 0.03),
-
-            // BUTTONS
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: mq.width * 0.03),
-              child: Row(
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: mq.height * 0.03),
+              child: Column(
                 children: [
-                  // BACK BUTTON
-                  Expanded(
-                    child: SizedBox(
-                      height: mq.height * 0.055,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade300,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(
-                          "Back",
-                          style: TextStyle(
-                              fontSize: mq.width * 0.04,
-                              color: Colors.black87),
-                        ),
+                  /// 🔙 BACK + TITLE
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: mq.width * 0.04,
+                      vertical: mq.height * 0.01,
+                    ),
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Row(
+                        children: [
+                          Icon(Icons.arrow_back,
+                              color: const Color(0xFF3670A3),
+                              size: mq.width * 0.06),
+                          SizedBox(width: mq.width * 0.02),
+                          Text(
+                            "Payment Method",
+                            style: TextStyle(
+                              fontSize: mq.width * 0.045,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF3670A3),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
 
-                  SizedBox(width: mq.width * 0.03),
+                  SizedBox(height: mq.height * 0.02),
 
-                  // PLACE ORDER BUTTON
-                  // PLACE ORDER BUTTON
-                  Expanded(
-                    child: SizedBox(
-                      height: mq.height * 0.055,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF3670A3),
+                  /// 💰 PAYMENT OPTIONS
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: mq.width * 0.03),
+                    child: Column(
+                      children: [
+                        paymentTile(
+                          mq: mq,
+                          title: "Cash On Delivery",
+                          subtitle: "Pay When You Receive",
+                          icon: Icons.payments,
+                          isSelected: selectedPayment == 0,
+                          onTap: () => setState(() => selectedPayment = 0),
                         ),
-                        onPressed: () {
-                          String paymentType = selectedPayment == 0
-                              ? "Cash On Delivery"
-                              : selectedPayment == 1
-                              ? "UPI Payment"
-                              : "Card Payment";
+                        SizedBox(height: mq.height * 0.015),
+                        paymentTile(
+                          mq: mq,
+                          title: "UPI Payment",
+                          subtitle:
+                          "Google Pay, PhonePe, Paytm",
+                          icon: Icons.qr_code,
+                          isSelected: selectedPayment == 1,
+                          onTap: () => setState(() => selectedPayment = 1),
+                        ),
+                        SizedBox(height: mq.height * 0.015),
+                        paymentTile(
+                          mq: mq,
+                          title: "Debit / Credit Card",
+                          subtitle: "Visa, Mastercard, Rupay",
+                          icon: Icons.credit_card,
+                          isSelected: selectedPayment == 2,
+                          onTap: () => setState(() => selectedPayment = 2),
+                        ),
+                      ],
+                    ),
+                  ),
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PlacedOrderScreen(
-                                productName: cart.cartItems.isNotEmpty
-                                    ? cart.cartItems.first["name"] ?? "Product"
-                                    : "Product",
+                  SizedBox(height: mq.height * 0.03),
 
-                                totalAmount: totalAmount,
+                  /// 🧾 ORDER SUMMARY
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: mq.width * 0.03),
+                    child: Container(
+                      padding: EdgeInsets.all(mq.width * 0.03),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                        BorderRadius.circular(mq.width * 0.03),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, 2)),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          summaryRow(
+                            mq: mq,
+                            title:
+                            "Subtotal (${cart.cartCount} Items)",
+                            value: "₹${subtotal.toStringAsFixed(0)}",
+                          ),
+                          summaryRow(
+                            mq: mq,
+                            title: "Delivery Fees",
+                            value:
+                            "₹${deliveryFee.toStringAsFixed(0)}",
+                          ),
+                          const Divider(),
+                          summaryRow(
+                            mq: mq,
+                            title: "Total",
+                            value:
+                            "₹${totalAmount.toStringAsFixed(0)}",
+                            isBold: true,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
 
-                                // ✔ Correct Payment Method Passing
-                                paymentMethod: selectedPayment == 0
-                                    ? "Cash On Delivery"
-                                    : selectedPayment == 1
-                                    ? "UPI Payment"
-                                    : "Card Payment",
+                  SizedBox(height: mq.height * 0.03),
 
-                                // ✔ Safe address handling
-                                address: cart.selectedAddress ?? "No Address Found",
+                  /// 🔘 BUTTONS
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: mq.width * 0.03),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: mq.height * 0.055,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                Colors.grey.shade300,
+                              ),
+                              onPressed: () =>
+                                  Navigator.pop(context),
+                              child: Text(
+                                "Back",
+                                style: TextStyle(
+                                  fontSize: mq.width * 0.04,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                          );
-
-
-
-                        },
-                        child: Text(
-                          "Place Order",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: mq.width * 0.04,
                           ),
                         ),
-                      ),
+                        SizedBox(width: mq.width * 0.03),
+                        Expanded(
+                          child: SizedBox(
+                            height: mq.height * 0.055,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                const Color(0xFF3670A3),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        PlacedOrderScreen(
+                                          productName:
+                                          cart.cartItems.isNotEmpty
+                                              ? cart.cartItems.first[
+                                          "name"] ??
+                                              "Product"
+                                              : "Product",
+                                          totalAmount: totalAmount,
+                                          paymentMethod: selectedPayment ==
+                                              0
+                                              ? "Cash On Delivery"
+                                              : selectedPayment == 1
+                                              ? "UPI Payment"
+                                              : "Card Payment",
+                                          address:
+                                          cart.selectedAddress ??
+                                              "No Address Found",
+                                        ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Place Order",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: mq.width * 0.04,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-
                 ],
               ),
             ),
-
-            SizedBox(height: mq.height * 0.03),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  // PAYMENT OPTION BOX
+  /// 💳 PAYMENT TILE
   Widget paymentTile({
     required Size mq,
     required String title,
@@ -245,16 +240,15 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(mq.width * 0.03),
       child: Container(
         padding: EdgeInsets.all(mq.width * 0.03),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
-            color: isSelected ? Colors.green : Colors.grey.shade300,
-            width: mq.width * 0.003,
-          ),
+              color: isSelected ? Colors.green : Colors.grey.shade300),
           borderRadius: BorderRadius.circular(mq.width * 0.03),
         ),
         child: Row(
@@ -265,31 +259,28 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: mq.width * 0.04),
-                  ),
-                  SizedBox(height: mq.height * 0.005),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                        fontSize: mq.width * 0.032, color: Colors.black54),
-                  ),
+                  Text(title,
+                      style: TextStyle(
+                          fontSize: mq.width * 0.04,
+                          fontWeight: FontWeight.bold)),
+                  Text(subtitle,
+                      style: TextStyle(
+                          fontSize: mq.width * 0.032,
+                          color: Colors.black54)),
                 ],
               ),
             ),
             if (isSelected)
               Icon(Icons.check_circle,
-                  color: Colors.green, size: mq.width * 0.06),
+                  color: Colors.green,
+                  size: mq.width * 0.06),
           ],
         ),
       ),
     );
   }
 
-  // SUMMARY ROW
+  /// 📊 SUMMARY ROW
   Widget summaryRow({
     required Size mq,
     required String title,
@@ -297,25 +288,21 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
     bool isBold = false,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: mq.height * 0.005),
+      padding: EdgeInsets.symmetric(vertical: mq.height * 0.006),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: mq.width * 0.038,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: mq.width * 0.04,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
-              color: isBold ? Colors.green : Colors.black,
-            ),
-          ),
+          Text(title,
+              style: TextStyle(
+                  fontSize: mq.width * 0.038,
+                  fontWeight:
+                  isBold ? FontWeight.bold : FontWeight.w500)),
+          Text(value,
+              style: TextStyle(
+                  fontSize: mq.width * 0.04,
+                  fontWeight:
+                  isBold ? FontWeight.bold : FontWeight.w600,
+                  color: isBold ? Colors.green : Colors.black)),
         ],
       ),
     );
