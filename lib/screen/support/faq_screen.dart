@@ -1,43 +1,44 @@
 import 'package:flutter/material.dart';
 import '../../colors/AppColors.dart';
+import '../../l10n/app_localizations.dart';
 
 class FaqScreenUpdated extends StatelessWidget {
   FaqScreenUpdated({super.key});
 
-  final List<Map<String, String>> faqs = [
-    {
-      "q": "How do I track my order?",
-      "a": "You can track your order from the Orders section in your profile."
-    },
-    {
-      "q": "What payment methods are accepted?",
-      "a": "We accept UPI, Debit Card, Credit Card and Cash on Delivery."
-    },
-    {
-      "q": "How can I cancel my order?",
-      "a": "Orders can be cancelled before dispatch from the Orders page."
-    },
-    {
-      "q": "Is there a delivery fee?",
-      "a": "Delivery fee depends on distance and order value."
-    },
-    {
-      "q": "How do I become a vendor?",
-      "a": "You can register as a vendor from the Become a Vendor section."
-    },
-    {
-      "q": "What is your refund policy?",
-      "a": "Refunds are processed within 5–7 working days after approval."
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final w = MediaQuery.of(context).size.width;
+
+    final List<Map<String, String>> faqs = [
+      {
+        "q": loc.faqTrackOrderQ,
+        "a": loc.faqTrackOrderA,
+      },
+      {
+        "q": loc.faqPaymentQ,
+        "a": loc.faqPaymentA,
+      },
+      {
+        "q": loc.faqCancelQ,
+        "a": loc.faqCancelA,
+      },
+      {
+        "q": loc.faqDeliveryFeeQ,
+        "a": loc.faqDeliveryFeeA,
+      },
+      {
+        "q": loc.faqVendorQ,
+        "a": loc.faqVendorA,
+      },
+      {
+        "q": loc.faqRefundQ,
+        "a": loc.faqRefundA,
+      },
+    ];
 
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-
       body: ListView.builder(
         padding: EdgeInsets.all(w * 0.04),
         itemCount: faqs.length,
@@ -55,14 +56,11 @@ class FaqScreenUpdated extends StatelessWidget {
                 ),
               ],
             ),
-
-            /// 🔽 EXPANSION TILE
             child: ExpansionTile(
               tilePadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               childrenPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-
               title: Text(
                 faqs[index]["q"]!,
                 style: TextStyle(
@@ -71,9 +69,8 @@ class FaqScreenUpdated extends StatelessWidget {
                   color: AppColors.textDark,
                 ),
               ),
-
-              trailing: const Icon(Icons.keyboard_arrow_down_rounded),
-
+              trailing:
+              const Icon(Icons.keyboard_arrow_down_rounded),
               children: [
                 Text(
                   faqs[index]["a"]!,

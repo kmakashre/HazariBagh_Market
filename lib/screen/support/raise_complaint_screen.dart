@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../colors/AppColors.dart';
+import '../../l10n/app_localizations.dart';
 
 class RaiseComplaintScreen extends StatelessWidget {
   const RaiseComplaintScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final size = MediaQuery.of(context).size;
     final w = size.width;
     final h = size.height;
 
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -31,25 +32,25 @@ class RaiseComplaintScreen extends StatelessWidget {
                 ),
               ],
             ),
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
                 /// 🔴 TITLE
                 Text(
-                  "Raise a Complaint / Request Refund",
+                  loc.raiseComplaintTitle,
                   style: GoogleFonts.inter(
                     fontSize: w * 0.045,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textDark,
                   ),
                 ),
+
                 SizedBox(height: h * 0.015),
 
                 /// SUBJECT
                 Text(
-                  "Subject",
+                  loc.subject,
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w500,
                     fontSize: w * 0.040,
@@ -59,23 +60,8 @@ class RaiseComplaintScreen extends StatelessWidget {
                 SizedBox(height: h * 0.008),
 
                 TextField(
-                  style: GoogleFonts.inter(fontSize: w * 0.038),
                   decoration: InputDecoration(
-                    hintText: "Brief subject of your complaint",
-                    hintStyle: GoogleFonts.inter(
-                      color: AppColors.textGrey,
-                      fontSize: w * 0.035,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: w * 0.03,
-                      vertical: h * 0.012,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(w * 0.02),
-                      borderSide: const BorderSide(color: AppColors.border),
-                    ),
+                    hintText: loc.subjectHint,
                   ),
                 ),
 
@@ -83,7 +69,7 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 /// ORDER NUMBER
                 Text(
-                  "Order Number (Optional)",
+                  loc.orderNumberOptional,
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w500,
                     fontSize: w * 0.040,
@@ -93,23 +79,8 @@ class RaiseComplaintScreen extends StatelessWidget {
                 SizedBox(height: h * 0.008),
 
                 TextField(
-                  style: GoogleFonts.inter(fontSize: w * 0.038),
                   decoration: InputDecoration(
-                    hintText: "Enter order number if applicable",
-                    hintStyle: GoogleFonts.inter(
-                      color: AppColors.textGrey,
-                      fontSize: w * 0.035,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: w * 0.03,
-                      vertical: h * 0.012,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(w * 0.02),
-                      borderSide: const BorderSide(color: AppColors.border),
-                    ),
+                    hintText: loc.orderNumberHint,
                   ),
                 ),
 
@@ -117,7 +88,7 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 /// DESCRIPTION
                 Text(
-                  "Description",
+                  loc.description,
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w500,
                     fontSize: w * 0.040,
@@ -128,20 +99,8 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 TextField(
                   maxLines: 5,
-                  style: GoogleFonts.inter(fontSize: w * 0.038),
                   decoration: InputDecoration(
-                    hintText: "Describe your issue in detail...",
-                    hintStyle: GoogleFonts.inter(
-                      color: AppColors.textGrey,
-                      fontSize: w * 0.035,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    contentPadding: EdgeInsets.all(w * 0.03),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(w * 0.02),
-                      borderSide: const BorderSide(color: AppColors.border),
-                    ),
+                    hintText: loc.descriptionHint,
                   ),
                 ),
 
@@ -155,12 +114,9 @@ class RaiseComplaintScreen extends StatelessWidget {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(w * 0.02),
-                      ),
                     ),
                     child: Text(
-                      "Submit Complaint",
+                      loc.submitComplaint,
                       style: GoogleFonts.inter(
                         fontSize: w * 0.040,
                         fontWeight: FontWeight.w600,
@@ -174,7 +130,7 @@ class RaiseComplaintScreen extends StatelessWidget {
 
                 Center(
                   child: Text(
-                    "Our team will respond within 24 hours.",
+                    loc.complaintResponseNote,
                     style: GoogleFonts.inter(
                       color: AppColors.textGrey,
                       fontSize: w * 0.035,

@@ -1,0 +1,69 @@
+{
+  "welcomeUser": "स्वागत है!",
+  "discoverStores": "स्थानीय दुकानों और शानदार ऑफ़र देखें",
+
+  "exploreStores": "श्रेणी और दूरी के अनुसार दुकानें खोजें",
+  "visitStore": "स्टोर देखें",
+
+  "off50": "50% की छूट",
+  "bigSale": "इस हफ्ते बड़ी सेल!",
+  "grocerySale": "सभी किराने के सामान पर",
+
+  "categories": "श्रेणियाँ",
+  "nearbyStores": "नज़दीकी दुकानें",
+  "viewAll": "सभी देखें",
+
+  "weekendOffer": "स्पेशल वीकेंड\nऑफर!",
+  "flatDiscount": "₹999 से ऊपर के ऑर्डर पर\n30% की छूट",
+
+  "back": "वापस",
+  "editProfile": "प्रोफ़ाइल संपादित करें",
+  "generalSettings": "सामान्य सेटिंग्स",
+  "mode": "मोड",
+  "darkLight": "डार्क और लाइट",
+  "language": "भाषा",
+  "settings": "सेटिंग्स",
+  "about": "जानकारी",
+  "terms": "नियम और शर्तें",
+  "privacy": "गोपनीयता नीति",
+  "rateApp": "ऐप को रेट करें",
+  "shareApp": "ऐप शेयर करें",
+  "logout": "लॉगआउट",
+  "selectLanguage": "भाषा चुनें",
+
+  "jobs": "हजारीबाग में नौकरियाँ",
+  "rentalProperty": "किराये की संपत्ति",
+  "foodDelivery": "ऑनलाइन फूड डिलीवरी",
+  "fashionStore": "फैशन स्टोर",
+  "groceryStore": "किराना स्टोर",
+  "hotelsRestaurants": "होटल और रेस्टोरेंट",
+  "water": "20 लीटर पानी",
+  "education": "शिक्षा",
+  "hospital": "अस्पताल और क्लिनिक",
+  "wholesale": "थोक आपूर्तिकर्ता",
+  "travel": "टूर और ट्रैवल्स",
+  "hardware": "हार्डवेयर स्टोर",
+  "plotLand": "प्लॉट और जमीन खरीदें",
+  "purchaseHome": "घर और फ्लैट खरीदें",
+  "services": "पेशेवर सेवाएं",
+  "automobile": "ऑटोमोबाइल",
+  "government": "सरकारी सेवाएं",
+  "transport": "परिवहन",
+  "agriculture": "कृषि",
+
+  "placedOn": "ऑर्डर किया गया",
+  "qty": "मात्रा",
+
+  "pending": "लंबित",
+  "completed": "पूरा हुआ",
+  "cancelled": "रद्द किया गया",
+
+
+  "basmatiRice": "बासमती चावल 5 किलो",
+  "soyabinOil": "सोयाबीन तेल",
+  "biscuit": "बिस्किट",
+
+  "sharmaGrocery": "शर्मा किराना स्टोर",
+  "deliciousFood": "डिलीशियस फूड पॉइंट",
+  "fashionHub": "फैशन हब"
+}

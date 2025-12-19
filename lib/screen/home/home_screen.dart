@@ -2,13 +2,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import '../../Model/home_model.dart';
 import '../../Model/store_model.dart';
 import '../../all_categories_screen.dart';
 import '../../colors/AppColors.dart';
+import '../../l10n/app_localizations.dart';
+import '../../provider/store_provider.dart';
 import '../../widgets/top_header.dart';
 import '../../provider/home_provider.dart';
 import '../all_store_screen.dart';
+import '../store_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context); // ✅ CORRECT
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
     final provider = context.watch<HomeProvider>();
@@ -122,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Welcome, User!",
+                              loc.welcomeUser,
                               style: GoogleFonts.inter(
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold,
@@ -131,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              "Discover local stores & amazing deals",
+                              loc.discoverStores,
                               style: GoogleFonts.inter(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -154,7 +159,6 @@ class _HomeScreenState extends State<HomeScreen>
                           height: h * 0.24,
                           child: Stack(
                             children: [
-                              /// 🔹 IMAGE SLIDER
                               PageView.builder(
                                 controller: _pageController,
                                 itemCount: sliderImages.length,
@@ -168,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen>
                                 },
                               ),
 
-                              /// 🔹 DARK OVERLAY (for text readability)
                               Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
@@ -182,7 +185,6 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                               ),
 
-                              /// 🔹 TEXT + BUTTON
                               Positioned(
                                 left: 16,
                                 bottom: 16,
@@ -190,10 +192,9 @@ class _HomeScreenState extends State<HomeScreen>
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    /// 🟡 50% OFF BUTTON
                                     Container(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 6),
                                       decoration: BoxDecoration(
                                         color: Colors.yellow.shade700,
                                         borderRadius: BorderRadius.circular(20),
@@ -207,22 +208,16 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                       ),
                                     ),
-
                                     const SizedBox(height: 6),
-
-                                    /// 🧾 TITLE
                                     Text(
-                                      "Big Sale this Week!",
+                                      loc.bigSale,
                                       style: GoogleFonts.inter(
                                         fontSize: 30,
-                                        // fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                       ),
                                     ),
-
-                                    /// 🧾 SUBTITLE
                                     Text(
-                                      "On all grocery items",
+                                      loc.groceryOffer,
                                       style: GoogleFonts.inter(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
@@ -242,16 +237,20 @@ class _HomeScreenState extends State<HomeScreen>
 
                     /// 🟦 CATEGORIES
                     _sectionHeader(
-                      title: "Categories",
-                      onViewAll: () => _openPage(const AllCategoriesScreen()),
+                      title: loc.categories,
+                      onViewAll: () =>
+                          _openPage(const AllCategoriesScreen()),
                     ),
+
                     SizedBox(height: h * 0.01),
 
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: homeCategories.length > 6 ? 6 : homeCategories.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      itemCount:
+                      homeCategories.length > 8 ? 8 : homeCategories.length,
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         mainAxisSpacing: 16,
                         crossAxisSpacing: 16,
@@ -278,39 +277,25 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                             child: Column(
                               children: [
-
-                                /// 🖼 IMAGE (controlled height)
                                 Expanded(
                                   flex: 6,
-                                  child: Transform(
-                                    alignment: Alignment.center,
-                                    transform: Matrix4.identity()
-                                      ..setEntry(3, 2, 0.001)
-                                      ..rotateX(-0.06)
-                                      ..rotateY(0.06),
-                                    child: Image.asset(
-                                      item.image,
-                                      fit: BoxFit.contain,
-                                    ),
+                                  child: Image.asset(
+                                    item.image,
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
-
                                 const SizedBox(height: 8),
-
-                                /// 📝 TEXT (properly visible)
                                 Expanded(
                                   flex: 3,
                                   child: Center(
                                     child: Text(
-                                      item.title,
+                                      loc.getByKey(item.titleKey),
                                       textAlign: TextAlign.center,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.inter(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black87,
-                                        height: 1.2,
                                       ),
                                     ),
                                   ),
@@ -322,14 +307,15 @@ class _HomeScreenState extends State<HomeScreen>
                       },
                     ),
 
-
                     SizedBox(height: h * 0.03),
 
                     /// 🏬 NEARBY STORES
                     _sectionHeader(
-                      title: "Nearby Stores",
-                      onViewAll: () => _openPage(const AllStoreScreen()),
+                      title: loc.nearbyStores,
+                      onViewAll: () =>
+                          _openPage(const AllStoreScreen()),
                     ),
+
                     SizedBox(height: h * 0.01),
 
                     SizedBox(
@@ -340,13 +326,16 @@ class _HomeScreenState extends State<HomeScreen>
                         itemBuilder: (_, index) {
                           final store = nearbyStores[index];
 
-                          return InkWell(
-                            borderRadius: BorderRadius.circular(14),
+                          return GestureDetector(
                             onTap: () {
+                              /// ✅ SET STORE IN PROVIDER
+                              context.read<StoreProvider>().setStore(store);
+
+                              /// ✅ NAVIGATE TO DETAILS SCREEN
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const AllStoreScreen(),
+                                  builder: (_) => const StoreDetailsScreen(),
                                 ),
                               );
                             },
@@ -366,6 +355,7 @@ class _HomeScreenState extends State<HomeScreen>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  /// 🖼 IMAGE
                                   ClipRRect(
                                     borderRadius: const BorderRadius.vertical(
                                       top: Radius.circular(14),
@@ -377,25 +367,26 @@ class _HomeScreenState extends State<HomeScreen>
                                       fit: BoxFit.cover,
                                     ),
                                   ),
+
+                                  /// 📄 TEXT
                                   Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          store.name,
+                                          loc.getByKey(store.nameKey),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
+                                          style: TextStyle(
+                                            fontSize: w * 0.04,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                         Text(
-                                          store.category,
+                                          loc.getByKey(store.categoryKey),
                                           style: GoogleFonts.inter(
                                             fontSize: 11,
-                                            fontWeight: FontWeight.w600,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -412,52 +403,38 @@ class _HomeScreenState extends State<HomeScreen>
 
                     SizedBox(height: h * 0.03),
 
+                    /// 🟧 BOTTOM OFFER
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 28,
-                      ),
+                          horizontal: 24, vertical: 28),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         gradient: const LinearGradient(
                           colors: [
-                            Color(0xFFFF9800), // orange
-                            Color(0xFFFFB300), // yellow-orange
+                            Color(0xFFFF9800),
+                            Color(0xFFFFB300),
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.orange.withOpacity(0.4),
-                            blurRadius: 14,
-                            offset: Offset(0, 8),
-                          ),
-                        ],
                       ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Special Weekend\nOffer!",
+                            loc.specialWeekend,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.inter(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              height: 1.3,
                             ),
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            "Get flat 30% off on all orders\nabove ₹999",
+                            loc.flatOff,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.inter(
                               fontSize: 15,
-                              fontWeight: FontWeight.w500,
                               color: Colors.white70,
-                              height: 1.4,
                             ),
                           ),
                         ],
@@ -490,7 +467,7 @@ class _HomeScreenState extends State<HomeScreen>
         GestureDetector(
           onTap: onViewAll,
           child: Text(
-            "View All",
+            AppLocalizations.of(context).viewAll,
             style: GoogleFonts.inter(
               fontWeight: FontWeight.w500,
               color: const Color(0xFF3670A3),

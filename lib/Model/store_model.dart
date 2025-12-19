@@ -1,21 +1,19 @@
 class StoreModel {
-  final String name;
+  final String nameKey;      // 🔥 localized key
   final String image;
-  final String category;
+  final String categoryKey;
   final String distance;
   final double rating;
-
-  final String address;   // <–– added
-  final String phone;     // <–– added
-  final String time;      // <–– added
+  final String address;
+  final String phone;
+  final String time;
 
   StoreModel({
-    required this.name,
+    required this.nameKey,
     required this.image,
-    required this.category,
+    required this.categoryKey,
     required this.distance,
     required this.rating,
-
     required this.address,
     required this.phone,
     required this.time,
@@ -24,9 +22,9 @@ class StoreModel {
 
 List<StoreModel> nearbyStores = [
   StoreModel(
-    name: "Sharma Grocery Store",
+    nameKey: "sharmaGrocery",
     image: "assets/images/clothe.jpg",
-    category: "Grocery",
+    categoryKey: "groceryStore",
     distance: "1.2 km",
     rating: 4.5,
     address: "Main Road, Hazaribagh",
@@ -35,9 +33,9 @@ List<StoreModel> nearbyStores = [
   ),
 
   StoreModel(
-    name: "Delicious Food Point",
+    nameKey: "deliciousFood",
     image: "assets/images/kitchan.png",
-    category: "Restaurant",
+    categoryKey: "foodDelivery",
     distance: "2.1 km",
     rating: 4.3,
     address: "Sadar Chowk, Hazaribagh",
@@ -46,9 +44,9 @@ List<StoreModel> nearbyStores = [
   ),
 
   StoreModel(
-    name: "Fashion Hub",
+    nameKey: "fashionHub",
     image: "assets/images/electronics.jpg",
-    category: "Fashion",
+    categoryKey: "fashionStore",
     distance: "850 m",
     rating: 4.6,
     address: "Mandai Market, Hazaribagh",
@@ -56,3 +54,4 @@ List<StoreModel> nearbyStores = [
     time: "11:00 AM - 8:00 PM",
   ),
 ];
+

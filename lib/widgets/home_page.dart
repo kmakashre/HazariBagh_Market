@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../screen/categories/categories_page.dart';
 import '../screen/home/home_screen.dart';
 import '../screen/orders/orders_page.dart';
@@ -14,15 +15,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
-  final List<Widget> pages = [
-    const HomeScreen(),
-    const CategoryScreen(),
-    const MyOrdersScreen(),
+  final List<Widget> pages = const [
+    HomeScreen(),
+    CategoryScreen(),
+    MyOrdersScreen(),
     SupportPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final media = MediaQuery.of(context);
     final w = media.size.width;
     final h = media.size.height;
@@ -59,10 +61,10 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _navItem(Icons.home, "Home", 0, iconSize, textSize),
-            _navItem(Icons.list_alt, "Categories", 1, iconSize, textSize),
-            _navItem(Icons.inventory_2, "Orders", 2, iconSize, textSize),
-            _navItem(Icons.headset_mic, "Support", 3, iconSize, textSize),
+            _navItem(Icons.home, loc.navHome, 0, iconSize, textSize),
+            _navItem(Icons.list_alt, loc.navCategories, 1, iconSize, textSize),
+            _navItem(Icons.inventory_2, loc.navOrders, 2, iconSize, textSize),
+            _navItem(Icons.headset_mic, loc.navSupport, 3, iconSize, textSize),
           ],
         ),
       ),

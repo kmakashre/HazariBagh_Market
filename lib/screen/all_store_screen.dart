@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hazari_bagh_market/screen/store_details_screen.dart';
 import '../../widgets/top_header.dart';
 import '../Model/store_model.dart';
+import '../l10n/app_localizations.dart';
 
 class AllStoreScreen extends StatelessWidget {
   const AllStoreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final mq = MediaQuery.of(context).size;
     final w = mq.width;
     final h = mq.height;
@@ -18,36 +20,21 @@ class AllStoreScreen extends StatelessWidget {
         children: [
           const TopHeader(),
 
-          /// 🔙 BACK + TITLE (MediaQuery based)
+          /// 🔙 BACK + TITLE
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(
               horizontal: w * 0.04,
               vertical: h * 0.015,
             ),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 8,
-                ),
-              ],
-            ),
             child: InkWell(
               onTap: () => Navigator.pop(context),
-              borderRadius: BorderRadius.circular(30),
               child: Row(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(w * 0.015),
-                    child: Icon(
-                      Icons.arrow_back,
-                      size: w * 0.05,
-                    ),
-                  ),
+                  Icon(Icons.arrow_back, size: w * 0.05),
                   SizedBox(width: w * 0.03),
                   Text(
-                    "All Stores",
+                    loc.nearbyStores, // ✅ localized title
                     style: TextStyle(
                       fontSize: w * 0.05,
                       fontWeight: FontWeight.bold,
@@ -57,7 +44,6 @@ class AllStoreScreen extends StatelessWidget {
               ),
             ),
           ),
-
 
           /// 🏬 STORE LIST
           Expanded(
@@ -86,7 +72,7 @@ class AllStoreScreen extends StatelessWidget {
                           const Duration(milliseconds: 350),
                           pageBuilder: (_, a, __) => FadeTransition(
                             opacity: a,
-                            child: StoreDetailsScreen(),
+                            child: const StoreDetailsScreen(),
                           ),
                         ),
                       );
@@ -108,45 +94,14 @@ class AllStoreScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           /// IMAGE
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  store.image,
-                                  height: h * 0.10,
-                                  width: w * 0.22,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                top: 6,
-                                right: 6,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.star,
-                                        size: 12,
-                                        color: Colors.orange,
-                                      ),
-                                      const SizedBox(width: 2),
-                                      Text(
-                                        "${store.rating}",
-                                        style:
-                                        const TextStyle(fontSize: 11),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              store.image,
+                              height: h * 0.10,
+                              width: w * 0.22,
+                              fit: BoxFit.cover,
+                            ),
                           ),
 
                           SizedBox(width: w * 0.03),
@@ -156,8 +111,9 @@ class AllStoreScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                /// 🔥 STORE NAME (localized)
                                 Text(
-                                  store.name,
+                                  loc.getByKey(store.nameKey),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -165,15 +121,20 @@ class AllStoreScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+
                                 SizedBox(height: h * 0.004),
+
+                                /// 🔥 CATEGORY (localized)
                                 Text(
-                                  store.category,
+                                  loc.getByKey(store.categoryKey),
                                   style: TextStyle(
                                     fontSize: w * 0.032,
                                     color: Colors.grey,
                                   ),
                                 ),
+
                                 SizedBox(height: h * 0.006),
+
                                 Row(
                                   children: [
                                     const Icon(
@@ -194,7 +155,6 @@ class AllStoreScreen extends StatelessWidget {
                             ),
                           ),
 
-                          /// ➡️ ARROW
                           Icon(
                             Icons.arrow_forward_ios,
                             size: w * 0.04,

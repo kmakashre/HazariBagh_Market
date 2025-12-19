@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:hazari_bagh_market/screen/Auth/login_screen.dart';
 import '../../widgets/top_header.dart';
+import '../../provider/theme_provider.dart';
+import '../../provider/language_provider.dart';
+import '../../l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -10,237 +14,227 @@ class ProfileScreen extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
+    final t = AppLocalizations.of(context)!;
+    final themeProvider = context.watch<ThemeProvider>();
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         children: [
-          /// 🔵 TOP HEADER
           const TopHeader(),
 
-          /// 🔙 BACK BUTTON
+          /// 🔙 BACK
           Padding(
             padding: EdgeInsets.only(
               left: w * 0.04,
               top: h * 0.015,
               bottom: h * 0.01,
             ),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        size: w * 0.055,
-                        color: Colors.black87,
-                      ),
-                      SizedBox(width: w * 0.015),
-                      Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: w * 0.04,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ],
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_back, size: w * 0.055),
+                  SizedBox(width: w * 0.015),
+                  Text(
+                    t.back,
+                    style: TextStyle(
+                      fontSize: w * 0.04,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
-          /// 🔽 MAIN BODY
           Expanded(
             child: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: w * 0.05,
-                  vertical: h * 0.025,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    /// 👤 PROFILE IMAGE
-                    CircleAvatar(
-                      radius: w * 0.12,
-                      backgroundImage:
-                      const AssetImage("assets/images/girl.png"),
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.05,
+                vertical: h * 0.025,
+              ),
+              child: Column(
+                children: [
+                  /// 👤 PROFILE IMAGE
+                  CircleAvatar(
+                    radius: w * 0.12,
+                    backgroundImage:
+                    const AssetImage("assets/images/girl.png"),
+                  ),
+
+                  SizedBox(height: h * 0.015),
+
+                  /// 👤 NAME
+                  Text(
+                    "Jonathan Patterson",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: w * 0.05,
                     ),
+                  ),
 
-                    SizedBox(height: h * 0.015),
+                  SizedBox(height: h * 0.005),
 
-                    /// 👤 NAME
-                    Text(
-                      "Jonathan Patterson",
+                  /// ✉ EMAIL
+                  Text(
+                    "hello@reallygreatsite.com",
+                    style: TextStyle(
+                      fontSize: w * 0.035,
+                      color: Colors.black54,
+                    ),
+                  ),
+
+                  SizedBox(height: h * 0.035),
+
+                  /// ✏ EDIT PROFILE
+                  profileTile(
+                    w: w,
+                    icon: Icons.edit,
+                    title: t.editProfile,
+                    iconColor: Colors.green,
+                    onTap: () {},
+                  ),
+
+                  SizedBox(height: h * 0.03),
+
+                  /// ⚙ GENERAL SETTINGS
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      t.generalSettings,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: w * 0.05,
+                        fontSize: w * 0.045,
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: h * 0.005),
+                  SizedBox(height: h * 0.015),
 
-                    /// ✉ EMAIL
-                    Text(
-                      "hello@reallygreatsite.com",
-                      style: TextStyle(
-                        fontSize: w * 0.035,
-                        color: Colors.black54,
-                      ),
-                    ),
-
-                    SizedBox(height: h * 0.035),
-
-                    /// ✏ EDIT PROFILE
-                    profileTile(
-                      w: w,
-                      icon: Icons.edit,
-                      title: "Edit Profile",
-                      iconColor: Colors.green,
-                      onTap: () {},
-                    ),
-
-                    SizedBox(height: h * 0.02),
-
-                    /// ⚙ GENERAL SETTINGS
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "General Settings",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: w * 0.045,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: h * 0.015),
-
-                    /// 🌗 MODE SWITCH
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: h * 0.015),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: w * 0.04,
-                            backgroundColor: Colors.black87,
-                            child: Icon(
-                              Icons.dark_mode,
-                              color: Colors.white,
-                              size: w * 0.04,
-                            ),
+                  /// 🌗 DARK / LIGHT MODE
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: h * 0.015),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: w * 0.04,
+                          backgroundColor: Colors.black,
+                          child: Icon(
+                            Icons.dark_mode,
+                            color: Colors.white,
+                            size: w * 0.04,
                           ),
-                          SizedBox(width: w * 0.03),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Mode",
-                                style: TextStyle(fontSize: w * 0.038),
-                              ),
-                              Text(
-                                "Dark & Light",
-                                style: TextStyle(
-                                  fontSize: w * 0.03,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          Switch(value: true, onChanged: (v) {}),
-                        ],
-                      ),
-                    ),
-
-                    profileTile(
-                        w: w,
-                        icon: Icons.language,
-                        title: "Language",
-                        iconColor: Colors.amber,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.settings,
-                        title: "Settings",
-                        iconColor: Colors.grey,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.info_outline,
-                        title: "About",
-                        iconColor: Colors.purple,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.description,
-                        title: "Terms & Conditions",
-                        iconColor: Colors.blue,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.privacy_tip,
-                        title: "Privacy Policy",
-                        iconColor: Colors.red,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.star_rate,
-                        title: "Rate This App",
-                        iconColor: Colors.deepPurple,
-                        onTap: () {}),
-                    profileTile(
-                        w: w,
-                        icon: Icons.share,
-                        title: "Share This App",
-                        iconColor: Colors.pink,
-                        onTap: () {}),
-
-                    SizedBox(height: h * 0.03),
-
-                    /// 🚪 LOGOUT BUTTON
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const LoginScreen()),
-                              (route) => false,
-                        );
-                      },
-                      child: Container(
-                        width: w * 0.8,
-                        padding:
-                        EdgeInsets.symmetric(vertical: h * 0.015),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(w * 0.08),
-                          color: Colors.grey.shade100,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        SizedBox(width: w * 0.03),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.logout,
-                                color: Colors.red, size: w * 0.05),
-                            SizedBox(width: w * 0.02),
                             Text(
-                              "Logout",
+                              t.mode,
+                              style: TextStyle(fontSize: w * 0.038),
+                            ),
+                            Text(
+                              t.darkLight,
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: w * 0.04,
-                                color: Colors.red,
+                                fontSize: w * 0.03,
+                                color: Colors.grey,
                               ),
                             ),
                           ],
                         ),
+                        const Spacer(),
+                        Switch(
+                          value:
+                          themeProvider.themeMode == ThemeMode.dark,
+                          onChanged: (value) {
+                            themeProvider.toggleTheme(value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// 🌍 LANGUAGE
+                  profileTile(
+                    w: w,
+                    icon: Icons.language,
+                    title: t.language,
+                    iconColor: Colors.amber,
+                    onTap: () => _showLanguageDialog(context),
+                  ),
+
+                  profileTile(
+                    w: w,
+                    icon: Icons.settings,
+                    title: t.settings,
+                    iconColor: Colors.grey,
+                    onTap: () {},
+                  ),
+
+                  profileTile(
+                    w: w,
+                    icon: Icons.info_outline,
+                    title: t.about,
+                    iconColor: Colors.purple,
+                    onTap: () {},
+                  ),
+
+                  profileTile(
+                    w: w,
+                    icon: Icons.description,
+                    title: t.terms,
+                    iconColor: Colors.blue,
+                    onTap: () {},
+                  ),
+
+                  profileTile(
+                    w: w,
+                    icon: Icons.privacy_tip,
+                    title: t.privacy,
+                    iconColor: Colors.red,
+                    onTap: () {},
+                  ),
+
+                  SizedBox(height: h * 0.03),
+
+                  /// 🚪 LOGOUT
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
+                            (route) => false,
+                      );
+                    },
+                    child: Container(
+                      width: w * 0.8,
+                      padding:
+                      EdgeInsets.symmetric(vertical: h * 0.015),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(w * 0.08),
+                        color: Colors.grey.shade200,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.logout,
+                              color: Colors.red, size: w * 0.05),
+                          SizedBox(width: w * 0.02),
+                          Text(
+                            t.logout,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: w * 0.04,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-
-                    SizedBox(height: h * 0.05),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -249,7 +243,39 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// ♻ REUSABLE PROFILE TILE
+  /// 🌍 LANGUAGE DIALOG
+  void _showLanguageDialog(BuildContext context) {
+    final langProvider = context.read<LanguageProvider>();
+    final t = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(t.selectLanguage),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: const Text("English"),
+              onTap: () {
+                langProvider.changeLanguage(const Locale('en'));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("हिन्दी"),
+              onTap: () {
+                langProvider.changeLanguage(const Locale('hi'));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// ♻ REUSABLE TILE
   Widget profileTile({
     required double w,
     required IconData icon,
@@ -264,10 +290,7 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: iconColor.withOpacity(0.2),
         child: Icon(icon, color: iconColor, size: w * 0.04),
       ),
-      title: Text(
-        title,
-        style: TextStyle(fontSize: w * 0.038),
-      ),
+      title: Text(title, style: TextStyle(fontSize: w * 0.038)),
       trailing: Icon(Icons.chevron_right, size: w * 0.05),
       onTap: onTap,
     );

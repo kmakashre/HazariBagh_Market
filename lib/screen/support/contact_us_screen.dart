@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../colors/AppColors.dart';
+import '../../l10n/app_localizations.dart';
 
 class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-
       body: SingleChildScrollView(
         padding: EdgeInsets.all(w * 0.04),
         child: Column(
@@ -21,8 +22,8 @@ class ContactUsScreen extends StatelessWidget {
               context: context,
               icon: Icons.call_rounded,
               color: Colors.blue,
-              title: "Call Us",
-              subtitle: "Mon - Sun (9:00 AM - 9:00 PM)",
+              title: loc.contactCallTitle,
+              subtitle: loc.contactCallSubtitle,
               actionText: "+91 98889 99999",
               onTap: () =>
                   launchUrl(Uri.parse("tel:+919888999999")),
@@ -34,9 +35,9 @@ class ContactUsScreen extends StatelessWidget {
               context: context,
               icon: Icons.chat_rounded,
               color: Colors.green,
-              title: "WhatsApp",
-              subtitle: "Quick support via WhatsApp",
-              actionText: "Chat Now",
+              title: loc.contactWhatsappTitle,
+              subtitle: loc.contactWhatsappSubtitle,
+              actionText: loc.contactWhatsappAction,
               onTap: () => launchUrl(
                 Uri.parse(
                     "https://wa.me/919888999999?text=Hello"),
@@ -49,8 +50,8 @@ class ContactUsScreen extends StatelessWidget {
               context: context,
               icon: Icons.email_rounded,
               color: Colors.red,
-              title: "Email Us",
-              subtitle: "We reply within 24 hours",
+              title: loc.contactEmailTitle,
+              subtitle: loc.contactEmailSubtitle,
               actionText: "support@hazaribagh.market",
               onTap: () => launchUrl(
                 Uri.parse(
@@ -79,7 +80,6 @@ class ContactUsScreen extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
-
       child: Container(
         padding: EdgeInsets.all(w * 0.04),
         decoration: BoxDecoration(
@@ -93,7 +93,6 @@ class ContactUsScreen extends StatelessWidget {
             ),
           ],
         ),
-
         child: Row(
           children: [
             /// ICON
@@ -122,9 +121,7 @@ class ContactUsScreen extends StatelessWidget {
                       color: AppColors.textDark,
                     ),
                   ),
-
                   SizedBox(height: h * 0.005),
-
                   Text(
                     subtitle,
                     style: TextStyle(
@@ -132,9 +129,7 @@ class ContactUsScreen extends StatelessWidget {
                       color: AppColors.textGrey,
                     ),
                   ),
-
                   SizedBox(height: h * 0.008),
-
                   Text(
                     actionText,
                     style: TextStyle(

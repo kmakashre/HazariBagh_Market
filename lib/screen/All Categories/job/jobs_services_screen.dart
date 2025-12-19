@@ -3,32 +3,33 @@ import 'package:provider/provider.dart';
 
 import '../../../provider/jobs_services_provider.dart';
 import '../../../widgets/top_header.dart';
+import '../../../l10n/app_localizations.dart';
 import 'job_details_screen.dart';
 
 /// 🎯 APP PRIMARY COLOR
-const Color primaryColor = Color(0xFF84B3B6); // #84b3b6
+const Color primaryColor = Color(0xFF84B3B6);
 
 class JobsServicesScreen extends StatelessWidget {
   const JobsServicesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final size = MediaQuery.of(context).size;
     final w = size.width;
     final h = size.height;
 
-    final tabProvider = Provider.of<JobsServicesProvider>(context);
-    final dataList = tabProvider.filteredList;
+    final provider = context.watch<JobsServicesProvider>();
+    final dataList = provider.filteredList;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: Column(
         children: [
           const TopHeader(),
-
           SizedBox(height: h * 0.015),
 
-          /// 🔙 BACK BUTTON (NO BACKGROUND)
+          /// 🔙 BACK
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.03),
             child: InkWell(
@@ -39,7 +40,7 @@ class JobsServicesScreen extends StatelessWidget {
                       color: primaryColor, size: w * 0.055),
                   SizedBox(width: w * 0.02),
                   Text(
-                    "Back",
+                    loc.back,
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: w * 0.045,
@@ -53,7 +54,7 @@ class JobsServicesScreen extends StatelessWidget {
 
           SizedBox(height: h * 0.015),
 
-          /// 🟦 HEADER BANNER
+          /// 🟦 HEADER
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.03),
             child: Container(
@@ -67,16 +68,16 @@ class JobsServicesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Jobs & Services",
+                    loc.jobsAndServices,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: w * 0.05,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: h * 0.004),
                   Text(
-                    "Find opportunities and professional services in Hazaribagh",
+                    loc.jobsServicesDesc,
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.95),
                       fontSize: w * 0.03,
@@ -101,16 +102,16 @@ class JobsServicesScreen extends StatelessWidget {
               child: Row(
                 children: [
                   _toggleTab(
-                    title: "Jobs",
-                    isActive: tabProvider.isJobsSelected,
-                    onTap: tabProvider.selectJobs,
+                    title: loc.jobs,
+                    isActive: provider.isJobsSelected,
+                    onTap: provider.selectJobs,
                     h: h,
                   ),
                   const SizedBox(width: 8),
                   _toggleTab(
-                    title: "Services",
-                    isActive: !tabProvider.isJobsSelected,
-                    onTap: tabProvider.selectServices,
+                    title: loc.services,
+                    isActive: !provider.isJobsSelected,
+                    onTap: provider.selectServices,
                     h: h,
                   ),
                 ],
@@ -120,7 +121,7 @@ class JobsServicesScreen extends StatelessWidget {
 
           SizedBox(height: h * 0.015),
 
-          /// 🎯 FILTER SECTION
+          /// 🎯 FILTER
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.03),
             child: Container(
@@ -139,13 +140,13 @@ class JobsServicesScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.tune, color: primaryColor),
                       const SizedBox(width: 6),
-                      const Text(
-                        "Filter By Category",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        loc.filterByCategory,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const Spacer(),
                       Text(
-                        "View All",
+                        loc.viewAll,
                         style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
@@ -160,18 +161,12 @@ class JobsServicesScreen extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      _filterChip(context, "All",
-                          tabProvider.selectedCategory == "All"),
-                      _filterChip(context, "IT & Software",
-                          tabProvider.selectedCategory == "IT & Software"),
-                      _filterChip(context, "Sales & Mark.",
-                          tabProvider.selectedCategory == "Sales & Mark."),
-                      _filterChip(context, "Healthcare",
-                          tabProvider.selectedCategory == "Healthcare"),
-                      _filterChip(context, "Education",
-                          tabProvider.selectedCategory == "Education"),
-                      _filterChip(context, "Logistics",
-                          tabProvider.selectedCategory == "Logistics"),
+                      _filterChip(context, loc.all, "all"),
+                      _filterChip(context, loc.itSoftware, "itSoftware"),
+                      _filterChip(context, loc.salesMarketing, "salesMarketing"),
+                      _filterChip(context, loc.healthcare, "healthcare"),
+                      _filterChip(context, loc.education, "education"),
+                      _filterChip(context, loc.logistics, "logistics"),
                     ],
                   ),
                 ],
@@ -179,19 +174,26 @@ class JobsServicesScreen extends StatelessWidget {
             ),
           ),
 
-          /// 🧾 GRID LIST
+          /// 🧾 GRID
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.all(w * 0.03),
               itemCount: dataList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate:
+              const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
                 childAspectRatio: 0.62,
               ),
               itemBuilder: (context, index) {
-                return _jobServiceCard(context, w, h, dataList[index]);
+                return _jobServiceCard(
+                  context,
+                  w,
+                  h,
+                  dataList[index],
+                  loc,
+                );
               },
             ),
           ),
@@ -230,18 +232,20 @@ class JobsServicesScreen extends StatelessWidget {
     );
   }
 
-  /// 🎴 JOB CARD (FULL CARD ON TAP)
+  /// 🎴 JOB CARD
   static Widget _jobServiceCard(
-      BuildContext context, double w, double h, Map<String, String> job) {
-
+      BuildContext context,
+      double w,
+      double h,
+      Map<String, String> job,
+      AppLocalizations loc,
+      ) {
     return InkWell(
       borderRadius: BorderRadius.circular(w * 0.04),
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const JobDetailsScreen(),
-          ),
+          MaterialPageRoute(builder: (_) => const JobDetailsScreen()),
         );
       },
       child: Container(
@@ -269,7 +273,7 @@ class JobsServicesScreen extends StatelessWidget {
             SizedBox(height: h * 0.008),
 
             Text(
-              job["title"]!,
+              loc.getByKey(job["titleKey"]!),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -279,7 +283,7 @@ class JobsServicesScreen extends StatelessWidget {
             ),
 
             Text(
-              job["company"]!,
+              loc.getByKey(job["companyKey"]!),
               style: TextStyle(
                 fontSize: w * 0.028,
                 color: Colors.grey,
@@ -289,8 +293,8 @@ class JobsServicesScreen extends StatelessWidget {
             SizedBox(height: h * 0.006),
 
             _jobRow(Icons.currency_rupee, job["salary"]!, w),
-            _jobRow(Icons.work, job["type"]!, w),
-            _jobRow(Icons.category, job["category"]!, w),
+            _jobRow(Icons.work, loc.getByKey(job["typeKey"]!), w),
+            _jobRow(Icons.category, loc.getByKey(job["categoryKey"]!), w),
 
             const Spacer(),
 
@@ -305,15 +309,10 @@ class JobsServicesScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const JobDetailsScreen(),
-                    ),
-                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> JobDetailsScreen()));
                 },
                 child: Text(
-                  "View Details",
+                  loc.viewDetails,
                   style: TextStyle(
                     fontSize: w * 0.03,
                     fontWeight: FontWeight.bold,
@@ -327,7 +326,6 @@ class JobsServicesScreen extends StatelessWidget {
       ),
     );
   }
-
 
   static Widget _jobRow(IconData icon, String title, double w) {
     return Row(
@@ -347,12 +345,13 @@ class JobsServicesScreen extends StatelessWidget {
   }
 
   static Widget _filterChip(
-      BuildContext context, String title, bool isActive) {
+      BuildContext context, String title, String key) {
     final provider =
     Provider.of<JobsServicesProvider>(context, listen: false);
+    final isActive = provider.selectedCategoryKey == key;
 
     return GestureDetector(
-      onTap: () => provider.selectCategory(title),
+      onTap: () => provider.selectCategory(key),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(

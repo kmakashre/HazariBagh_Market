@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../provider/store_provider.dart';
 
 class StoreDetailsScreen extends StatelessWidget {
@@ -8,16 +9,26 @@ class StoreDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final storeProvider = context.watch<StoreProvider>();
     final store = storeProvider.selectedStore;
 
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
+
     if (store == null) {
-      return const Scaffold(
-        body: Center(child: Text("No Store Selected")),
+      return Scaffold(
+        body: Center(
+          child: Text(
+            loc.noDataFound, // ✅ getter use
+            style: GoogleFonts.inter(
+              fontSize: w * 0.04,
+            ),
+          ),
+        ),
       );
     }
-
-    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -27,8 +38,11 @@ class StoreDetailsScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          store.name,
-          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+          loc.getByKey(store.nameKey),
+          style: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+            fontSize: w * 0.045,
+          ),
         ),
         flexibleSpace: const DecoratedBox(
           decoration: BoxDecoration(
@@ -48,22 +62,22 @@ class StoreDetailsScreen extends StatelessWidget {
               children: [
                 Image.asset(
                   store.image,
-                  height: size.height * 0.30,
+                  height: h * 0.30,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
                 Positioned(
-                  bottom: 16,
-                  left: 16,
-                  child: _ratingChip(store.rating),
+                  bottom: h * 0.02,
+                  left: w * 0.04,
+                  child: _ratingChip(store.rating, w),
                 ),
               ],
             ),
 
             /// 📦 CONTENT
             Container(
-              transform: Matrix4.translationValues(0, -20, 0),
-              padding: const EdgeInsets.all(16),
+              transform: Matrix4.translationValues(0, -h * 0.03, 0),
+              padding: EdgeInsets.all(w * 0.045),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -71,20 +85,24 @@ class StoreDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// STORE NAME
                   Text(
-                    store.name,
+                    loc.getByKey(store.nameKey),
                     style: GoogleFonts.inter(
-                      fontSize: 22,
+                      fontSize: w * 0.055,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
 
-                  const SizedBox(height: 6),
+                  SizedBox(height: h * 0.008),
 
                   /// CATEGORY
-                  _categoryChip(store.category),
+                  _categoryChip(
+                    loc.getByKey(store.categoryKey),
+                    w,
+                  ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: h * 0.02),
 
                   /// INFO ROW
                   Row(
@@ -93,45 +111,46 @@ class StoreDetailsScreen extends StatelessWidget {
                         icon: Icons.location_on,
                         text: store.distance,
                         color: Colors.red,
+                        w: w,
                       ),
-                      const SizedBox(width: 20),
+                      SizedBox(width: w * 0.05),
                       _infoItem(
                         icon: Icons.star,
                         text: store.rating.toString(),
                         color: Colors.orange,
+                        w: w,
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: h * 0.03),
                   Divider(color: Colors.grey.shade300),
-                  const SizedBox(height: 16),
+                  SizedBox(height: h * 0.02),
 
                   /// ABOUT
                   Text(
-                    "About Store",
+                    loc.aboutStore,
                     style: GoogleFonts.inter(
-                      fontSize: 18,
+                      fontSize: w * 0.045,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: h * 0.01),
                   Text(
-                    "This store provides quality products at affordable prices. "
-                        "Customer satisfaction and fast service is our priority.",
+                    loc.aboutStoreDesc,
                     style: GoogleFonts.inter(
-                      fontSize: 14,
+                      fontSize: w * 0.038,
                       height: 1.5,
                       color: Colors.grey.shade700,
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: h * 0.04),
 
                   /// VISIT BUTTON
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
+                    height: h * 0.065,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3670A3),
@@ -141,9 +160,9 @@ class StoreDetailsScreen extends StatelessWidget {
                       ),
                       onPressed: () {},
                       child: Text(
-                        "Visit Store",
+                        loc.visitStore,
                         style: GoogleFonts.inter(
-                          fontSize: 16,
+                          fontSize: w * 0.045,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),
@@ -160,9 +179,13 @@ class StoreDetailsScreen extends StatelessWidget {
   }
 
   /// 🔹 UI HELPERS
-  Widget _ratingChip(double rating) {
+
+  Widget _ratingChip(double rating, double w) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: EdgeInsets.symmetric(
+        horizontal: w * 0.025,
+        vertical: w * 0.015,
+      ),
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.6),
         borderRadius: BorderRadius.circular(8),
@@ -170,7 +193,7 @@ class StoreDetailsScreen extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.star, color: Colors.orange, size: 16),
-          const SizedBox(width: 4),
+          SizedBox(width: w * 0.01),
           Text(
             rating.toString(),
             style: GoogleFonts.inter(
@@ -183,9 +206,12 @@ class StoreDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _categoryChip(String category) {
+  Widget _categoryChip(String category, double w) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: w * 0.03,
+        vertical: w * 0.012,
+      ),
       decoration: BoxDecoration(
         color: Colors.blue.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
@@ -193,7 +219,7 @@ class StoreDetailsScreen extends StatelessWidget {
       child: Text(
         category,
         style: GoogleFonts.inter(
-          fontSize: 13,
+          fontSize: w * 0.032,
           color: const Color(0xFF3670A3),
           fontWeight: FontWeight.w600,
         ),
@@ -205,15 +231,16 @@ class StoreDetailsScreen extends StatelessWidget {
     required IconData icon,
     required String text,
     required Color color,
+    required double w,
   }) {
     return Row(
       children: [
-        Icon(icon, color: color, size: 18),
-        const SizedBox(width: 4),
+        Icon(icon, color: color, size: w * 0.045),
+        SizedBox(width: w * 0.01),
         Text(
           text,
           style: GoogleFonts.inter(
-            fontSize: 14,
+            fontSize: w * 0.035,
             fontWeight: FontWeight.w600,
           ),
         ),

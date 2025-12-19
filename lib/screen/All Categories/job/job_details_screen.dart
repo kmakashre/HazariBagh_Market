@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/top_header.dart';
+import '../../../l10n/app_localizations.dart';
 import 'job_apply_form_screen.dart';
 
 /// 🎯 PRIMARY COLOR
@@ -12,16 +13,14 @@ class JobDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
+    final loc = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-
       body: Column(
         children: [
-          /// 🔒 FIXED TOP HEADER
           const TopHeader(),
 
-          /// 🔽 SCROLLABLE CONTENT
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -41,7 +40,7 @@ class JobDetailsScreen extends StatelessWidget {
                               color: primaryColor, size: w * 0.055),
                           SizedBox(width: w * 0.02),
                           Text(
-                            "Back",
+                            loc.back,
                             style: TextStyle(
                               color: primaryColor,
                               fontSize: w * 0.04,
@@ -55,7 +54,7 @@ class JobDetailsScreen extends StatelessWidget {
 
                   SizedBox(height: h * 0.02),
 
-                  /// 🏢 JOB INFO CARD
+                  /// 🏢 JOB INFO
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: w * 0.03),
                     child: _card(
@@ -64,15 +63,13 @@ class JobDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleAvatar(
                                 radius: w * 0.08,
                                 backgroundColor:
                                 primaryColor.withOpacity(0.2),
                                 child: Icon(Icons.business,
-                                    color: primaryColor,
-                                    size: w * 0.07),
+                                    color: primaryColor, size: w * 0.07),
                               ),
                               SizedBox(width: w * 0.03),
                               Expanded(
@@ -80,7 +77,7 @@ class JobDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Tech Solutions Pvt Ltd",
+                                      loc.getByKey("techSolutions"),
                                       style: TextStyle(
                                         fontSize: w * 0.042,
                                         fontWeight: FontWeight.bold,
@@ -90,7 +87,7 @@ class JobDetailsScreen extends StatelessWidget {
                                     Chip(
                                       backgroundColor: primaryColor,
                                       label: Text(
-                                        "IT & Software",
+                                        loc.itSoftware,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: w * 0.032,
@@ -106,18 +103,25 @@ class JobDetailsScreen extends StatelessWidget {
                           SizedBox(height: h * 0.015),
 
                           _infoRow(
-                              Icons.location_on,
-                              "Indore – Hazaribagh (Work From Office)",
-                              w),
+                            Icons.location_on,
+                            loc.getByKey("jobLocation"),
+                            w,
+                          ),
                           _infoRow(
-                              Icons.currency_rupee, "Salary: 4–6 LPA", w),
+                            Icons.currency_rupee,
+                            loc.getByKey("jobSalary"),
+                            w,
+                          ),
                           _infoRow(
-                              Icons.work, "Experience: 2–4 Years", w),
+                            Icons.work,
+                            loc.getByKey("jobExperience"),
+                            w,
+                          ),
 
                           Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              "Posted: 2 days ago",
+                              loc.getByKey("jobPosted"),
                               style: TextStyle(
                                 fontSize: w * 0.03,
                                 color: Colors.grey,
@@ -134,9 +138,8 @@ class JobDetailsScreen extends StatelessWidget {
                   /// 📄 DESCRIPTION
                   _section(
                     w,
-                    title: "Description",
-                    content:
-                    "Looking for an experienced full stack developer.",
+                    title: loc.getByKey("description"),
+                    content: loc.getByKey("jobDescription"),
                   ),
 
                   SizedBox(height: h * 0.02),
@@ -144,8 +147,8 @@ class JobDetailsScreen extends StatelessWidget {
                   /// 🧠 SKILLS
                   _section(
                     w,
-                    title: "Required Skills",
-                    content: "React, Node.js, TypeScript, MongoDB",
+                    title: loc.getByKey("requiredSkills"),
+                    content: loc.getByKey("jobSkills"),
                   ),
 
                   SizedBox(height: h * 0.02),
@@ -153,9 +156,8 @@ class JobDetailsScreen extends StatelessWidget {
                   /// 📞 CONTACT
                   _section(
                     w,
-                    title: "Contact Information",
-                    content:
-                    "📞 +91-4321098765\n✉ careers@techsolutions.com",
+                    title: loc.getByKey("contactInformation"),
+                    content: loc.getByKey("jobContact"),
                   ),
 
                   SizedBox(height: h * 0.03),
@@ -181,9 +183,9 @@ class JobDetailsScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text(
-                                "Apply Now",
-                                style: TextStyle(color: Colors.white),
+                              child: Text(
+                                loc.getByKey("applyNow"),
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
@@ -194,7 +196,7 @@ class JobDetailsScreen extends StatelessWidget {
                             height: h * 0.055,
                             child: OutlinedButton(
                               onPressed: () {},
-                              child: const Text("Call Employer"),
+                              child: Text(loc.getByKey("callEmployer")),
                             ),
                           ),
                         ),
@@ -238,18 +240,11 @@ class JobDetailsScreen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: w * 0.042,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(title,
+                style: TextStyle(
+                    fontSize: w * 0.042, fontWeight: FontWeight.bold)),
             SizedBox(height: w * 0.02),
-            Text(
-              content,
-              style: TextStyle(fontSize: w * 0.034),
-            ),
+            Text(content, style: TextStyle(fontSize: w * 0.034)),
           ],
         ),
       ),
@@ -265,10 +260,7 @@ class JobDetailsScreen extends StatelessWidget {
           Icon(icon, size: w * 0.045, color: primaryColor),
           SizedBox(width: w * 0.02),
           Expanded(
-            child: Text(
-              text,
-              style: TextStyle(fontSize: w * 0.034),
-            ),
+            child: Text(text, style: TextStyle(fontSize: w * 0.034)),
           ),
         ],
       ),

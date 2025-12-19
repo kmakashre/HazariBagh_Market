@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../screen/All Categories/Property/property_listing_screen.dart';
 import '../screen/All Categories/agriculture_screen.dart';
 import '../screen/All Categories/automobile_screen.dart';
@@ -20,133 +19,114 @@ import '../screen/All Categories/water_screen.dart';
 import '../screen/All Categories/wholesale_screen.dart';
 import '../screen/All Categories/hotel/hotel_screen.dart';
 
-
+/// 🔹 MODEL
 class HomeCategoryModel {
   final String image;
-  final String title;
+  final String titleKey; // 🔥 localization key
   final Widget screen;
 
   HomeCategoryModel({
     required this.image,
-    required this.title,
+    required this.titleKey,
     required this.screen,
   });
 }
 
+/// 🔹 CATEGORY LIST
 final List<HomeCategoryModel> homeCategories = [
   HomeCategoryModel(
     image: "assets/Icons/job.png",
-    title: "Jobs in Hazaribagh",
+    titleKey: "jobs",
     screen: const JobsServicesScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/rental.png",
-    title: "Rental Property",
+    titleKey: "rentalProperty",
     screen: const PropertyListingScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/food.png",
-    title: "Online Food Delivery",
+    titleKey: "foodDelivery",
     screen: const FoodHomeScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/fashion.png",
-    title: "Fashion Store",
+    titleKey: "fashionStore",
     screen: const FashionScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/grocery.png",
-    title: "Grocery Store",
+    titleKey: "groceryStore",
     screen: const GroceryScreen(),
   ),
-
-
   HomeCategoryModel(
     image: "assets/Icons/hotel.png",
-    title: "Hotels & Restaurants",
+    titleKey: "hotelsRestaurants",
     screen: const HotelScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/20lWater.png",
-    title: "20L Water",
+    titleKey: "water",
     screen: const WaterScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/education.png",
-    title: "Education",
+    titleKey: "education",
     screen: const EducationScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/hospital.png",
-    title: "Hospital & Clinic",
+    titleKey: "hospital",
     screen: const HospitalScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/wholesale.png",
-    title: "Wholesale Suppliers",
+    titleKey: "wholesale",
     screen: const WholesaleScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/tour.png",
-    title: "Tour & Travels",
+    titleKey: "travel",
     screen: const TravelScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/hardware.png",
-    title: "Hardware Store",
+    titleKey: "hardware",
     screen: const HardwareScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/purchase.png",
-    title: "Purchase Plot & Land",
+    titleKey: "plotLand",
     screen: const PlotScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/images/purchaseFlat.png",
-    title: "Purchase Flat & Home",
+    titleKey: "purchaseHome",
     screen: const HomePurchaseScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/professional.png",
-    title: "Professional Services",
+    titleKey: "services",
     screen: const ServicesScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/Automobile.png",
-    title: "Automobile",
+    titleKey: "automobile",
     screen: const AutomobileScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/Government.png",
-    title: "Government Services",
+    titleKey: "government",
     screen: const GovernmentScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/transporation.png",
-    title: "Transportation",
+    titleKey: "transport",
     screen: const TransportScreen(),
   ),
-
   HomeCategoryModel(
     image: "assets/Icons/agriculture.png",
-    title: "Agriculture",
+    titleKey: "agriculture",
     screen: const AgricultureScreen(),
   ),
-
 ];

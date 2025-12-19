@@ -11,58 +11,50 @@ class MyOrdersScreen extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F0F0),
-
+      backgroundColor: const Color(0xFFF3F4F6),
       body: SafeArea(
         child: Column(
           children: [
 
-            /// 🔝 TOP HEADER
             const TopHeader(),
 
-            SizedBox(height: h * 0.015),
+            SizedBox(height: h * 0.01),
 
-            /// 📦 ORDERS LIST
             Expanded(
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(
-                  horizontal: w * 0.035,
-                  vertical: h * 0.01,
+                  horizontal: w * 0.04,
+                  vertical: h * 0.015,
                 ),
                 children: const [
-
-                  /// 🟧 PENDING ORDER
                   OrderCard(
                     orderId: "#K86ZHT1KZ",
-                    date: "Placed on 8 December 2025 at 05:45 PM",
-                    productName: "Basmati Rice 5kg",
-                    qty: "Qty: 1",
+                    date: "8 December 2025 | 05:45 PM",
+                    productKey: "basmatiRice",
+                    qty: 1,
                     price: "₹490",
-                    status: "Pending",
+                    statusKey: "pending",
                     statusColor: Colors.orange,
                     image: "assets/images/electronics.jpg",
                   ),
-
-                  /// 🟩 COMPLETED ORDER
                   OrderCard(
                     orderId: "#K86ZHT1KZ",
-                    date: "Placed on 8 December 2025 at 05:45 PM",
-                    productName: "Soyabin Oil",
-                    qty: "Qty: 1",
+                    date: "8 December 2025 | 05:45 PM",
+                    productKey: "soyabinOil",
+                    qty: 1,
                     price: "₹240",
-                    status: "Completed",
+                    statusKey: "completed",
                     statusColor: Colors.green,
                     image: "assets/images/clothe.jpg",
                   ),
-
-                  /// 🟥 CANCELLED ORDER
                   OrderCard(
                     orderId: "#K86ZHT1KZ",
-                    date: "Placed on 8 December 2025 at 05:45 PM",
-                    productName: "Biscuit",
-                    qty: "Qty: 1",
+                    date: "8 December 2025 | 05:45 PM",
+                    productKey: "biscuit",
+                    qty: 1,
                     price: "₹40",
-                    status: "Cancelled",
+                    statusKey: "cancelled",
                     statusColor: Colors.red,
                     image: "assets/images/electronics.jpg",
                   ),

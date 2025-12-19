@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hazari_bagh_market/widgets/top_header.dart';
+import '../../l10n/app_localizations.dart';
 import 'contact_us_screen.dart';
 import 'faq_screen.dart';
 import 'live_chat_screen.dart';
@@ -19,6 +20,7 @@ class _SupportPageState extends State<SupportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
@@ -37,13 +39,13 @@ class _SupportPageState extends State<SupportPage> {
             padding: EdgeInsets.symmetric(horizontal: w * 0.03),
             child: Row(
               children: [
-                _tabButton("Contact Us", 0, w, h),
+                _tabButton(loc.supportContactUs, 0, w, h),
                 SizedBox(width: w * 0.025),
-                _tabButton("Live Chat", 1, w, h),
+                _tabButton(loc.supportLiveChat, 1, w, h),
                 SizedBox(width: w * 0.025),
-                _tabButton("FAQs", 2, w, h),
+                _tabButton(loc.supportFaqs, 2, w, h),
                 SizedBox(width: w * 0.025),
-                _tabButton("Raise Complaint", 3, w, h),
+                _tabButton(loc.supportRaiseComplaint, 3, w, h),
               ],
             ),
           ),
@@ -73,9 +75,7 @@ class _SupportPageState extends State<SupportPage> {
 
     return InkWell(
       borderRadius: BorderRadius.circular(w * 0.03),
-      onTap: () {
-        setState(() => selectedIndex = index);
-      },
+      onTap: () => setState(() => selectedIndex = index),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         padding: EdgeInsets.symmetric(

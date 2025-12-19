@@ -3,9 +3,11 @@ import 'package:hazari_bagh_market/provider/store_provider.dart';
 import 'package:hazari_bagh_market/screen/all_store_screen.dart';
 import 'package:hazari_bagh_market/screen/categories/view_store_screen.dart';
 import 'package:provider/provider.dart';
+
 import '../../Model/home_model.dart';
 import '../../Model/store_model.dart';
 import '../../all_categories_screen.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/top_header.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -23,6 +25,7 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
     final w = size.width;
     final h = size.height;
@@ -44,18 +47,23 @@ class CategoryScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Categories",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      Text(
+                        loc.categories,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const AllCategoriesScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => const AllCategoriesScreen(),
+                          ),
                         ),
-                        child: const Text(
-                          "View All",
-                          style: TextStyle(
+                        child: Text(
+                          loc.viewAll,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Color(0xFF3670A3),
                             fontWeight: FontWeight.bold,
@@ -105,7 +113,7 @@ class CategoryScreen extends StatelessWidget {
                               Image.asset(item.image, height: w * 0.12),
                               SizedBox(height: w * 0.02),
                               Text(
-                                item.title,
+                                loc.getByKey(item.titleKey), // ✅ FIX
                                 maxLines: 2,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -128,7 +136,7 @@ class CategoryScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "Explore Stores By Category & \nDistance",
+                          loc.nearbyStores, // ✅ localized
                           style: TextStyle(
                             fontSize: w * 0.045,
                             fontWeight: FontWeight.bold,
@@ -138,11 +146,13 @@ class CategoryScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const AllStoreScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => const AllStoreScreen(),
+                          ),
                         ),
-                        child: const Text(
-                          "View All",
-                          style: TextStyle(
+                        child: Text(
+                          loc.viewAll,
+                          style: const TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
                           ),
@@ -153,9 +163,9 @@ class CategoryScreen extends StatelessWidget {
 
                   SizedBox(height: h * 0.015),
 
-                  /// 🔥 STORE CARD LIST (FULL CARD CLICKABLE)
+                  /// 🔥 STORE CARD LIST
                   SizedBox(
-                    height: h * 0.25, // ⬅️ flexible but safe height
+                    height: h * 0.25,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: nearbyStores.length,
@@ -166,7 +176,7 @@ class CategoryScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14),
                           onTap: () => _openStore(context, store),
                           child: Container(
-                            width: w * 0.40, // ⬅️ responsive width
+                            width: w * 0.40,
                             margin: const EdgeInsets.only(right: 12),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -183,7 +193,7 @@ class CategoryScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
 
-                                /// 🖼 IMAGE (ASPECT RATIO BASED)
+                                /// 🖼 IMAGE
                                 AspectRatio(
                                   aspectRatio: 16 / 9,
                                   child: ClipRRect(
@@ -202,10 +212,12 @@ class CategoryScreen extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.all(w * 0.03),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          store.name,
+                                          AppLocalizations.of(context).getByKey( loc.getByKey(store.nameKey),
+                                          ),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -213,11 +225,10 @@ class CategoryScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
-
                                         const SizedBox(height: 6),
-
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               store.distance,
@@ -235,24 +246,26 @@ class CategoryScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-
                                         const Spacer(),
 
                                         /// 🔘 BUTTON
                                         SizedBox(
                                           width: double.infinity,
-                                          height: 40, // ⬅️ minimum touch size
+                                          height: 40,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color(0xFF3670A3),
+                                              backgroundColor:
+                                              const Color(0xFF3670A3),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8),
+                                                borderRadius:
+                                                BorderRadius.circular(8),
                                               ),
                                             ),
-                                            onPressed: () => _openStore(context, store),
-                                            child: const Text(
-                                              "Visit Store",
-                                              style: TextStyle(
+                                            onPressed: () =>
+                                                _openStore(context, store),
+                                            child: Text(
+                                              loc.visitStore,
+                                              style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w600,
@@ -271,7 +284,6 @@ class CategoryScreen extends StatelessWidget {
                       },
                     ),
                   ),
-
 
                   SizedBox(height: h * 0.03),
 
@@ -298,20 +310,20 @@ class CategoryScreen extends StatelessWidget {
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
                         Text(
-                          "Special Weekend Offer!",
-                          style: TextStyle(
+                          loc.specialWeekend,
+                          style: const TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 6),
+                        const SizedBox(height: 6),
                         Text(
-                          "Get flat 30% off on all orders",
-                          style: TextStyle(
+                          loc.flatOff,
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                           ),

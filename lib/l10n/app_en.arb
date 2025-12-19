@@ -1,0 +1,72 @@
+{
+  "welcomeUser": "Welcome, User!",
+  "discoverStores": "Discover local stores & amazing deals",
+
+  "exploreStores": "Explore stores by category & distance",
+  "visitStore": "Visit Store",
+
+  "off50": "50% OFF",
+  "bigSale": "Big Sale this Week!",
+  "grocerySale": "On all grocery items",
+
+  "categories": "Categories",
+  "nearbyStores": "Nearby Stores",
+  "viewAll": "View All",
+
+  "weekendOffer": "Special Weekend\nOffer!",
+  "flatDiscount": "Get flat 30% off on all orders\nabove ₹999",
+
+  "back": "Back",
+  "editProfile": "Edit Profile",
+  "generalSettings": "General Settings",
+  "mode": "Mode",
+  "darkLight": "Dark & Light",
+  "language": "Language",
+  "settings": "Settings",
+  "about": "About",
+  "terms": "Terms & Conditions",
+  "privacy": "Privacy Policy",
+  "rateApp": "Rate This App",
+  "shareApp": "Share This App",
+  "logout": "Logout",
+  "selectLanguage": "Select Language",
+
+  "jobs": "Jobs in Hazaribagh",
+  "rentalProperty": "Rental Property",
+  "foodDelivery": "Online Food Delivery",
+  "fashionStore": "Fashion Store",
+  "groceryStore": "Grocery Store",
+  "hotelsRestaurants": "Hotels & Restaurants",
+  "water": "20L Water",
+  "education": "Education",
+  "hospital": "Hospital & Clinic",
+  "wholesale": "Wholesale Suppliers",
+  "travel": "Tour & Travels",
+  "hardware": "Hardware Store",
+  "plotLand": "Purchase Plot & Land",
+  "purchaseHome": "Purchase Flat & Home",
+  "services": "Professional Services",
+  "automobile": "Automobile",
+  "government": "Government Services",
+  "transport": "Transportation",
+  "agriculture": "Agriculture",
+
+
+  "placedOn": "Placed on",
+  "qty": "Qty",
+
+
+  "pending": "Pending",
+  "completed": "Completed",
+  "cancelled": "Cancelled",
+
+
+  "basmatiRice": "Basmati Rice 5kg",
+  "soyabinOil": "Soyabin Oil",
+  "biscuit": "Biscuit",
+
+
+  "sharmaGrocery": "Sharma Grocery Store",
+  "deliciousFood": "Delicious Food Point",
+  "fashionHub": "Fashion Hub"
+}

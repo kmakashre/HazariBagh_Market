@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/top_header.dart';
+import '../../../l10n/app_localizations.dart';
 
 class JobApplyFormScreen extends StatelessWidget {
   const JobApplyFormScreen({super.key});
@@ -12,6 +13,7 @@ class JobApplyFormScreen extends StatelessWidget {
     final mq = MediaQuery.of(context).size;
     final width = mq.width;
     final height = mq.height;
+    final loc = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -19,7 +21,6 @@ class JobApplyFormScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// 🔵 TOP HEADER
             const TopHeader(),
 
@@ -28,13 +29,11 @@ class JobApplyFormScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   SizedBox(height: height * 0.015),
 
                   /// 🔙 BACK & TITLE
                   InkWell(
                     onTap: () => Navigator.pop(context),
-                    borderRadius: BorderRadius.circular(8),
                     child: Row(
                       children: [
                         Icon(
@@ -44,7 +43,7 @@ class JobApplyFormScreen extends StatelessWidget {
                         ),
                         SizedBox(width: width * 0.02),
                         Text(
-                          "Apply For Job",
+                          loc.getByKey("applyForJob"),
                           style: TextStyle(
                             color: primaryColor,
                             fontSize: width * 0.038,
@@ -59,7 +58,7 @@ class JobApplyFormScreen extends StatelessWidget {
 
                   /// SUBTITLE
                   Text(
-                    "Applying For Full Stack Developer (Tech Solutions Pvt Ltd)",
+                    loc.getByKey("applyJobSubtitle"),
                     style: TextStyle(
                       fontSize: width * 0.032,
                       color: Colors.grey.shade700,
@@ -78,16 +77,30 @@ class JobApplyFormScreen extends StatelessWidget {
                       padding: EdgeInsets.all(width * 0.04),
                       child: Column(
                         children: [
-
-                          _buildTextField(width, "Full Name", "Enter your full name"),
-                          _buildTextField(width, "Phone Number", "+91-1234567890"),
-                          _buildTextField(width, "Email", "your.email@example.com"),
-                          _buildTextField(width, "Total Exp.", "e.g. 2 years"),
-
+                          _buildTextField(
+                            width,
+                            loc.getByKey("fullName"),
+                            loc.getByKey("fullNameHint"),
+                          ),
+                          _buildTextField(
+                            width,
+                            loc.getByKey("phoneNumber"),
+                            loc.getByKey("phoneHint"),
+                          ),
+                          _buildTextField(
+                            width,
+                            loc.getByKey("email"),
+                            loc.getByKey("emailHint"),
+                          ),
+                          _buildTextField(
+                            width,
+                            loc.getByKey("totalExperience"),
+                            loc.getByKey("experienceHint"),
+                          ),
                           _buildMultiLineField(
                             width,
-                            "Cover Letter / Resume",
-                            "Why are you a good fit for this position?",
+                            loc.getByKey("coverLetter"),
+                            loc.getByKey("coverLetterHint"),
                           ),
 
                           SizedBox(height: height * 0.02),
@@ -100,12 +113,13 @@ class JobApplyFormScreen extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(width * 0.025),
+                                  borderRadius:
+                                  BorderRadius.circular(width * 0.025),
                                 ),
                               ),
                               onPressed: () {},
                               child: Text(
-                                "Submit Application",
+                                loc.getByKey("submitApplication"),
                                 style: TextStyle(
                                   fontSize: width * 0.04,
                                   fontWeight: FontWeight.bold,

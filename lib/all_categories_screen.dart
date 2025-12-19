@@ -4,6 +4,7 @@ import 'package:hazari_bagh_market/colors/AppColors.dart';
 
 import '../../Model/home_model.dart';
 import '../../widgets/top_header.dart';
+import '../../l10n/app_localizations.dart';
 
 class AllCategoriesScreen extends StatelessWidget {
   const AllCategoriesScreen({super.key});
@@ -14,6 +15,9 @@ class AllCategoriesScreen extends StatelessWidget {
     final w = size.width;
     final h = size.height;
 
+    /// 🔥 Localization instance
+    final loc = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: Column(
@@ -23,7 +27,7 @@ class AllCategoriesScreen extends StatelessWidget {
 
           SizedBox(height: h * 0.01),
 
-          /// 🔙 BACK + TITLE BAR
+          /// 🔙 BACK BAR
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.04),
             child: InkWell(
@@ -38,7 +42,7 @@ class AllCategoriesScreen extends StatelessWidget {
                   ),
                   SizedBox(width: w * 0.02),
                   Text(
-                    "Back",
+                    loc.back,
                     style: GoogleFonts.inter(
                       color: AppColors.darkOverlay,
                       fontSize: w * 0.045,
@@ -50,8 +54,7 @@ class AllCategoriesScreen extends StatelessWidget {
             ),
           ),
 
-
-          /// 🔲 GRID VIEW
+          /// 🔲 CATEGORY GRID
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.all(w * 0.04),
@@ -109,7 +112,8 @@ class AllCategoriesScreen extends StatelessWidget {
                             padding:
                             const EdgeInsets.symmetric(horizontal: 6),
                             child: Text(
-                              item.title,
+                              /// 🔥 LOCALIZED CATEGORY NAME
+                              loc.getByKey(item.titleKey),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,

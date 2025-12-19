@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../colors/AppColors.dart';
 import '../../provider/chat_Provider.dart';
+import '../../l10n/app_localizations.dart';
 
 class LiveChatScreen extends StatelessWidget {
   LiveChatScreen({super.key});
@@ -12,7 +13,8 @@ class LiveChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chat = Provider.of<ChatProvider>(context);
+    final chat = context.watch<ChatProvider>();
+    final loc = AppLocalizations.of(context);
 
     final size = MediaQuery.of(context).size;
     final w = size.width;
@@ -20,7 +22,6 @@ class LiveChatScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.bgLight,
-
       body: Center(
         child: Container(
           width: w * 0.90,
@@ -57,7 +58,7 @@ class LiveChatScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Live Chat Support",
+                      loc.liveChatTitle,
                       style: GoogleFonts.inter(
                         color: AppColors.white,
                         fontSize: w * 0.05,
@@ -66,7 +67,7 @@ class LiveChatScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "Typically replies within minutes.",
+                      loc.liveChatSubtitle,
                       style: GoogleFonts.inter(
                         color: AppColors.white.withOpacity(0.85),
                         fontSize: w * 0.035,
@@ -154,7 +155,7 @@ class LiveChatScreen extends StatelessWidget {
                           ),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Type your message...",
+                            hintText: loc.chatHint,
                             hintStyle: GoogleFonts.inter(
                               color: AppColors.textGrey,
                               fontSize: w * 0.036,
