@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context); // ✅ CORRECT
+    final loc = AppLocalizations.of(context);
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
     final provider = context.watch<HomeProvider>();

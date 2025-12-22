@@ -1,233 +1,318 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hazari_bagh_market/screen/home/home_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../../colors/AppColors.dart';
 import '../../provider/auth_provider.dart';
-import '../flash_screen.dart';
 import 'otp_verification_screen.dart';
-import 'registration_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late TapGestureRecognizer privacyTap;
+  late TapGestureRecognizer termsTap;
+
+  @override
+  void initState() {
+    super.initState();
+    privacyTap = TapGestureRecognizer();
+    termsTap = TapGestureRecognizer();
+  }
+
+  @override
+  void dispose() {
+    privacyTap.dispose();
+    termsTap.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-    final mq = MediaQuery.of(context).size;
-    final height = mq.height;
-    final width = mq.width;
+    final size = MediaQuery.of(context).size;
 
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const FlashScreen()),
-        );
-        return false;
-      },
-      child: Scaffold(
-        body: Stack(
-          children: [
+    return Scaffold(
+      body: Stack(
+        children: [
 
-            /// 🔵 BACKGROUND IMAGE
-            SizedBox(
-              height: height,
-              width: width,
-              child: Image.asset(
-                "assets/images/loginbg.png",
-                fit: BoxFit.cover,
-              ),
+          /// 🔹 BACKGROUND IMAGE
+          SizedBox(
+            height: size.height,
+            width: size.width,
+            child: Image.asset(
+              "assets/images/loginbg.png",
+              fit: BoxFit.cover,
             ),
+          ),
 
-            /// 🔵 DARK OVERLAY
-            Container(
-              height: height,
-              width: width,
-              color: AppColors.darkOverlay,
-            ),
+          /// 🔹 DARK OVERLAY
+          Container(color: Colors.black.withOpacity(0.6)),
 
-            /// 🔵 MAIN CONTENT
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.07),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
+          /// 🔹 CONTENT
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
 
-                    SizedBox(height: height * 0.12),
+                  SizedBox(height: size.height * 0.09),
 
-                    /// 🔵 LOGO
-                    Container(
-                      padding: EdgeInsets.all(width * 0.03),
-                      decoration: BoxDecoration(
+                  /// 🔹 LOGO (EXACT MATCH)
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primary,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.primary,
+                        color: Colors.white,
                       ),
-                      child: Container(
-                        padding: EdgeInsets.all(width * 0.03),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.white,
-                        ),
-                        child: Image.asset(
-                          "assets/images/logo.png",
-                          height: width * 0.22,
-                          width: width * 0.22,
-                        ),
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        height: 68,
+                        width: 68,
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: height * 0.02),
+                  const SizedBox(height: 16),
 
-                    Text(
-                      "Sign in with your mobile number or Google",
-                      textAlign: TextAlign.center,
+                  /// 🔹 SUB TITLE
+                  const Text(
+                    "Sign in with your mobile number or Google",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                    ),
+                  ),
+
+                  const SizedBox(height: 26),
+
+                  /// 🔹 MOBILE LABEL
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Mobile number",
                       style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: width * 0.035,
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: height * 0.03),
+                  const SizedBox(height: 6),
 
-                    /// 🔵 MOBILE INPUT
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.inputBackground,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.phone,
-                        maxLength: 10,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        onChanged: auth.setMobile,
-                        decoration: const InputDecoration(
-                          counterText: "",
-                          prefixText: "+91 ",
-                          border: InputBorder.none,
-                          hintText: "Enter mobile number",
-                        ),
+                  /// 🔹 MOBILE INPUT
+                  Container(
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextField(
+                      maxLength: 10,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      onChanged: auth.setMobile,
+                      decoration: const InputDecoration(
+                        counterText: "",
+                        prefixText: "+91  ",
+                        hintText: "Enter Your Number",
+                        border: InputBorder.none,
+                        contentPadding:
+                        EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: height * 0.02),
+                  const SizedBox(height: 18),
 
-                    /// 🔵 SEND OTP BUTTON
-                    SizedBox(
-                      width: double.infinity,
-                      height: height * 0.06,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: auth.loading
-                            ? null
-                            : () async {
-                          if (auth.mobile.length == 10) {
-                            final success =
-                            await auth.sendOtp();
-
-                            if (success && context.mounted) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const OtpVerificationScreen(),
-                                ),
-                              );
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Please enter valid mobile number"),
-                              ),
-                            );
-                          }
-                        },
-
-                        child: auth.loading
-                            ? const CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        )
-                            : Text(
-                          "Send OTP",
-                          style: TextStyle(
-                            fontSize: width * 0.045,
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
+                  /// 🔹 SEND OTP BUTTON
+                  SizedBox(
+                    width: double.infinity,
+                    height: 46,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF3E7CB1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: const BorderSide(color: Colors.white),
                         ),
                       ),
-                    ),
-
-                    SizedBox(height: height * 0.05),
-
-                    /// 🔵 GOOGLE LOGIN
-                    SizedBox(
-                      width: double.infinity,
-                      height: height * 0.055,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.white,
-                        ),
-                        icon: Image.asset(
-                          "assets/Icons/google.png",
-                          height: 20,
-                        ),
-                        label: const Text(
-                          "Sign in with Google",
-                          style: TextStyle(color: AppColors.black),
-                        ),
-                        onPressed: () {
-                          auth.googleSignIn();
-                        },
-                      ),
-                    ),
-
-
-
-                    SizedBox(height: height * 0.03),
-
-                    /// 🔵 REGISTER
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "New Users? ",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => RegistrationScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            "Register Here",
-                            style: TextStyle(
-                              color: AppColors.linkBlue,
-                              fontWeight: FontWeight.bold,
+                      onPressed: auth.loading
+                          ? null
+                          : () async {
+                        // ✅ Mobile number validation
+                        if (auth.mobile.length != 10) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Enter valid mobile number"),
                             ),
+                          );
+                          return;
+                        }
+
+                        // ✅ Send OTP
+                        final bool success = await auth.sendOtp();
+
+                        // ✅ Navigate to OTP screen
+                        if (success && context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const OtpVerificationScreen(),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(auth.message)),
+                          );
+                        }
+                      },
+                      child: auth.loading
+                          ? const CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      )
+                          : const Text(
+                        "Send OTP",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  /// 🔹 OR DIVIDER
+                  Row(
+                    children: const [
+                      Expanded(child: Divider(color: Colors.white30)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          "or",
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                      Expanded(child: Divider(color: Colors.white30)),
+                    ],
+                  ),
+
+                  const SizedBox(height: 22),
+
+                  /// 🔹 GOOGLE BUTTON
+                  SizedBox(
+                    width: double.infinity,
+                    height: 44,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      icon: Image.asset(
+                        "assets/Icons/google.png",
+                        height: 20,
+                      ),
+                      label: const Text(
+                        "Sign in with Google",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                        ),
+                      ),
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 22),
+
+                  /// 🔹 REGISTER
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "New Users? ",
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      Text(
+                        "Register Here",
+                        style: TextStyle(
+                          color: AppColors.linkBlue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  /// 🔹 PRIVACY & TERMS (CLICKABLE)
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 11,
+                      ),
+                      children: [
+                        const TextSpan(
+                          text: "By signing in you agree to our ",
+                        ),
+                        TextSpan(
+                          text: "Privacy\nPolicy",
+                          style: const TextStyle(
+                            color: AppColors.linkBlue,
+                            fontWeight: FontWeight.w500,
                           ),
+                          recognizer: privacyTap
+                            ..onTap = () {
+                              debugPrint("Privacy Policy clicked");
+                            },
+                        ),
+                        const TextSpan(text: " and "),
+                        TextSpan(
+                          text: "Terms.",
+                          style: const TextStyle(
+                            color: AppColors.linkBlue,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          recognizer: termsTap
+                            ..onTap = () {
+                              debugPrint("Terms clicked");
+                            },
                         ),
                       ],
                     ),
+                  ),
 
-                    SizedBox(height: height * 0.04),
-                  ],
-                ),
+                  const SizedBox(height: 30),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -41,7 +41,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
 
                   SizedBox(height: mq.height * 0.02),
 
-                  /// 🔙 BACK BUTTON (arrow + text both clickable)
+                  ///  BACK BUTTON (arrow + text both clickable)
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: mq.width * 0.04),
                     child: InkWell(

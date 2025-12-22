@@ -9,7 +9,7 @@ import 'product_list_screen.dart';
 class GroceryScreen extends StatelessWidget {
   const GroceryScreen({super.key});
 
-  /// 🟢 GROCERY CARD
+  ///  GROCERY CARD
   Widget _groceryCard(BuildContext context, GroceryItem item, double w) {
     return InkWell(
       borderRadius: BorderRadius.circular(14),

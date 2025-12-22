@@ -22,7 +22,7 @@ class _VendorDashboardHomeScreenState
     VendorDashboardScreen(),
     VendorProductsScreen(),
     VendorOrdersScreen(),
-    VendorProfileScreen(), // Analytics / Profile
+    VendorProfileScreen(),
   ];
 
   @override

@@ -21,7 +21,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
           SizedBox(height: h * 0.015),
 
-          /// 🔙 BACK + TITLE
+          ///  BACK + TITLE
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.04),
             child: Row(

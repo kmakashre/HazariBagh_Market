@@ -34,7 +34,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               padding: EdgeInsets.only(bottom: mq.height * 0.03),
               child: Column(
                 children: [
-                  /// 🔙 BACK + TITLE
+                  ///  BACK + TITLE
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: mq.width * 0.04,

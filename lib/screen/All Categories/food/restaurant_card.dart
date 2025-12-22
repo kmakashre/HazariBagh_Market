@@ -61,7 +61,7 @@ class RestaurantCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            /// 🖼 IMAGE
+            ///  IMAGE
             ClipRRect(
               borderRadius: BorderRadius.circular(w * 0.03),
               child: Image.asset(

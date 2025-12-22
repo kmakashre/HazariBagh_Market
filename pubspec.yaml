@@ -36,7 +36,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # ✅ THIS IS THE CORRECT PLACE
+  #  THIS IS THE CORRECT PLACE
   generate: true
 
   assets:

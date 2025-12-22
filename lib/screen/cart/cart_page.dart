@@ -28,7 +28,7 @@ class CartScreen extends StatelessWidget {
             );
           }
 
-          /// 🔑 GROUP ITEMS BY STORE
+          ///  GROUP ITEMS BY STORE
           final Map<String, List<Map<String, dynamic>>> groupedItems = {};
           for (var item in cart.cartItems) {
             final store = item["store"] ?? "Unknown Store";

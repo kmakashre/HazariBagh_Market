@@ -14,7 +14,7 @@ class FashionScreen extends StatefulWidget {
 class _FashionScreenState extends State<FashionScreen>
     with SingleTickerProviderStateMixin {
 
-  /// 🌸 PRIMARY THEME COLOR
+  ///  PRIMARY THEME COLOR
   static const Color themeColor = Color(0xFF9C89B8);
 
   /// ✅ SELECTED CATEGORY

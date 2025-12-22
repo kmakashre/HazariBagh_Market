@@ -26,7 +26,7 @@ class AddToCartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      /// 🔝 APP BAR
+      ///  APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,

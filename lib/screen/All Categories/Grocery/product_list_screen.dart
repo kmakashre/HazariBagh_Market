@@ -26,7 +26,7 @@ class ProductListScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: Column(
         children: [
-          /// 🔝 TOP HEADER
+          ///  TOP HEADER
           const TopHeader(),
 
           /// 🔙 BACK + TITLE

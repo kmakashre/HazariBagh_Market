@@ -42,7 +42,7 @@ class HotelCategoryCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            /// 🖼 IMAGE
+            ///  IMAGE
             Expanded(
               flex: 7,
               child: ClipRRect(

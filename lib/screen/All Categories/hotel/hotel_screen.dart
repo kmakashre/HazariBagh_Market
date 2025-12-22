@@ -21,7 +21,7 @@ class HotelScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          /// 🔝 TOP HEADER
+          ///  TOP HEADER
           const TopHeader(),
 
           /// 🔙 BACK BUTTON + TITLE

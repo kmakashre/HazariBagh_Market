@@ -41,7 +41,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             ),
           ),
 
-          /// 🔹 DARK OVERLAY
+          ///  DARK OVERLAY
           Container(color: AppColors.darkOverlay),
 
           SafeArea(

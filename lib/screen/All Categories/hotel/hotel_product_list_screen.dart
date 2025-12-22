@@ -31,7 +31,7 @@ class HotelProductListScreen extends StatelessWidget {
           /// 🔝 TOP HEADER
           const TopHeader(),
 
-          /// 🔙 BACK BUTTON + TITLE
+          ///  BACK BUTTON + TITLE
           Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: 8),
             child: Row(

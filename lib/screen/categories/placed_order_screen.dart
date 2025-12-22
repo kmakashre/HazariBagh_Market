@@ -89,7 +89,7 @@ class _PlacedOrderScreenState extends State<PlacedOrderScreen> {
 
                   SizedBox(height: mq.height * 0.02),
 
-                  // 🛒 PRODUCT
+                  //  PRODUCT
                   _buildBox(
                     mq,
                     Row(

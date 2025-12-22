@@ -19,7 +19,7 @@ class ViewStoreScreen extends StatelessWidget {
           children: [
             const TopHeader(),
 
-            /// 🔙 TITLE BAR
+            ///  TITLE BAR
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: w * 0.04,

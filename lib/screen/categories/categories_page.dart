@@ -13,7 +13,7 @@ import '../../widgets/top_header.dart';
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 
-  /// 🔥 COMMON METHOD (Card + Button dono ke liye)
+  ///  COMMON METHOD (Card + Button dono ke liye)
   void _openStore(BuildContext context, StoreModel store) {
     Provider.of<StoreProvider>(context, listen: false).setStore(store);
 

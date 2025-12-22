@@ -56,7 +56,7 @@ class SalonCard extends StatelessWidget {
                     ),
                     SizedBox(height: h * 0.006),
 
-                    /// ⭐ RATING
+                    /// RATING
                     Row(
                       children: [
                         Container(

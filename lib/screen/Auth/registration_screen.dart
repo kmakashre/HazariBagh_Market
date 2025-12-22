@@ -249,7 +249,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF3670A3),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> VendorDashboardHomeScreen()));
+                        },
                         child: Text(
                           "Register & Continue",
                           style: GoogleFonts.poppins(

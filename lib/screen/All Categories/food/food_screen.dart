@@ -17,7 +17,7 @@ class FoodHomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          /// 🔝 FIXED HEADER
+          ///  FIXED HEADER
           const TopHeader(),
 
           /// 🔽 SCROLLABLE CONTENT

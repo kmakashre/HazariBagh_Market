@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hazari_bagh_market/screen/categories/TrackOrderScreen.dart';
 import 'package:hazari_bagh_market/screen/home/home_screen.dart';
 import '../../widgets/top_header.dart';
 
@@ -85,6 +86,7 @@ class NotificationScreen extends StatelessWidget {
               padding: EdgeInsets.all(w * 0.04),
               children: [
                 _notificationCard(
+                  context: context,
                   w: w,
                   image: "assets/images/clothe.jpg",
                   transactionId: "A23B567K",
@@ -93,6 +95,7 @@ class NotificationScreen extends StatelessWidget {
                   price: "₹12,000",
                 ),
                 _notificationCard(
+                  context: context,
                   w: w,
                   image: "assets/images/clothe.jpg",
                   transactionId: "A23B567K",
@@ -101,6 +104,7 @@ class NotificationScreen extends StatelessWidget {
                   price: "₹15,000",
                 ),
                 _notificationCard(
+                  context: context,
                   w: w,
                   image: "assets/images/clothe.jpg",
                   transactionId: "A23B567K",
@@ -109,6 +113,7 @@ class NotificationScreen extends StatelessWidget {
                   price: "₹18,000",
                 ),
                 _notificationCard(
+                  context: context,
                   w: w,
                   image: "assets/images/clothe.jpg",
                   transactionId: "A23B567K",
@@ -117,6 +122,7 @@ class NotificationScreen extends StatelessWidget {
                   price: "₹9,000",
                 ),
                 _notificationCard(
+                  context: context,
                   w: w,
                   image: "assets/images/clothe.jpg",
                   transactionId: "A23B567K",
@@ -134,6 +140,7 @@ class NotificationScreen extends StatelessWidget {
 
   /// 🔔 SINGLE NOTIFICATION CARD
   static Widget _notificationCard({
+    required BuildContext context,
     required double w,
     required String image,
     required String transactionId,
@@ -217,7 +224,9 @@ class NotificationScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(w * 0.02),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>TrackOrderScreen()));
+              },
               child: Text(
                 "Track",
                 style: TextStyle(

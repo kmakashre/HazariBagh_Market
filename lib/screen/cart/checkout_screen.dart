@@ -22,7 +22,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       backgroundColor: Colors.grey.shade100,
       body: Column(
         children: [
-          /// 🔝 TOP BAR
+          ///  TOP BAR
           Container(
             color: primaryColor,
             padding: EdgeInsets.symmetric(
