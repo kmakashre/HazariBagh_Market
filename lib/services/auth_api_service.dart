@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../Model/user_model.dart';
 
 class AuthApiService {
   static const String baseUrl = "http://192.168.29.166:5678/user";
@@ -37,4 +38,39 @@ class AuthApiService {
       throw Exception("Verify OTP failed");
     }
   }
+
+  /// ✅ GET USER PROFILE (FINAL & CLEAN)
+  static Future<UserProfileResponse> getUserProfile(String token) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/profile"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return UserProfileResponse.fromJson(
+        jsonDecode(response.body),
+      );
+    } else {
+      throw Exception("Failed to load user profile");
+    }
+  }
+
+  static Future<void> deleteAccount(String token) async {
+    final response = await http.delete(
+      Uri.parse("$baseUrl/delete"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to delete account");
+    }
+  }
+
+
 }

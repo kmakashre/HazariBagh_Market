@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../User/screen/categories/categories_page.dart';
+import '../User/screen/home/home_screen.dart';
+import '../User/screen/orders/orders_page.dart';
+import '../User/screen/support/support_page.dart';
 import '../l10n/app_localizations.dart';
-import '../screen/categories/categories_page.dart';
-import '../screen/home/home_screen.dart';
-import '../screen/orders/orders_page.dart';
-import '../screen/support/support_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

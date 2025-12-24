@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/cart_provider.dart';
-import '../screen/cart/cart_page.dart';
-import '../screen/profile_screen.dart';
-import '../screen/search_screen.dart';
-import '../screen/notification_screen.dart';
+import '../User/provider/cart_provider.dart';
+import '../User/screen/cart/cart_page.dart';
+import '../User/screen/notification_screen.dart';
+import '../User/screen/profile_screen.dart';
+import '../User/screen/search_screen.dart';
 import '../colors/AppColors.dart';
 
 class TopHeader extends StatelessWidget {

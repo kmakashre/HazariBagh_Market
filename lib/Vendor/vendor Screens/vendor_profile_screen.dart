@@ -1,14 +1,283 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../User/provider/theme_provider.dart';
 
 class VendorProfileScreen extends StatelessWidget {
   const VendorProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "Vendor Profile Screen",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    final w = MediaQuery.of(context).size.width;
+    final h = MediaQuery.of(context).size.height;
+
+    final theme = Theme.of(context);
+    final themeProvider = context.watch<ThemeProvider>();
+
+    final isDark = themeProvider.isDarkMode;
+    final primary = theme.colorScheme.primary;
+
+    // 🌗 Adaptive Colors (Perfect for both modes)
+    final bgColor = isDark
+        ? const Color(0xFF121212)
+        : const Color(0xFFF5F7FA);
+
+    final tileColor = isDark
+        ? const Color(0xFF1E1E1E)
+        : Colors.white;
+
+    final shadowColor = isDark
+        ? Colors.black.withOpacity(0.4)
+        : Colors.black.withOpacity(0.08);
+
+    final textColor = isDark ? Colors.white : Colors.black87;
+
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(w * 0.045),
+        child: Column(
+          children: [
+            /// 👤 PROFILE HEADER
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.05,
+                vertical: h * 0.025,
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    primary,
+                    primary.withOpacity(0.85),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: w * 0.14,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: w * 0.13,
+                      backgroundImage:
+                      const AssetImage("assets/images/shop.png"),
+                    ),
+                  ),
+                  SizedBox(height: h * 0.018),
+                  Text(
+                    "Ramesh General Store",
+                    style: TextStyle(
+                      fontSize: w * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: h * 0.006),
+                  Text(
+                    "📞 9876543210",
+                    style: TextStyle(
+                      fontSize: w * 0.035,
+                      color: Colors.white.withOpacity(0.85),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: h * 0.04),
+
+            /// ⚙ PROFILE OPTIONS
+            _profileTile(
+              context,
+              icon: Icons.edit,
+              title: "Edit Profile",
+              onTap: () {},
+              tileColor: tileColor,
+              shadowColor: shadowColor,
+              primary: primary,
+              textColor: textColor,
+              isDark: isDark,
+            ),
+            _profileTile(
+              context,
+              icon: Icons.store,
+              title: "Business Details",
+              onTap: () {},
+              tileColor: tileColor,
+              shadowColor: shadowColor,
+              primary: primary,
+              textColor: textColor,
+              isDark: isDark,
+            ),
+            _profileTile(
+              context,
+              icon: Icons.account_balance,
+              title: "Bank & Payments",
+              onTap: () {},
+              tileColor: tileColor,
+              shadowColor: shadowColor,
+              primary: primary,
+              textColor: textColor,
+              isDark: isDark,
+            ),
+            _profileTile(
+              context,
+              icon: Icons.lock_outline,
+              title: "Change Password",
+              onTap: () {},
+              tileColor: tileColor,
+              shadowColor: shadowColor,
+              primary: primary,
+              textColor: textColor,
+              isDark: isDark,
+            ),
+            _profileTile(
+              context,
+              icon: Icons.help_outline,
+              title: "Help & Support",
+              onTap: () {},
+              tileColor: tileColor,
+              shadowColor: shadowColor,
+              primary: primary,
+              textColor: textColor,
+              isDark: isDark,
+            ),
+
+            /// 🌗 DARK MODE SWITCH
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: tileColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 6,
+                  ),
+                ],
+              ),
+              child: SwitchListTile(
+                contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                secondary: CircleAvatar(
+                  backgroundColor:
+                  primary.withOpacity(isDark ? 0.25 : 0.15),
+                  child: Icon(
+                    isDark ? Icons.dark_mode : Icons.light_mode,
+                    color: primary,
+                  ),
+                ),
+                title: Text(
+                  "Dark Mode",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: textColor,
+                  ),
+                ),
+                value: isDark,
+                onChanged: themeProvider.toggleTheme,
+              ),
+            ),
+
+            SizedBox(height: h * 0.03),
+
+            /// 🚪 LOGOUT BUTTON
+            InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () {
+                // TODO: Clear token & navigate to login
+              },
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: h * 0.02),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? Colors.red.withOpacity(0.18)
+                      : Colors.red.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.red.withOpacity(isDark ? 0.45 : 0.3),
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.logout, color: Colors.red),
+                    SizedBox(width: 10),
+                    Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 🔹 PROFILE TILE WIDGET
+  Widget _profileTile(
+      BuildContext context, {
+        required IconData icon,
+        required String title,
+        required VoidCallback onTap,
+        required Color tileColor,
+        required Color shadowColor,
+        required Color primary,
+        required Color textColor,
+        required bool isDark,
+      }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(
+        color: tileColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor,
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: ListTile(
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        leading: CircleAvatar(
+          backgroundColor:
+          primary.withOpacity(isDark ? 0.25 : 0.12),
+          child: Icon(icon, color: primary),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+            color: textColor,
+          ),
+        ),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: textColor.withOpacity(0.5),
+        ),
+        onTap: onTap,
       ),
     );
   }

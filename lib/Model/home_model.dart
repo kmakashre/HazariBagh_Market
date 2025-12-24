@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import '../screen/All Categories/Property/property_listing_screen.dart';
-import '../screen/All Categories/agriculture_screen.dart';
-import '../screen/All Categories/automobile_screen.dart';
-import '../screen/All Categories/education_screen.dart';
-import '../screen/All Categories/fashion/fashion_screen.dart';
-import '../screen/All Categories/food/food_screen.dart';
-import '../screen/All Categories/government_screen.dart';
-import '../screen/All Categories/Grocery/grocery_screen.dart';
-import '../screen/All Categories/hardware_screen.dart';
-import '../screen/All Categories/home_purchase_screen.dart';
-import '../screen/All Categories/hospital_screen.dart';
-import '../screen/All Categories/job/jobs_services_screen.dart';
-import '../screen/All Categories/plot_screen.dart';
-import '../screen/All Categories/services_screen.dart';
-import '../screen/All Categories/transport_screen.dart';
-import '../screen/All Categories/travel_screen.dart';
-import '../screen/All Categories/water_screen.dart';
-import '../screen/All Categories/wholesale_screen.dart';
-import '../screen/All Categories/hotel/hotel_screen.dart';
+
+import '../User/screen/All Categories/Grocery/grocery_screen.dart';
+import '../User/screen/All Categories/Property/property_listing_screen.dart';
+import '../User/screen/All Categories/agriculture_screen.dart';
+import '../User/screen/All Categories/automobile_screen.dart';
+import '../User/screen/All Categories/education_screen.dart';
+import '../User/screen/All Categories/fashion/fashion_screen.dart';
+import '../User/screen/All Categories/food/food_screen.dart';
+import '../User/screen/All Categories/government_screen.dart';
+import '../User/screen/All Categories/hardware_screen.dart';
+import '../User/screen/All Categories/home_purchase_screen.dart';
+import '../User/screen/All Categories/hospital_screen.dart';
+import '../User/screen/All Categories/hotel/hotel_screen.dart';
+import '../User/screen/All Categories/job/jobs_services_screen.dart';
+import '../User/screen/All Categories/plot_screen.dart';
+import '../User/screen/All Categories/services_screen.dart';
+import '../User/screen/All Categories/transport_screen.dart';
+import '../User/screen/All Categories/travel_screen.dart';
+import '../User/screen/All Categories/water_screen.dart';
+import '../User/screen/All Categories/wholesale_screen.dart';
 
 /// 🔹 MODEL
 class HomeCategoryModel {

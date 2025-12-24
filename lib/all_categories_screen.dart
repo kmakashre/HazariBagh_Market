@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hazari_bagh_market/colors/AppColors.dart';
 
 import '../../Model/home_model.dart';
 import '../../widgets/top_header.dart';
@@ -15,11 +14,14 @@ class AllCategoriesScreen extends StatelessWidget {
     final w = size.width;
     final h = size.height;
 
-    /// 🔥 Localization instance
     final loc = AppLocalizations.of(context);
 
+    /// 🎨 THEME
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: colors.background,
       body: Column(
         children: [
           /// 🔵 TOP HEADER
@@ -37,14 +39,14 @@ class AllCategoriesScreen extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.arrow_back,
-                    color: AppColors.darkOverlay,
+                    color: colors.onBackground,
                     size: w * 0.055,
                   ),
                   SizedBox(width: w * 0.02),
                   Text(
                     loc.back,
                     style: GoogleFonts.inter(
-                      color: AppColors.darkOverlay,
+                      color: colors.onBackground,
                       fontSize: w * 0.045,
                       fontWeight: FontWeight.w600,
                     ),
@@ -63,6 +65,7 @@ class AllCategoriesScreen extends StatelessWidget {
                 crossAxisCount: 3,
                 mainAxisSpacing: 14,
                 crossAxisSpacing: 14,
+                childAspectRatio: 0.85,
               ),
               itemBuilder: (context, index) {
                 final item = homeCategories[index];
@@ -76,20 +79,22 @@ class AllCategoriesScreen extends StatelessWidget {
                     child: Opacity(opacity: value, child: child),
                   ),
                   child: GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        transitionDuration:
-                        const Duration(milliseconds: 300),
-                        pageBuilder: (_, animation, __) => FadeTransition(
-                          opacity: animation,
-                          child: item.screen,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration:
+                          const Duration(milliseconds: 300),
+                          pageBuilder: (_, animation, __) => FadeTransition(
+                            opacity: animation,
+                            child: item.screen,
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: colors.surface,
                         borderRadius: BorderRadius.circular(18),
                         boxShadow: [
                           BoxShadow(
@@ -102,17 +107,20 @@ class AllCategoriesScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          /// 🖼 ICON / IMAGE
                           Image.asset(
                             item.image,
                             height: w * 0.13,
                             fit: BoxFit.contain,
                           ),
+
                           SizedBox(height: h * 0.012),
+
+                          /// 📛 TITLE (Localized)
                           Padding(
                             padding:
                             const EdgeInsets.symmetric(horizontal: 6),
                             child: Text(
-                              /// 🔥 LOCALIZED CATEGORY NAME
                               loc.getByKey(item.titleKey),
                               textAlign: TextAlign.center,
                               maxLines: 2,
@@ -120,7 +128,7 @@ class AllCategoriesScreen extends StatelessWidget {
                               style: GoogleFonts.inter(
                                 fontSize: w * 0.032,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black87,
+                                color: colors.onSurface,
                               ),
                             ),
                           ),
