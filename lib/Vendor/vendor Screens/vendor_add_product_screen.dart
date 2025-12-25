@@ -1,4 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+
+import '../VendorProvider/product_provider.dart';
+import '../models/product_model.dart';
 
 class VendorAddProductScreen extends StatefulWidget {
   const VendorAddProductScreen({super.key});
@@ -8,19 +15,21 @@ class VendorAddProductScreen extends StatefulWidget {
       _VendorAddProductScreenState();
 }
 
-class _VendorAddProductScreenState
-    extends State<VendorAddProductScreen> {
-
+class _VendorAddProductScreenState extends State<VendorAddProductScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController nameCtrl = TextEditingController();
-  final TextEditingController priceCtrl = TextEditingController();
-  final TextEditingController stockCtrl = TextEditingController();
-  final TextEditingController descCtrl = TextEditingController();
+  final shopCtrl = TextEditingController();
+  final nameCtrl = TextEditingController();
+  final priceCtrl = TextEditingController();
+  final stockCtrl = TextEditingController();
+  final descCtrl = TextEditingController();
 
   String selectedCategory = "Select Category";
+  File? productImage;
 
-  final List<String> categories = [
+  final ImagePicker picker = ImagePicker();
+
+  final categories = [
     "Grocery",
     "Restaurant",
     "Electronics",
@@ -28,158 +37,246 @@ class _VendorAddProductScreenState
     "Services",
   ];
 
+  /// 🔐 Permission + Image Picker
+  Future<void> pickImage(ImageSource source) async {
+    try {
+      if (source == ImageSource.camera) {
+        final status = await Permission.camera.request();
+        if (!status.isGranted) return;
+      }
+
+      final XFile? image = await picker.pickImage(
+        source: source,
+        imageQuality: 70,
+      );
+
+      if (image != null) {
+        setState(() {
+          productImage = File(image.path);
+        });
+      }
+    } catch (e) {
+      debugPrint("Image pick error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
+    final provider = context.read<ProductProvider>();
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(w * 0.05),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return Scaffold(
 
-            /// 🧾 TITLE
-            Text(
-              "Add New Product",
-              style: TextStyle(
-                fontSize: w * 0.055,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(w * 0.05),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
 
-            const SizedBox(height: 20),
-
-            /// 🖼 IMAGE PICKER (UI ONLY)
-            Container(
-              height: 140,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.add_a_photo, size: 36),
-                  SizedBox(height: 6),
-                  Text("Add Product Image"),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            _inputField(
-              controller: nameCtrl,
-              label: "Product Name",
-              icon: Icons.shopping_bag,
-            ),
-
-            const SizedBox(height: 14),
-
-            _inputField(
-              controller: priceCtrl,
-              label: "Price (₹)",
-              icon: Icons.currency_rupee,
-              keyboard: TextInputType.number,
-            ),
-
-            const SizedBox(height: 14),
-
-            _inputField(
-              controller: stockCtrl,
-              label: "Stock Quantity",
-              icon: Icons.inventory,
-              keyboard: TextInputType.number,
-            ),
-
-            const SizedBox(height: 14),
-
-            /// 📂 CATEGORY
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedCategory,
-                  isExpanded: true,
-                  items: [
-                    const DropdownMenuItem(
-                      value: "Select Category",
-                      child: Text("Select Category"),
-                    ),
-                    ...categories.map(
-                          (cat) => DropdownMenuItem(
-                        value: cat,
-                        child: Text(cat),
-                      ),
+              /// 📸 IMAGE PICKER
+              GestureDetector(
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                  builder: (_) => _imagePickerSheet(),
+                ),
+                child: Container(
+                  height: 170,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey.shade300),
+                    image: productImage != null
+                        ? DecorationImage(
+                      image: FileImage(productImage!),
+                      fit: BoxFit.cover,
                     )
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      selectedCategory = value!;
-                    });
-                  },
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 14),
-
-            /// 📝 DESCRIPTION
-            TextFormField(
-              controller: descCtrl,
-              maxLines: 4,
-              decoration: InputDecoration(
-                labelText: "Description",
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            /// ✅ SUBMIT
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF3B73A8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+                        : null,
+                  ),
+                  child: productImage == null
+                      ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.camera_alt_outlined,
+                          size: 42, color: Colors.grey.shade600),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Add Product Image",
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  )
+                      : Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(
+                        color: Colors.black54,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.edit,
+                          color: Colors.white, size: 18),
+                    ),
                   ),
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+              ),
+
+              const SizedBox(height: 22),
+
+              _inputField(
+                controller: shopCtrl,
+                label: "Shop Name",
+                icon: Icons.store,
+              ),
+              const SizedBox(height: 14),
+
+              _inputField(
+                controller: nameCtrl,
+                label: "Product Name",
+                icon: Icons.shopping_bag,
+              ),
+              const SizedBox(height: 14),
+
+              _inputField(
+                controller: priceCtrl,
+                label: "Price (₹)",
+                icon: Icons.currency_rupee,
+                keyboard: TextInputType.number,
+              ),
+              const SizedBox(height: 14),
+
+              _inputField(
+                controller: stockCtrl,
+                label: "Stock Quantity",
+                icon: Icons.inventory,
+                keyboard: TextInputType.number,
+              ),
+              const SizedBox(height: 14),
+
+              DropdownButtonFormField<String>(
+                value: selectedCategory,
+                validator: (v) =>
+                v == "Select Category" ? "Select category" : null,
+                items: [
+                  const DropdownMenuItem(
+                    value: "Select Category",
+                    child: Text("Select Category"),
+                  ),
+                  ...categories.map(
+                        (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
+                  ),
+                ],
+                onChanged: (v) => setState(() => selectedCategory = v!),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              TextFormField(
+                controller: descCtrl,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: "Description",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              /// ✅ SUBMIT
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B73A8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) return;
+
+                    if (productImage == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Please add product image"),
+                        ),
+                      );
+                      return;
+                    }
+
+                    provider.addProduct(
+                      ProductModel(
+                        id: DateTime.now().toString(),
+                        shopName: shopCtrl.text,
+                        name: nameCtrl.text,
+                        price: double.parse(priceCtrl.text),
+                        stock: int.parse(stockCtrl.text),
+                        category: selectedCategory,
+                        description: descCtrl.text,
+                        imagePath: productImage!.path,
+                      ),
+                    );
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text("Product Added Successfully"),
                       ),
                     );
-                  }
-                },
-                child: const Text(
-                  "Add Product",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Add Product",
+                    style:
+                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  /// 📸 Bottom Sheet
+  Widget _imagePickerSheet() {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text("Camera"),
+            onTap: () {
+              Navigator.pop(context);
+              pickImage(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo),
+            title: const Text("Gallery"),
+            onTap: () {
+              Navigator.pop(context);
+              pickImage(ImageSource.gallery);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -197,11 +294,8 @@ class _VendorAddProductScreenState
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-        filled: true,
-        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide.none,
         ),
       ),
     );

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../VendorProvider/vendor_reports_provider.dart';
+import '../models/report_model.dart';
 
 class VendorReportsScreen extends StatelessWidget {
   const VendorReportsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final provider = context.watch<VendorReportsProvider>();
 
     final bgColor =
     isDark ? const Color(0xFF0F172A) : const Color(0xFFF6F8FC);
@@ -22,126 +28,89 @@ class VendorReportsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      body: Padding(
-        padding: EdgeInsets.all(w * 0.04),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// 📊 TITLE
-              Text(
-                "Reports & Analytics",
-                style: TextStyle(
-                  fontSize: w * 0.055,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(w * 0.045),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Reports & Analytics",
+                  style: TextStyle(
+                    fontSize: w * 0.055,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 16),
+                SizedBox(height: h * 0.02),
 
-              /// 💰 SUMMARY CARDS
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 1.3,
-                children: [
-                  _ReportCard(
-                    title: "Total Sales",
-                    value: "₹52,340",
-                    icon: Icons.currency_rupee,
-                    color: Colors.green,
-                    cardColor: cardColor,
-                    textColor: textColor,
-                    subTextColor: subTextColor,
-                    shadowColor: shadowColor,
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: provider.summaryCards.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: w > 600 ? 4 : 2,
+                    crossAxisSpacing: w * 0.03,
+                    mainAxisSpacing: h * 0.02,
+                    childAspectRatio: w > 600 ? 1.6 : 1.3,
                   ),
-                  _ReportCard(
-                    title: "Total Orders",
-                    value: "1,245",
-                    icon: Icons.shopping_cart,
-                    color: Colors.blue,
-                    cardColor: cardColor,
-                    textColor: textColor,
-                    subTextColor: subTextColor,
-                    shadowColor: shadowColor,
-                  ),
-                  _ReportCard(
-                    title: "Today Revenue",
-                    value: "₹1,280",
-                    icon: Icons.today,
-                    color: Colors.orange,
-                    cardColor: cardColor,
-                    textColor: textColor,
-                    subTextColor: subTextColor,
-                    shadowColor: shadowColor,
-                  ),
-                  _ReportCard(
-                    title: "Monthly Revenue",
-                    value: "₹18,900",
-                    icon: Icons.bar_chart,
-                    color: Colors.purple,
-                    cardColor: cardColor,
-                    textColor: textColor,
-                    subTextColor: subTextColor,
-                    shadowColor: shadowColor,
-                  ),
-                ],
-              ),
+                  itemBuilder: (_, index) {
+                    final ReportModel item =
+                    provider.summaryCards[index];
 
-              const SizedBox(height: 24),
+                    return ReportCard(
+                      title: item.title,
+                      value: item.value,
+                        icon: item.icon,
 
-              /// 📈 SALES SUMMARY
-              Text(
-                "Sales Summary",
-                style: TextStyle(
-                  fontSize: w * 0.045,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                  color: cardColor,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowColor,
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _SummaryRow(
-                      title: "Today Orders",
-                      value: "24",
+                      color: Color(item.colorCode),
+                      cardColor: cardColor,
                       textColor: textColor,
-                    ),
-                    _SummaryRow(
-                      title: "Completed Orders",
-                      value: "1,180",
-                      textColor: textColor,
-                    ),
-                    _SummaryRow(
-                      title: "Cancelled Orders",
-                      value: "65",
-                      textColor: textColor,
-                    ),
-                  ],
+                      subTextColor: subTextColor,
+                      shadowColor: shadowColor,
+                      w: w,
+                    );
+                  },
                 ),
-              ),
-            ],
+
+                SizedBox(height: h * 0.035),
+
+                Text(
+                  "Sales Summary",
+                  style: TextStyle(
+                    fontSize: w * 0.045,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                  ),
+                ),
+
+                SizedBox(height: h * 0.015),
+
+                Container(
+                  padding: EdgeInsets.all(w * 0.045),
+                  decoration: BoxDecoration(
+                    color: cardColor,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowColor,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: provider.salesSummary.entries.map((e) {
+                      return SummaryRow(
+                        title: e.key,
+                        value: e.value,
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -149,8 +118,8 @@ class VendorReportsScreen extends StatelessWidget {
   }
 }
 
-/// 🔹 REPORT CARD
-class _ReportCard extends StatelessWidget {
+/// ✅ PUBLIC REPORT CARD
+class ReportCard extends StatelessWidget {
   final String title;
   final String value;
   final IconData icon;
@@ -159,8 +128,10 @@ class _ReportCard extends StatelessWidget {
   final Color textColor;
   final Color subTextColor;
   final Color shadowColor;
+  final double w;
 
-  const _ReportCard({
+  const ReportCard({
+    super.key,
     required this.title,
     required this.value,
     required this.icon,
@@ -169,12 +140,13 @@ class _ReportCard extends StatelessWidget {
     required this.textColor,
     required this.subTextColor,
     required this.shadowColor,
+    required this.w,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(w * 0.035),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -182,7 +154,6 @@ class _ReportCard extends StatelessWidget {
           BoxShadow(
             color: shadowColor,
             blurRadius: 6,
-            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -197,7 +168,7 @@ class _ReportCard extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: w * 0.045,
               fontWeight: FontWeight.bold,
               color: textColor,
             ),
@@ -205,7 +176,7 @@ class _ReportCard extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: w * 0.032,
               color: subTextColor,
             ),
           ),
@@ -215,39 +186,36 @@ class _ReportCard extends StatelessWidget {
   }
 }
 
-/// 🔹 SUMMARY ROW
-class _SummaryRow extends StatelessWidget {
+/// ✅ PUBLIC SUMMARY ROW
+class SummaryRow extends StatelessWidget {
   final String title;
   final String value;
-  final Color textColor;
 
-  const _SummaryRow({
+  const SummaryRow({
+    super.key,
     required this.title,
     required this.value,
-    required this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final w = MediaQuery.of(context).size.width;
+    final textColor =
+    Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: w * 0.015),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: textColor,
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          ),
+          Text(title,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600, color: textColor)),
+          Text(value,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: textColor)),
         ],
       ),
     );

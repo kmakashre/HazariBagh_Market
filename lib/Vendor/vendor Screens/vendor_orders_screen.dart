@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../VendorProvider/order_provider.dart';
+import '../models/order_model.dart';
 
 class VendorOrdersScreen extends StatelessWidget {
   const VendorOrdersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final bgColor =
     isDark ? const Color(0xFF0F172A) : const Color(0xFFF6F8FC);
@@ -20,66 +25,87 @@ class VendorOrdersScreen extends StatelessWidget {
     final shadowColor =
     isDark ? Colors.black.withOpacity(0.35) : Colors.black.withOpacity(0.08);
 
+    final orderProvider = context.watch<OrderProvider>();
+
     return Scaffold(
       backgroundColor: bgColor,
-      body: Padding(
-        padding: EdgeInsets.all(w * 0.04),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// 🧾 TITLE
-            Text(
-              "Orders",
-              style: TextStyle(
-                fontSize: w * 0.055,
-                fontWeight: FontWeight.bold,
-                color: textColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(w * 0.045),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// 🧾 TITLE
+              Text(
+                "Orders",
+                style: TextStyle(
+                  fontSize: w * 0.055,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 16),
+              SizedBox(height: h * 0.025),
 
-            /// 📦 ORDER LIST
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return _orderCard(
-                    w,
-                    cardColor,
-                    textColor,
-                    subTextColor,
-                    shadowColor,
-                    isDark,
-                  );
-                },
+              /// 📦 ORDER LIST
+              Expanded(
+                child: ListView.builder(
+                  itemCount: orderProvider.orders.length,
+                  itemBuilder: (context, index) {
+                    final order = orderProvider.orders[index];
+                    return _orderCard(
+                      w: w,
+                      h: h,
+                      order: order,
+                      cardColor: cardColor,
+                      textColor: textColor,
+                      subTextColor: subTextColor,
+                      shadowColor: shadowColor,
+                      isDark: isDark,
+                      onAccept: () =>
+                          orderProvider.acceptOrder(index),
+                      onReject: () =>
+                          orderProvider.rejectOrder(index),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _orderCard(
-      double w,
-      Color cardColor,
-      Color textColor,
-      Color subTextColor,
-      Color shadowColor,
-      bool isDark,
-      ) {
+  Widget _orderCard({
+    required double w,
+    required double h,
+    required OrderModel order,
+    required Color cardColor,
+    required Color textColor,
+    required Color subTextColor,
+    required Color shadowColor,
+    required bool isDark,
+    required VoidCallback onAccept,
+    required VoidCallback onReject,
+  }) {
+    final statusColor = order.status == "Delivered"
+        ? Colors.green
+        : order.status == "Pending"
+        ? Colors.orange
+        : Colors.red;
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: h * 0.02),
+      padding: EdgeInsets.all(w * 0.04),
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
             color: shadowColor,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -91,7 +117,7 @@ class VendorOrdersScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Customer: Rahul Sharma",
+                order.customer,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: w * 0.038,
@@ -99,78 +125,96 @@ class VendorOrdersScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(
+                  horizontal: w * 0.035,
+                  vertical: h * 0.006,
+                ),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(isDark ? 0.25 : 0.15),
+                  color: statusColor.withOpacity(isDark ? 0.25 : 0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text(
-                  "Pending",
+                child: Text(
+                  order.status,
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: statusColor,
                     fontWeight: FontWeight.w600,
+                    fontSize: w * 0.032,
                   ),
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: h * 0.012),
 
-          /// 🛒 ORDER DETAILS
           Text(
-            "Order ID: #ORD1023",
-            style: TextStyle(color: subTextColor),
+            "Order ID: ${order.orderId}",
+            style: TextStyle(
+              color: subTextColor,
+              fontSize: w * 0.032,
+            ),
           ),
 
-          const SizedBox(height: 6),
+          SizedBox(height: h * 0.006),
 
           Text(
-            "Amount: ₹450",
+            order.amount,
             style: TextStyle(
+              fontSize: w * 0.042,
               fontWeight: FontWeight.bold,
-              fontSize: w * 0.04,
               color: textColor,
             ),
           ),
 
-          const SizedBox(height: 14),
+          SizedBox(height: h * 0.02),
 
-          /// 🔘 ACTION BUTTONS
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+          /// ⚙ ACTION BUTTONS
+          if (order.status == "Pending")
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: onReject,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.red,
+                      side: const BorderSide(color: Colors.red),
+                      padding: EdgeInsets.symmetric(
+                        vertical: h * 0.014,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(
+                      "Reject",
+                      style: TextStyle(fontSize: w * 0.036),
                     ),
                   ),
-                  onPressed: () {},
-                  child: const Text("Accept"),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                SizedBox(width: w * 0.03),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: onAccept,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(
+                        vertical: h * 0.014,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(
+                      "Accept",
+                      style: TextStyle(
+                        fontSize: w * 0.036,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                  onPressed: () {},
-                  child: const Text("Reject"),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
     );

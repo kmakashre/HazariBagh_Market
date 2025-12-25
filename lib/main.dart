@@ -19,7 +19,11 @@ import 'User/provider/support_provider.dart';
 import 'User/provider/theme_provider.dart';
 import 'User/screen/splash_screen.dart';
 import 'Vendor/VendorProvider/dashboard_provider.dart';
+import 'Vendor/VendorProvider/order_provider.dart';
+import 'Vendor/VendorProvider/product_provider.dart';
 import 'Vendor/VendorProvider/vendor_bottom_nav_provider.dart';
+import 'Vendor/VendorProvider/vendor_profile_provider.dart';
+import 'Vendor/VendorProvider/vendor_reports_provider.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
@@ -34,7 +38,6 @@ void main() {
         ChangeNotifierProvider(create: (_) => JobsServicesProvider()),
         ChangeNotifierProvider(create: (_) => PropertyProvider()),
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
-        ChangeNotifierProvider(create: (_) => VendorBottomNavProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => SupportProvider()),
         ChangeNotifierProvider(create: (_) => ChatProvider()),
@@ -44,6 +47,11 @@ void main() {
         ChangeNotifierProvider(create: (_) => FoodProvider()),
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => VendorProfileProvider()),
+        ChangeNotifierProvider(create: (_) => VendorReportsProvider()),
+        ChangeNotifierProvider(create: (_) => VendorBottomNavProvider()),
       ],
       child: const MyApp(),
     ),
@@ -56,7 +64,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
-    final languageProvider = context.watch<LanguageProvider>(); // ✅ ADD THIS
+    final languageProvider = context.watch<LanguageProvider>();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

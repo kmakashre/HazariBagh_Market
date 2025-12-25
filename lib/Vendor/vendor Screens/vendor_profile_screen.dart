@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../User/provider/theme_provider.dart';
+import '../VendorProvider/vendor_profile_provider.dart';
 
 class VendorProfileScreen extends StatelessWidget {
   const VendorProfileScreen({super.key});
@@ -12,22 +14,19 @@ class VendorProfileScreen extends StatelessWidget {
 
     final theme = Theme.of(context);
     final themeProvider = context.watch<ThemeProvider>();
+    final profile = context.watch<VendorProfileProvider>();
 
     final isDark = themeProvider.isDarkMode;
     final primary = theme.colorScheme.primary;
 
-    // 🌗 Adaptive Colors (Perfect for both modes)
-    final bgColor = isDark
-        ? const Color(0xFF121212)
-        : const Color(0xFFF5F7FA);
+    final bgColor =
+    isDark ? const Color(0xFF121212) : const Color(0xFFF5F7FA);
 
-    final tileColor = isDark
-        ? const Color(0xFF1E1E1E)
-        : Colors.white;
+    final tileColor =
+    isDark ? const Color(0xFF1E1E1E) : Colors.white;
 
-    final shadowColor = isDark
-        ? Colors.black.withOpacity(0.4)
-        : Colors.black.withOpacity(0.08);
+    final shadowColor =
+    isDark ? Colors.black.withOpacity(0.4) : Colors.black.withOpacity(0.08);
 
     final textColor = isDark ? Colors.white : Colors.black87;
 
@@ -69,13 +68,15 @@ class VendorProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: CircleAvatar(
                       radius: w * 0.13,
-                      backgroundImage:
-                      const AssetImage("assets/images/shop.png"),
+                      backgroundImage: profile.profileImage != null
+                          ? FileImage(profile.profileImage!)
+                          : const AssetImage("assets/images/girl.jpg")
+                      as ImageProvider,
                     ),
                   ),
                   SizedBox(height: h * 0.018),
                   Text(
-                    "Ramesh General Store",
+                    profile.shopName,
                     style: TextStyle(
                       fontSize: w * 0.05,
                       fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class VendorProfileScreen extends StatelessWidget {
                   ),
                   SizedBox(height: h * 0.006),
                   Text(
-                    "📞 9876543210",
+                    "📞 ${profile.phone}",
                     style: TextStyle(
                       fontSize: w * 0.035,
                       color: Colors.white.withOpacity(0.85),
@@ -96,18 +97,24 @@ class VendorProfileScreen extends StatelessWidget {
 
             SizedBox(height: h * 0.04),
 
-            /// ⚙ PROFILE OPTIONS
             _profileTile(
               context,
               icon: Icons.edit,
               title: "Edit Profile",
-              onTap: () {},
+              onTap: () {
+                /// Example update
+                context.read<VendorProfileProvider>().updateProfile(
+                  shop: "New Shop Name",
+                  phoneNo: "9999999999",
+                );
+              },
               tileColor: tileColor,
               shadowColor: shadowColor,
               primary: primary,
               textColor: textColor,
               isDark: isDark,
             ),
+
             _profileTile(
               context,
               icon: Icons.store,
@@ -119,17 +126,7 @@ class VendorProfileScreen extends StatelessWidget {
               textColor: textColor,
               isDark: isDark,
             ),
-            _profileTile(
-              context,
-              icon: Icons.account_balance,
-              title: "Bank & Payments",
-              onTap: () {},
-              tileColor: tileColor,
-              shadowColor: shadowColor,
-              primary: primary,
-              textColor: textColor,
-              isDark: isDark,
-            ),
+
             _profileTile(
               context,
               icon: Icons.lock_outline,
@@ -141,88 +138,29 @@ class VendorProfileScreen extends StatelessWidget {
               textColor: textColor,
               isDark: isDark,
             ),
-            _profileTile(
-              context,
-              icon: Icons.help_outline,
-              title: "Help & Support",
-              onTap: () {},
-              tileColor: tileColor,
-              shadowColor: shadowColor,
-              primary: primary,
-              textColor: textColor,
-              isDark: isDark,
-            ),
 
-            /// 🌗 DARK MODE SWITCH
+            /// 🌗 DARK MODE
             Container(
-              margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 color: tileColor,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
-                  BoxShadow(
-                    color: shadowColor,
-                    blurRadius: 6,
-                  ),
+                  BoxShadow(color: shadowColor, blurRadius: 6),
                 ],
               ),
               child: SwitchListTile(
-                contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                secondary: CircleAvatar(
-                  backgroundColor:
-                  primary.withOpacity(isDark ? 0.25 : 0.15),
-                  child: Icon(
-                    isDark ? Icons.dark_mode : Icons.light_mode,
-                    color: primary,
-                  ),
-                ),
+                value: isDark,
+                onChanged: themeProvider.toggleTheme,
                 title: Text(
                   "Dark Mode",
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
                     color: textColor,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                value: isDark,
-                onChanged: themeProvider.toggleTheme,
-              ),
-            ),
-
-            SizedBox(height: h * 0.03),
-
-            /// 🚪 LOGOUT BUTTON
-            InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: () {
-                // TODO: Clear token & navigate to login
-              },
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: h * 0.02),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? Colors.red.withOpacity(0.18)
-                      : Colors.red.withOpacity(0.08),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.red.withOpacity(isDark ? 0.45 : 0.3),
-                  ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.logout, color: Colors.red),
-                    SizedBox(width: 10),
-                    Text(
-                      "Logout",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
+                secondary: Icon(
+                  isDark ? Icons.dark_mode : Icons.light_mode,
+                  color: primary,
                 ),
               ),
             ),
@@ -232,7 +170,6 @@ class VendorProfileScreen extends StatelessWidget {
     );
   }
 
-  /// 🔹 PROFILE TILE WIDGET
   Widget _profileTile(
       BuildContext context, {
         required IconData icon,
@@ -258,8 +195,6 @@ class VendorProfileScreen extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        contentPadding:
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         leading: CircleAvatar(
           backgroundColor:
           primary.withOpacity(isDark ? 0.25 : 0.12),
@@ -268,15 +203,12 @@ class VendorProfileScreen extends StatelessWidget {
         title: Text(
           title,
           style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 15,
             color: textColor,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: Icon(
-          Icons.chevron_right,
-          color: textColor.withOpacity(0.5),
-        ),
+        trailing:
+        Icon(Icons.chevron_right, color: textColor.withOpacity(0.5)),
         onTap: onTap,
       ),
     );

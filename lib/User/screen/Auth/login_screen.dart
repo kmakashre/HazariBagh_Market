@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hazari_bagh_market/widgets/home_page.dart';
 import 'package:provider/provider.dart';
 import '../../../colors/AppColors.dart';
 import '../../provider/auth_provider.dart';
@@ -241,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=>HomePage()));
                       },
                     ),
                   ),

@@ -8,6 +8,7 @@ import '../../../all_categories_screen.dart';
 import '../../../colors/AppColors.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/top_header.dart';
+import '../../provider/bottom_nav_provider.dart';
 import '../../provider/home_provider.dart';
 import '../../provider/store_provider.dart';
 import '../all_store_screen.dart';
@@ -267,10 +268,12 @@ class _HomeScreenState extends State<HomeScreen>
                     /// 🟦 CATEGORIES
                     _sectionHeader(
                       title: loc.categories,
-                      onViewAll: () =>
-                          _openPage(const AllCategoriesScreen()),
+                      onViewAll: () {
+                        context.read<BottomNavProvider>().changeIndex(1);
+                      },
                       textColor: textColor,
                     ),
+
 
                     SizedBox(height: h * 0.02),
 

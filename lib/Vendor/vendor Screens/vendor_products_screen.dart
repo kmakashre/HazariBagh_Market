@@ -5,7 +5,10 @@ class VendorProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
+
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -22,59 +25,67 @@ class VendorProductsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      body: Padding(
-        padding: EdgeInsets.all(w * 0.04),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// 🛍 TITLE + ADD BUTTON
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Products",
-                  style: TextStyle(
-                    fontSize: w * 0.055,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                  ),
-                ),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(w * 0.04),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// 🛍 TITLE + ADD BUTTON
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Products",
+                    style: TextStyle(
+                      fontSize: w * 0.055,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
                     ),
                   ),
-                  onPressed: () {},
-                  icon: const Icon(Icons.add),
-                  label: const Text("Add"),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            /// 📦 PRODUCT LIST
-            Expanded(
-              child: ListView.builder(
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return _productCard(
-                    w,
-                    cardColor,
-                    textColor,
-                    subTextColor,
-                    shadowColor,
-                    isDark,
-                  );
-                },
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: w * 0.035,
+                        vertical: h * 0.012,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {},
+                    icon: Icon(Icons.add, size: w * 0.05),
+                    label: Text(
+                      "Add",
+                      style: TextStyle(fontSize: w * 0.038),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+
+              SizedBox(height: h * 0.02),
+
+              /// 📦 PRODUCT LIST
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    return _productCard(
+                      w,
+                      h,
+                      cardColor,
+                      textColor,
+                      subTextColor,
+                      shadowColor,
+                      isDark,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -82,6 +93,7 @@ class VendorProductsScreen extends StatelessWidget {
 
   Widget _productCard(
       double w,
+      double h,
       Color cardColor,
       Color textColor,
       Color subTextColor,
@@ -89,8 +101,8 @@ class VendorProductsScreen extends StatelessWidget {
       bool isDark,
       ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: h * 0.018),
+      padding: EdgeInsets.all(w * 0.035),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -112,14 +124,14 @@ class VendorProductsScreen extends StatelessWidget {
               color: Colors.blue.withOpacity(isDark ? 0.25 : 0.15),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.fastfood,
               color: Colors.blue,
-              size: 36,
+              size: w * 0.09,
             ),
           ),
 
-          const SizedBox(width: 14),
+          SizedBox(width: w * 0.035),
 
           /// 📄 PRODUCT INFO
           Expanded(
@@ -134,7 +146,7 @@ class VendorProductsScreen extends StatelessWidget {
                     color: textColor,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: h * 0.005),
                 Text(
                   "₹120",
                   style: TextStyle(
@@ -143,7 +155,7 @@ class VendorProductsScreen extends StatelessWidget {
                     color: Colors.green,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: h * 0.008),
                 Text(
                   "Stock: 24",
                   style: TextStyle(
