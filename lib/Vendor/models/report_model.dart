@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ReportModel {
   final String title;
   final String value;
-  final IconData icon; // 🔥 CHANGE
+  final IconData icon;
   final int colorCode;
 
   ReportModel({

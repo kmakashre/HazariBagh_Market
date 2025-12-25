@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class VendorDashboardScreen extends StatelessWidget {
+class VendorDashboardScreen extends StatefulWidget {
   const VendorDashboardScreen({super.key});
+
+  @override
+  State<VendorDashboardScreen> createState() =>
+      _VendorDashboardScreenState();
+}
+
+class _VendorDashboardScreenState extends State<VendorDashboardScreen> {
+  bool isOnline = true; // 🔥 ONLINE / OFFLINE STATE
 
   @override
   Widget build(BuildContext context) {
@@ -10,22 +19,30 @@ class VendorDashboardScreen extends StatelessWidget {
     final w = size.width;
     final h = size.height;
 
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    ///  COLORS
+    /// 🔥 SYSTEM UI (STATUS + NAV BAR)
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness:
+        isDark ? Brightness.light : Brightness.dark,
+        systemNavigationBarColor:
+        isDark ? const Color(0xFF0F172A) : Colors.white,
+        systemNavigationBarIconBrightness:
+        isDark ? Brightness.light : Brightness.dark,
+      ),
+    );
+
+    /// 🎨 COLORS
     final bgColor =
     isDark ? const Color(0xFF0F172A) : const Color(0xFFF6F8FC);
-
     final cardColor =
     isDark ? const Color(0xFF1E293B) : Colors.white;
-
     final textColor =
     isDark ? Colors.white : const Color(0xFF1F2937);
-
     final subTextColor =
     isDark ? Colors.grey.shade400 : Colors.grey.shade600;
-
     final shadowColor =
     isDark ? Colors.black.withOpacity(0.35) : Colors.black.withOpacity(0.08);
 
@@ -36,7 +53,7 @@ class VendorDashboardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// 👋 HEADER
+            /// 👋 WELCOME
             Text(
               "Welcome Back 👋",
               style: TextStyle(
@@ -54,9 +71,58 @@ class VendorDashboardScreen extends StatelessWidget {
               ),
             ),
 
+            SizedBox(height: h * 0.02),
+
+            /// 🔴🟢 ONLINE / OFFLINE TOGGLE
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  isOnline ? "Status: Online" : "Status: Offline",
+                  style: TextStyle(
+                    fontSize: w * 0.038,
+                    fontWeight: FontWeight.w600,
+                    color: isOnline ? Colors.green : Colors.red,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isOnline = !isOnline;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: 64,
+                    height: 34,
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: isOnline
+                          ? Colors.green
+                          : Colors.grey.shade400,
+                    ),
+                    child: Align(
+                      alignment: isOnline
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        width: 26,
+                        height: 26,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
             SizedBox(height: h * 0.03),
 
-            /// 📊 STATS (4 IN ONE ROW)
+            /// 📊 STATS
             Row(
               children: [
                 _statCard(
@@ -108,7 +174,7 @@ class VendorDashboardScreen extends StatelessWidget {
 
             SizedBox(height: h * 0.04),
 
-            /// 📊 SALES ANALYTICS
+            /// 📊 SALES CHART
             Text(
               "Weekly Sales",
               style: TextStyle(
@@ -134,9 +200,7 @@ class VendorDashboardScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: BarChart(
-                _barChartData(isDark),
-              ),
+              child: BarChart(_barChartData()),
             ),
 
             SizedBox(height: h * 0.04),
@@ -154,28 +218,36 @@ class VendorDashboardScreen extends StatelessWidget {
             SizedBox(height: h * 0.02),
 
             _latestOrderTile(
-              "Order #1023",
-              "₹320",
-              "Delivered",
-              cardColor,
-              shadowColor,
-              textColor,
-            ),
+                "Order #1023", "₹320", "Delivered", cardColor, shadowColor, textColor),
             _latestOrderTile(
-              "Order #1022",
-              "₹450",
-              "Pending",
-              cardColor,
-              shadowColor,
-              textColor,
-            ),
+                "Order #1022", "₹450", "Pending", cardColor, shadowColor, textColor),
             _latestOrderTile(
-              "Order #1021",
-              "₹180",
-              "Cancelled",
-              cardColor,
-              shadowColor,
-              textColor,
+                "Order #1021", "₹180", "Cancelled", cardColor, shadowColor, textColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 📊 BAR CHART
+  static BarChartData _barChartData() {
+    final values = [1800.0, 2200.0, 1500.0, 3200.0, 2800.0, 4100.0, 3600.0];
+
+    return BarChartData(
+      alignment: BarChartAlignment.spaceAround,
+      maxY: 5000,
+      gridData: FlGridData(show: false),
+      borderData: FlBorderData(show: false),
+      barGroups: List.generate(
+        values.length,
+            (i) => BarChartGroupData(
+          x: i,
+          barRods: [
+            BarChartRodData(
+              toY: values[i],
+              width: 18,
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.blue,
             ),
           ],
         ),
@@ -183,103 +255,8 @@ class VendorDashboardScreen extends StatelessWidget {
     );
   }
 
-  /// 📊 BAR CHART DATA
-  BarChartData _barChartData(bool isDark) {
-    return BarChartData(
-      alignment: BarChartAlignment.spaceAround,
-      maxY: 5000,
-      gridData: FlGridData(show: false),
-      borderData: FlBorderData(show: false),
-      barTouchData: BarTouchData(enabled: true),
-      titlesData: FlTitlesData(
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: (value, meta) {
-              const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-              return Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  days[value.toInt()],
-                  style: TextStyle(
-                    color: isDark
-                        ? Colors.grey.shade400
-                        : Colors.grey.shade600,
-                    fontSize: 12,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-      barGroups: [
-        _barGroup(0, 1800),
-        _barGroup(1, 2200),
-        _barGroup(2, 1500),
-        _barGroup(3, 3200),
-        _barGroup(4, 2800),
-        _barGroup(5, 4100),
-        _barGroup(6, 3600),
-      ],
-    );
-  }
-
-  BarChartGroupData _barGroup(int x, double value) {
-    /// 🎨 Dynamic color based on sales value
-    LinearGradient gradient;
-
-    if (value >= 3500) {
-      gradient = const LinearGradient(
-        colors: [Color(0xFF22C55E), Color(0xFF16A34A)], // Green
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
-    } else if (value >= 2500) {
-      gradient = const LinearGradient(
-        colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)], // Blue
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
-    } else {
-      gradient = const LinearGradient(
-        colors: [Color(0xFFF97316), Color(0xFFEA580C)], // Orange
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
-    }
-
-    return BarChartGroupData(
-      x: x,
-      barRods: [
-        BarChartRodData(
-          toY: value,
-          width: 18, // Thicker bar
-          borderRadius: BorderRadius.circular(10), // Smooth curve
-          gradient: gradient,
-
-          /// ✨ Shadow / highlight effect
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            toY: 5000,
-            color: Colors.grey.withOpacity(0.08),
-          ),
-        ),
-      ],
-    );
-  }
-
   /// 📊 STAT CARD
-  Widget _statCard(
+  static Widget _statCard(
       double w, {
         required String title,
         required String value,
@@ -298,11 +275,7 @@ class VendorDashboardScreen extends StatelessWidget {
           color: cardColor,
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
-            BoxShadow(
-              color: shadowColor,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
+            BoxShadow(color: shadowColor, blurRadius: 6),
           ],
         ),
         child: Column(
@@ -316,7 +289,6 @@ class VendorDashboardScreen extends StatelessWidget {
                 child: Icon(icon, color: color, size: 14),
               ),
             ),
-            SizedBox(height: w * 0.015),
             Text(
               value,
               style: TextStyle(
@@ -325,11 +297,8 @@ class VendorDashboardScreen extends StatelessWidget {
                 color: textColor,
               ),
             ),
-            SizedBox(height: w * 0.004),
             Text(
               title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: w * 0.025,
                 color: subTextColor,
@@ -342,7 +311,7 @@ class VendorDashboardScreen extends StatelessWidget {
   }
 
   /// 🧾 ORDER TILE
-  Widget _latestOrderTile(
+  static Widget _latestOrderTile(
       String orderId,
       String amount,
       String status,
@@ -363,11 +332,7 @@ class VendorDashboardScreen extends StatelessWidget {
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-            color: shadowColor,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
+          BoxShadow(color: shadowColor, blurRadius: 6),
         ],
       ),
       child: Row(
@@ -376,20 +341,11 @@ class VendorDashboardScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                orderId,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                amount,
-                style: TextStyle(
-                  color: textColor.withOpacity(0.6),
-                ),
-              ),
+              Text(orderId,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: textColor)),
+              Text(amount,
+                  style: TextStyle(color: textColor.withOpacity(0.6))),
             ],
           ),
           Text(

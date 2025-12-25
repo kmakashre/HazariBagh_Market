@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hazari_bagh_market/Vendor/vendor Screens/vendor_dashboard_home_screen.dart';
+import '../../../Vendor/vendor Screens/auth/vendor_activation_screen.dart';
 import '../../../colors/AppColors.dart';
 import '../flash_screen.dart';
 
@@ -138,7 +139,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> VendorDashboardHomeScreen()));
+                        },
                       ),
                     ),
 
@@ -249,7 +252,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           backgroundColor: const Color(0xFF3670A3),
                         ),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> VendorDashboardHomeScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> VendorActivationScreen()));
                         },
                         child: Text(
                           "Register & Continue",

@@ -15,62 +15,71 @@ class VendorBottomNavBar extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    final bgColor = isDark ? const Color(0xFF1F1F1F) : Colors.white;
+    final bgColor =
+    isDark ? const Color(0xFF0F172A) : Colors.white;
     final primary = theme.colorScheme.primary;
-    final inactiveColor = isDark ? Colors.grey.shade400 : Colors.grey;
+    final inactiveColor =
+    isDark ? Colors.grey.shade400 : Colors.grey;
 
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: bgColor,
+    return Container(
+      // 🔥 IMPORTANT: fill bottom area
+      color: bgColor,
+      child: SafeArea(
+        top: false, // ❌ top safe area not needed
+        child: ClipRRect(
           borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20),
+            top: Radius.circular(22),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              color: bgColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  blurRadius: 12,
+                  offset: const Offset(0, -3),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _navItem(
-              icon: Icons.home,
-              label: "Home",
-              index: 0,
-              primary: primary,
-              inactive: inactiveColor,
-            ),
-            _navItem(
-              icon: Icons.shopping_cart,
-              label: "Orders",
-              index: 1,
-              primary: primary,
-              inactive: inactiveColor,
-            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _navItem(
+                  icon: Icons.home,
+                  label: "Home",
+                  index: 0,
+                  primary: primary,
+                  inactive: inactiveColor,
+                ),
+                _navItem(
+                  icon: Icons.shopping_cart,
+                  label: "Orders",
+                  index: 1,
+                  primary: primary,
+                  inactive: inactiveColor,
+                ),
 
-            /// ➕ CENTER ADD BUTTON
-            _addButton(primary),
+                /// ➕ CENTER ADD BUTTON
+                _addButton(primary),
 
-            _navItem(
-              icon: Icons.bar_chart,
-              label: "Reports",
-              index: 3,
-              primary: primary,
-              inactive: inactiveColor,
+                _navItem(
+                  icon: Icons.bar_chart,
+                  label: "Reports",
+                  index: 3,
+                  primary: primary,
+                  inactive: inactiveColor,
+                ),
+                _navItem(
+                  icon: Icons.person,
+                  label: "Profile",
+                  index: 4,
+                  primary: primary,
+                  inactive: inactiveColor,
+                ),
+              ],
             ),
-            _navItem(
-              icon: Icons.person,
-              label: "Profile",
-              index: 4,
-              primary: primary,
-              inactive: inactiveColor,
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -110,7 +119,7 @@ class VendorBottomNavBar extends StatelessWidget {
     );
   }
 
-  /// ➕ CENTER ADD BUTTON (VENDOR ACTION)
+  /// ➕ CENTER ADD BUTTON
   Widget _addButton(Color primary) {
     return GestureDetector(
       onTap: () => onTabTapped(2),

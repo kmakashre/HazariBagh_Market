@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../Model/home_model.dart';
 import '../../../Model/store_model.dart';
-import '../../../all_categories_screen.dart';
 import '../../../colors/AppColors.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/top_header.dart';
@@ -360,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 color: cardColor,
                                 borderRadius:
                                 BorderRadius.circular(w * 0.045),
-                                boxShadow: shadow,
+                                // boxShadow: shadow,
                               ),
                               child: Column(
                                 crossAxisAlignment:
@@ -418,7 +417,7 @@ class _HomeScreenState extends State<HomeScreen>
 
                     SizedBox(height: h * 0.02),
 
-                    /// 🟧 BOTTOM SPECIAL OFFER
+                    ///  BOTTOM SPECIAL OFFER
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(

@@ -65,7 +65,7 @@ class VendorProfileScreen extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: w * 0.14,
-                    backgroundColor: Colors.white,
+                    // backgroundColor: Colors.white,
                     child: CircleAvatar(
                       radius: w * 0.13,
                       backgroundImage: profile.profileImage != null

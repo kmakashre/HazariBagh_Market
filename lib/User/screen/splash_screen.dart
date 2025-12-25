@@ -40,36 +40,38 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          /// BACKGROUND IMAGE
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/loginbg.png"),
-                fit: BoxFit.cover,
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            /// BACKGROUND IMAGE
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/loginbg.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-
-          /// BLUR + OVERLAY
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-            child: Container(
-              color: Colors.black.withOpacity(0.35),
+      
+            /// BLUR + OVERLAY
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              child: Container(
+                color: Colors.black.withOpacity(0.35),
+              ),
             ),
-          ),
-
-          /// LOGO
-          Center(
-            child: Image.asset(
-              "assets/images/logo.png",
-              height: 130,
-              width: 130,
+      
+            /// LOGO
+            Center(
+              child: Image.asset(
+                "assets/images/logo.png",
+                height: 130,
+                width: 130,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
