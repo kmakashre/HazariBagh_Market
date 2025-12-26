@@ -14,9 +14,11 @@ class NotificationScreen extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
     final loc = AppLocalizations.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: theme.scaffoldBackgroundColor,
+
       body: Column(
         children: [
           const TopHeader(),
@@ -41,12 +43,12 @@ class NotificationScreen extends StatelessWidget {
                   icon: Icon(
                     Icons.keyboard_backspace_outlined,
                     size: w * 0.06,
+                    color: theme.iconTheme.color,
                   ),
                 ),
                 Text(
                   loc.getByKey('notifications'),
-                  style: TextStyle(
-                    fontSize: w * 0.05,
+                  style: theme.textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -62,15 +64,12 @@ class NotificationScreen extends StatelessWidget {
               children: [
                 Text(
                   loc.getByKey('today'),
-                  style: TextStyle(
-                    fontSize: w * 0.04,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: theme.textTheme.titleMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
                   loc.getByKey('mark_as_read'),
-                  style: TextStyle(
-                    fontSize: w * 0.035,
+                  style: theme.textTheme.bodyMedium!.copyWith(
                     color: primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
@@ -123,12 +122,13 @@ class NotificationScreen extends StatelessWidget {
     required String price,
   }) {
     final loc = AppLocalizations.of(context);
+    final theme = Theme.of(context);
 
     return Container(
       margin: EdgeInsets.only(bottom: w * 0.03),
       padding: EdgeInsets.all(w * 0.03),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(w * 0.04),
       ),
       child: Row(
@@ -153,33 +153,33 @@ class NotificationScreen extends StatelessWidget {
               children: [
                 Text(
                   "${loc.getByKey('transaction_id')} : $transactionId",
-                  style: TextStyle(
-                    fontSize: w * 0.035,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: theme.textTheme.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
+
                 SizedBox(height: w * 0.01),
+
                 Text(
                   "${loc.getByKey('scheduled_for')} : $date",
-                  style: TextStyle(
-                    fontSize: w * 0.03,
-                    color: Colors.grey,
-                  ),
+                  style: theme.textTheme.bodySmall!
+                      .copyWith(color: theme.hintColor),
                 ),
+
                 SizedBox(height: w * 0.01),
+
                 Text(
                   status,
-                  style: TextStyle(
-                    fontSize: w * 0.032,
+                  style: theme.textTheme.bodySmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
                 ),
+
                 SizedBox(height: w * 0.005),
+
                 Text(
                   price,
-                  style: TextStyle(
-                    fontSize: w * 0.035,
+                  style: theme.textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.green,
                   ),
@@ -194,7 +194,6 @@ class NotificationScreen extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
-                padding: EdgeInsets.symmetric(horizontal: w * 0.025),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(w * 0.02),
                 ),
@@ -209,11 +208,8 @@ class NotificationScreen extends StatelessWidget {
               },
               child: Text(
                 loc.getByKey('track'),
-                style: TextStyle(
-                  fontSize: w * 0.03,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: theme.textTheme.labelMedium!
+                    .copyWith(color: Colors.white),
               ),
             ),
           ),
@@ -222,3 +218,4 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 }
+

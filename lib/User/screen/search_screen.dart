@@ -11,9 +11,17 @@ class SearchScreen extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     final loc = AppLocalizations.of(context);
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final bgColor = isDark ? const Color(0xFF121212) : Colors.grey.shade100;
+    final cardColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final textColor = theme.textTheme.bodyLarge!.color!;
+    final hintColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: bgColor,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,11 +39,11 @@ class SearchScreen extends StatelessWidget {
                   vertical: h * 0.015,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: cardColor,
                   borderRadius: BorderRadius.circular(w * 0.06),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -45,7 +53,7 @@ class SearchScreen extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.search_rounded,
-                      color: Colors.grey.shade600,
+                      color: hintColor,
                       size: w * 0.065,
                     ),
                     SizedBox(width: w * 0.03),
@@ -53,12 +61,13 @@ class SearchScreen extends StatelessWidget {
                     /// 🔤 SEARCH INPUT
                     Expanded(
                       child: TextField(
-                        cursorColor: const Color(0xFF3670A3),
+                        cursorColor: theme.primaryColor,
+                        style: TextStyle(color: textColor),
                         decoration: InputDecoration(
                           hintText: loc.getByKey('search_hint'),
                           hintStyle: TextStyle(
                             fontSize: w * 0.04,
-                            color: Colors.grey,
+                            color: hintColor,
                           ),
                           border: InputBorder.none,
                         ),
@@ -67,7 +76,7 @@ class SearchScreen extends StatelessWidget {
 
                     Icon(
                       Icons.mic_none_rounded,
-                      color: Colors.grey.shade600,
+                      color: hintColor,
                       size: w * 0.055,
                     ),
                   ],
@@ -81,23 +90,17 @@ class SearchScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: w * 0.04),
               child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const HomeScreen(),
-                    ),
-                  );
-                },
+                onTap: () => Navigator.pop(context),
                 child: Row(
                   children: [
-                    Icon(Icons.arrow_back, size: w * 0.05),
+                    Icon(Icons.arrow_back, size: w * 0.05, color: textColor),
                     SizedBox(width: w * 0.015),
                     Text(
                       loc.getByKey('back'),
                       style: TextStyle(
                         fontSize: w * 0.04,
                         fontWeight: FontWeight.w600,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -115,6 +118,7 @@ class SearchScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: w * 0.045,
                   fontWeight: FontWeight.bold,
+                  color: textColor,
                 ),
               ),
             ),
@@ -127,10 +131,10 @@ class SearchScreen extends StatelessWidget {
                 spacing: w * 0.025,
                 runSpacing: h * 0.015,
                 children: [
-                  _recentChip(loc.getByKey('groceryStore'), w),
-                  _recentChip(loc.getByKey('electronicsStore'), w),
-                  _recentChip(loc.getByKey('milkStore'), w),
-                  _recentChip(loc.getByKey('fashionStore'), w),
+                  _recentChip(loc.getByKey('groceryStore'), w, cardColor, textColor),
+                  _recentChip(loc.getByKey('electronicsStore'), w, cardColor, textColor),
+                  _recentChip(loc.getByKey('milkStore'), w, cardColor, textColor),
+                  _recentChip(loc.getByKey('fashionStore'), w, cardColor, textColor),
                 ],
               ),
             ),
@@ -140,14 +144,22 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  /// 🔵 RECENT SEARCH CHIP
-  Widget _recentChip(String label, double w) {
+  /// 🔵 RECENT SEARCH CHIP (Theme aware)
+  Widget _recentChip(
+      String label,
+      double w,
+      Color bgColor,
+      Color textColor,
+      ) {
     return Chip(
       label: Text(
         label,
-        style: TextStyle(fontSize: w * 0.035),
+        style: TextStyle(
+          fontSize: w * 0.035,
+          color: textColor,
+        ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       elevation: 2,
       padding: EdgeInsets.symmetric(
         horizontal: w * 0.03,
